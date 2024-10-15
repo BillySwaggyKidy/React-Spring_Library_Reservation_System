@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+html {
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+body {
+    height: 100%;
+}
+  
+body:has(dialog[open]) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
