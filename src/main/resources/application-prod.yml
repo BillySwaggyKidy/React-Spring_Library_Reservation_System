@@ -1,0 +1,16 @@
+spring:
+    config:
+        activate:
+            on-profile: prod
+    datasource:
+        url: jdbc:mysql://localhost:3306/mydatabase
+        username: myuser
+        password: secret
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    sql:
+        init:
+            mode: never
+    jpa:
+        hibernate: 
+            ddl-auto: none
+        show-sql: true

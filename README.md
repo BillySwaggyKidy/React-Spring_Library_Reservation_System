@@ -43,7 +43,7 @@ It will compile the code and launch to production
 
 **7.** Finaly execute the Jar file by typing the following command:
 ```
-java -jar target/*.jar
+java -jar target/template-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
 
