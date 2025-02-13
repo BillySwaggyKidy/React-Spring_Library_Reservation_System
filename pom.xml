@@ -79,9 +79,9 @@
 	<profiles>
         <profile>
             <id>prod</id>
-			<activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+			<properties>
+                <applicationProfile>prod</applicationProfile>
+            </properties>
 			<dependencies>
 				<dependency>
 					<groupId>org.springframework.boot</groupId>
@@ -138,17 +138,24 @@
 		<profile>
 			<id>test</id>
 			<activation>
-				<property>
-					<name>spring.profiles.active</name>
-					<value>test</value>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<spring.profiles.active>test</spring.profiles.active>
-			</properties>
+                <applicationProfile>test</applicationProfile>
+            </properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
 		</profile>
         <profile>
             <id>dev</id>
+			<properties>
+                <applicationProfile>dev</applicationProfile>
+            </properties>
 			<dependencies>
 				<dependency>
 					<groupId>com.h2database</groupId>
@@ -180,6 +187,9 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>${env}</directory>
 			</resource>
 		</resources>
 		<plugins>

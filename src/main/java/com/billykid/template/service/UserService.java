@@ -14,7 +14,7 @@ public class UserService {
 
     public void saveUser(String name, String email) {
         User n = User.builder().build();
-        n.setName(name);
+        n.setUsername(name);
         n.setEmail(email);
         userRepository.save(n);
     }

@@ -25,7 +25,10 @@ npm install
 **4.** To start developping, you need first to go launch the spring boot server by either:<br>
 * running the following command: `mvn spring-boot:run -Pdev`
 * or if you are using visual studio code, using the Spring boot dashboard to start the server by cliking in the APPS section
+
 This will start a spring boot server at the following address: http://localhost:8080/
+<br>In dev mode, the spring app will run a H2 database, in order to access the h2 console, go to the following address: http://localhost:8080/h2-console
+Then type the password inside the form in order to access the database.
 
 **5.** Then open a new terminal and start the dev server for the front-end:<br>
 Go to the src/main/client folder where the vite architecture is then start the following command:

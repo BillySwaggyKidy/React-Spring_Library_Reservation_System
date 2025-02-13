@@ -46,6 +46,18 @@ export const bookFilterFieldsData : filterDataType[] = [
                 label: "Comedy",
                 value: "comedy"
             },
+            {
+                label: "Tutorial",
+                value: "Tutorial"
+            },
+            {
+                label: "Children",
+                value: "Children"
+            },
+            {
+                label: "Videos games",
+                value: "Videos games"
+            },
         ],
         objKeyRef: "author"
     },

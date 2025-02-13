@@ -15,7 +15,15 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Configuration
 @Profile("prod")
-public class SpringConfiguration implements WebMvcConfigurer {
+public class SpringProdConfiguration implements WebMvcConfigurer {
+
+    public SpringProdConfiguration() {
+        System.out.println("-------------------------");
+        System.out.println("|                        |");
+        System.out.println("|  YOU ARE IN PROD MODE  |");
+        System.out.println("|                        |");
+        System.out.println("-------------------------");
+    }
  
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
