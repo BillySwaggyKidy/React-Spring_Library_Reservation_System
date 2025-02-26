@@ -38,8 +38,9 @@ npm run dev
 ```
 It will start a local server at the following address: http://localhost:5173/
 
-**6.** If you want to launch the app to production, go stop the java server and type the following command:
+**6.** If you want to launch the app to production, first you need to have docker running then type the following command:
 ```
+docker-compose up
 ./mvnw package
 ```
 It will compile the code and launch to production

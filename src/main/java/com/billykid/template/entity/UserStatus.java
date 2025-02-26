@@ -17,8 +17,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name="status")
-public class Status {
+@Table(name="user_status")
+public class UserStatus {
 
     @Id
     @Column(name="id",columnDefinition="char(4)")

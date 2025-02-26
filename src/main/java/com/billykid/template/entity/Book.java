@@ -6,6 +6,9 @@ import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -15,9 +18,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +42,7 @@ public class Book {
     private Integer id;
 
     @ManyToMany(mappedBy="bookList")
+    @JsonIgnore
     private Set<Reservation> reservationList;
 
     @Column(name="title")
@@ -58,6 +62,10 @@ public class Book {
     @ManyToOne
     @JoinColumn(name="author",referencedColumnName="id")
     private Author author;
+
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch=FetchType.LAZY, optional = false)
+    @JoinColumn(name="status")
+    private BookStatus bookStatus;
 
     @CreatedDate
     @Column(name="added_date")

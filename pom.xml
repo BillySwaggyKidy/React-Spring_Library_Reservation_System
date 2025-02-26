@@ -79,6 +79,9 @@
 	<profiles>
         <profile>
             <id>prod</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
                 <applicationProfile>prod</applicationProfile>
             </properties>
@@ -137,9 +140,6 @@
         </profile>
 		<profile>
 			<id>test</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
                 <applicationProfile>test</applicationProfile>
             </properties>
@@ -169,6 +169,7 @@
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
 						<configuration>
+							<arguments>--spring.profiles.active=dev</arguments>
 							<excludes>
 								<exclude>
 									<groupId>org.projectlombok</groupId>

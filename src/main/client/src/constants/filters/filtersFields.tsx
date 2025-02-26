@@ -59,7 +59,7 @@ export const bookFilterFieldsData : filterDataType[] = [
                 value: "Videos games"
             },
         ],
-        objKeyRef: "author"
+        objKeyRef: "genres"
     },
     {
         id: "searchReserved",
@@ -68,7 +68,7 @@ export const bookFilterFieldsData : filterDataType[] = [
         value: false,
         condition: (a:bookValuesType, b: bookValuesType) =>
              {return !(a as boolean) || (a as boolean) == (b as boolean)},
-        objKeyRef: "author"
+        objKeyRef: "isReserved"
     },
     
 ];

@@ -2,6 +2,7 @@ package com.billykid.template.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -14,5 +15,11 @@ public class SpringDevConfiguration implements WebMvcConfigurer {
         System.out.println("|  YOU ARE IN DEV MODE  |");
         System.out.println("|                       |");
         System.out.println("------------------------");
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**")
+                .allowedOriginPatterns("*");
     }
 }
