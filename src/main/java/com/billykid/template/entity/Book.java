@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -13,6 +14,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,6 +37,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name="book")
+@EntityListeners(AuditingEntityListener.class) // Enables @CreatedDate
 public class Book {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -63,8 +66,7 @@ public class Book {
     @JoinColumn(name="author",referencedColumnName="id")
     private Author author;
 
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch=FetchType.LAZY, optional = false)
-    @JoinColumn(name="status")
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true, optional = false)
     private BookStatus bookStatus;
 
     @CreatedDate

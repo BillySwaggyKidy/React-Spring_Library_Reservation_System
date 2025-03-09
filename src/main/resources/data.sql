@@ -1,16 +1,16 @@
-INSERT INTO author (id, name, date_of_birth) VALUES (1, 'John Doe', '1990-09-06');
-INSERT INTO author (id, name, date_of_birth) VALUES (2, 'JK Rowling', '1965-07-31');
-INSERT INTO author (id, name, date_of_birth) VALUES (3, 'Brookly guy', '1995-06-10');
-INSERT INTO author (id, name, date_of_birth) VALUES (4, 'Larry', '1666-06-06');
-INSERT INTO author (id, name, date_of_birth) VALUES (5, 'Wario', '1992-04-01');
-INSERT INTO author (id, name, date_of_birth) VALUES (6, 'Barbara lanny', '1990-10-02');
-INSERT INTO author (id, name, date_of_birth) VALUES (7, 'Lina Fanni', '2000-02-28');
-INSERT INTO author (id, name, date_of_birth) VALUES (8, 'Sodja Damn', '2018-03-12');
-INSERT INTO author (id, name, date_of_birth) VALUES (9, 'LOL Timmy', '2018-06-15');
-INSERT INTO author (id, name, date_of_birth) VALUES (10, 'Albert tavu', '2005-05-10');
-INSERT INTO author (id, name, date_of_birth) VALUES (11, 'Le père dorio', '2013-10-08');
-INSERT INTO author (id, name, date_of_birth) VALUES (12, 'Anonymous', '2007-07-07');
-INSERT INTO author (id, name, date_of_birth) VALUES (13, 'Maya labeille', '2002-02-26');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (1, 'John Doe', 'A american writer that like to write silly stories.', '1990-09-06');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (2, 'JK Rowling', 'The famous writer of the epic saga about magics and spells.', '1965-07-31');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (3, 'Brookly guy', 'Hey there, I am a guy from brookly, I started stories about my life and now i feel like helping people, you know normal stuffs...', '1995-06-10');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (4, 'Larry', 'No one know who Larry is, he is the mastermind of the universe, do not trust him!', '1666-06-06');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (5, 'Wario', 'WAH its me Wario, I am so crazy that will get a ton of fun with me around, BUY MY STUFF!!', '1992-04-01');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (6, 'Barbara lanny', 'A woman writer that love polar stories and investigations.', '1990-10-02');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (7, 'Lina Fanni', 'A woman writer how love cats and write stories about them.', '2000-02-28');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (8, 'Sodja Damn', 'The famous singer boy himself, he just started writing books to talk about his career.', '2018-03-12');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (9, 'LOL Timmy', 'Yo what up, its me Timmy and I am crack up at Fortnite, Minecraft and love skibidi toilets my guy.', '2018-06-15');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (10, 'Albert tavu', 'A french historian that just started writing novels about France.', '2005-05-10');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (11, 'Le père dorio', 'A dude who love IT stuff and want to share his knowledges to others.', '2013-10-08');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (12, 'Anonymous', 'I am the messenger in a mission to deliver the true message of the world to the people.', '2007-07-07');
+INSERT INTO author (id, name, bio, date_of_birth) VALUES (13, 'Maya labeille', 'A little bee who just wanted to start writing stories about bee because they are misunderstood...', '2002-02-26');
 
 INSERT INTO book (id, title, description, book_cover, author, added_date, volume_number) VALUES (1, 'Captain underpants', 'This is a story about a funny hero', 'https://picsum.photos/id/237/250', 1, '2012-05-05', 1);
 INSERT INTO book (id, title, description, book_cover, author, added_date, volume_number) VALUES (2, 'Captain underpants: larry havoc', 'Same story but with a new bad guy', 'https://picsum.photos/id/167/250', 1, '2012-10-05', 2);
@@ -132,8 +132,8 @@ INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (7, 7,'2009-0
 INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (8, 7,'2013-10-02', '2013-10-12');
 INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (9, 8,'2005-12-10', '2006-01-10');
 INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (10, 8,'2006-01-01', '2006-01-10');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (11, 9,'2012-11-01', '2006-12-01');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (12, 9,'2023-05-06', '2006-06-06');
+INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (11, 9,'2012-11-01', '2013-12-01');
+INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (12, 9,'2023-05-06', '2023-05-26');
 
 INSERT INTO reservation_content (book_id, reservation_id) VALUES (1,1);
 INSERT INTO reservation_content (book_id, reservation_id) VALUES (2,1);

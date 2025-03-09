@@ -1,6 +1,6 @@
 package com.billykid.template.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.time.Instant;
 import java.util.Set;
 

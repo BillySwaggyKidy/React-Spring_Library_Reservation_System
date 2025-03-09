@@ -1,4 +1,4 @@
-package com.billykid.template.utils.specification;
+package com.billykid.template.utils.specifications;
 
 import java.util.List;
 

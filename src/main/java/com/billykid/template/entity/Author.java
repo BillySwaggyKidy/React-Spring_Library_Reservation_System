@@ -1,6 +1,6 @@
 package com.billykid.template.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +29,9 @@ public class Author {
 
     @Column(name="name")
     private String name;
+
+    @Column(name="bio")
+    private String bio;
 
     @Column(name="date_of_birth")
     private Date dateOfBirth;

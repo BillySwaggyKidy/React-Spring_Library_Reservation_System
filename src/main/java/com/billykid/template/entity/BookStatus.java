@@ -35,8 +35,8 @@ public class BookStatus {
     @Column(name = "book_id")
     private Integer bookId;
 
-    @OneToOne
-    @MapsId // Ensures book_id is both PK and FK
+    @OneToOne(optional = false)
+    @MapsId  // Ensures book_id is both PK and FK
     @JoinColumn(name = "book_id")
     @JsonIgnore
     private Book book;
@@ -48,5 +48,6 @@ public class BookStatus {
     @Column(name = "condition", nullable = false)
     private BookCondition condition; // e.g., NEW, GOOD, DAMAGED
 
+    @Column(name = "updated_at")
     private Instant updatedAt;
 }
