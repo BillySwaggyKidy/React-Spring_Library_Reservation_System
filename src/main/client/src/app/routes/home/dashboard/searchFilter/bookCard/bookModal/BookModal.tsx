@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 // this represent the modal of a project inside the work page
-export default function BookModa({open, title, author, genres, description, closeModal} : {open:boolean, title:string, author:string, genres:string[], description: string, closeModal: () => void}) {
+export default function BookModal({open, title, author, genres, description, closeModal} : {open:boolean, title:string, author:string, genres:string[], description: string, closeModal: () => void}) {
     const ref = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {

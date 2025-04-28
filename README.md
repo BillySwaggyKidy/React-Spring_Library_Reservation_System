@@ -28,6 +28,7 @@ npm install
 
 This will start a spring boot server at the following address: http://localhost:8080/
 <br>In dev mode, the spring app will run a H2 database, in order to access the h2 console, go to the following address: http://localhost:8080/h2-console
+Don't forget to type inside the JDBC URL input: "jdbc:h2:~/h2db/dev"
 Then type the password inside the form in order to access the database.
 
 **5.** Then open a new terminal and start the dev server for the front-end:<br>

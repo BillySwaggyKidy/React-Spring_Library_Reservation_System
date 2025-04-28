@@ -1,9 +1,12 @@
 package com.billykid.template.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.Optional;
 
-import com.billykid.template.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends CrudRepository<User, Integer> {
+import com.billykid.template.entity.DBUser;
 
+public interface UserRepository extends JpaRepository<DBUser, Integer> {
+    public Optional<DBUser> findByUsername(String username);
+    public Optional<DBUser> findByEmail(String email);
 }

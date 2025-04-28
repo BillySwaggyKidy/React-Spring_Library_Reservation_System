@@ -20,6 +20,8 @@ import com.billykid.template.service.BookService;
 import com.billykid.template.utils.DTO.BookDTO;
 import com.billykid.template.utils.parameters.BookParametersObject;
 
+import jakarta.annotation.security.RolesAllowed;
+
 
 
 @RestController
@@ -74,18 +76,21 @@ public class BookController {
     }
 
     @PostMapping("/books/add")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     public ResponseEntity<BookDTO> addBook(@RequestBody BookDTO newBook) {
         BookDTO book = bookService.addNewBook(newBook);
         return ResponseEntity.status(HttpStatus.CREATED).body(book);
     }
 
     @PutMapping("books/update/{id}")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     public ResponseEntity<BookDTO> putMethodName(@PathVariable Integer id, @RequestBody BookDTO book) {
         BookDTO updatedBook = bookService.updateBook(id, book);
         return ResponseEntity.ok(updatedBook);
     }
 
     @DeleteMapping("books/remove/{id}")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     public ResponseEntity<BookDTO> deleteMethodName(@PathVariable Integer id) {
         BookDTO removedBook = bookService.removeBook(id);
         return ResponseEntity.ok(removedBook);

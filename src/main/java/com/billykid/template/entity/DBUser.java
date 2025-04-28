@@ -5,7 +5,6 @@ import java.time.Instant;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.billykid.template.utils.enums.BookCondition;
 import com.billykid.template.utils.enums.UserRole;
 
 import jakarta.persistence.Column;
@@ -16,8 +15,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +30,7 @@ import lombok.Setter;
 @Getter
 @Table(name = "users") // Escaped to prevent conflicts with SQL reserved keyword
 @EntityListeners(AuditingEntityListener.class) // Enables automatic timestamping
-public class User {
+public class DBUser {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

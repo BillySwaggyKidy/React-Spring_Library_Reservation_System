@@ -4,8 +4,8 @@ import { ChangeEvent, useState } from "react";
 export default function TextFilter({id, label, value, filterCallback} : {id : string, label: string, value: string, filterCallback : (id : string, value: bookValuesType) => void}) {
     const [text, setText] = useState<string>(value);
 
-    const handleText = (e : ChangeEvent<HTMLInputElement>) => {
-        const newText = e.currentTarget.value;
+    const handleText = (event : ChangeEvent<HTMLInputElement>) => {
+        const newText = event.currentTarget.value;
         setText(newText);
         filterCallback(id, newText);
     };

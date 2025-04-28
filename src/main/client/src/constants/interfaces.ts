@@ -37,5 +37,10 @@ interface filterDataType extends filterCommonDataType {
     objKeyRef: string,
 };
 
+interface userDataType {
+    username: string,
+    role: string
+};
+
 export {fieldEnum};
-export type {filterDataType, fieldFilterDataType, filterCommonDataType, bookType, bookValuesType};
+export type {filterDataType, fieldFilterDataType, filterCommonDataType, bookType, bookValuesType, userDataType};

@@ -4,7 +4,6 @@ package com.billykid.template.entity;
 import java.time.Instant;
 
 import com.billykid.template.utils.enums.BookCondition;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;

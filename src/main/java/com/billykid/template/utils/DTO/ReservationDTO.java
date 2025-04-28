@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.billykid.template.entity.Reservation;
-import com.billykid.template.entity.User;
+import com.billykid.template.entity.DBUser;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,7 @@ public class ReservationDTO {
         this.bookIds = null;
         
         // Avoid lazy loading issues
-        User user = reservation.getUser();
+        DBUser user = reservation.getUser();
         if (user != null) {
             this.userID = user.getId();
         } else {

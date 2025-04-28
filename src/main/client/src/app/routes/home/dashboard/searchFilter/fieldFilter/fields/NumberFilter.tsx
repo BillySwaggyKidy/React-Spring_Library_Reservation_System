@@ -4,8 +4,8 @@ import { ChangeEvent, useState } from "react";
 export default function NumberFilter({id, label, value, filterCallback} : {id : string, label: string, value: number, filterCallback : (id : string, value: bookValuesType) => void}) {
     const [number, setNumber] = useState<number>(value);
 
-    const handleNumber = (e : ChangeEvent<HTMLInputElement>) => {
-        const newNumber = +e.currentTarget.value;
+    const handleNumber = (event : ChangeEvent<HTMLInputElement>) => {
+        const newNumber = +event.currentTarget.value;
         setNumber(newNumber);
         filterCallback(id, newNumber);
     };

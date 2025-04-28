@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.billykid.template.entity.Reservation;
-import com.billykid.template.entity.User;
+import com.billykid.template.entity.DBUser;
 
 import jakarta.persistence.criteria.Join;
 
@@ -16,7 +16,7 @@ public class ReservationSpecifications {
             if (username == null || username.isEmpty()) {
                 return null;
             }
-            Join<Reservation, User> userJoin = root.join("user");
+            Join<Reservation, DBUser> userJoin = root.join("user");
             return criteriaBuilder.like(criteriaBuilder.lower(userJoin.<String>get("username")), "%" + username.toLowerCase() + "%");
         };
     }

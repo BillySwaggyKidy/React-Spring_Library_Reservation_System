@@ -3,7 +3,6 @@ package com.billykid.template.service;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -13,9 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.billykid.template.entity.Book;
 import com.billykid.template.entity.Reservation;
-import com.billykid.template.entity.User;
+import com.billykid.template.entity.DBUser;
 import com.billykid.template.exception.ReservationNotFoundException;
-import com.billykid.template.exception.UserNotFoundException;
+import com.billykid.template.exception.DBUserNotFoundException;
 import com.billykid.template.repository.BookRepository;
 import com.billykid.template.repository.ReservationRepository;
 import com.billykid.template.repository.UserRepository;
@@ -81,7 +80,7 @@ public class ReservationService {
     }
 
     public ReservationDTO addNewReservation(ReservationDTO reservationDTO) {  
-        User user = userRepository.findById(reservationDTO.getUserID()).orElseThrow(() -> new UserNotFoundException("User with ID: " + reservationDTO.getUserID() + " not found"));
+        DBUser user = userRepository.findById(reservationDTO.getUserID()).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + reservationDTO.getUserID() + " not found"));
         List<Book> bookList = bookRepository.findAllById(reservationDTO.getBookIds());
         Reservation reservation = reservationMapper.toEntity(reservationDTO, user, bookList);
         reservationRepository.save(reservation);
@@ -90,7 +89,7 @@ public class ReservationService {
 
     public ReservationDTO updateReservation(Integer id, ReservationDTO reservationDTO) {
         Reservation existingReservation = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation with ID: " + id + " not found"));
-        User user = userRepository.findById(reservationDTO.getUserID()).orElseThrow(() -> new UserNotFoundException("User with ID: " + reservationDTO.getUserID() + " not found"));
+        DBUser user = userRepository.findById(reservationDTO.getUserID()).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + reservationDTO.getUserID() + " not found"));
         List<Book> bookList = bookRepository.findAllById(reservationDTO.getBookIds());
         reservationMapper.updateEntity(existingReservation, reservationDTO, user, bookList);
         reservationRepository.save(existingReservation);

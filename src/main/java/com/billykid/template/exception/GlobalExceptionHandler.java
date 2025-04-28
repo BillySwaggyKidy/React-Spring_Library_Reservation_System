@@ -26,9 +26,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    // Handle Entity Not Found (e.g., UserNotFoundException)
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
+    // Handle Entity Not Found (e.g., DBUserNotFoundException)
+    @ExceptionHandler(DBUserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFoundException(DBUserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 

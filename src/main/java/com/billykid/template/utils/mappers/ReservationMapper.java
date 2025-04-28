@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.billykid.template.entity.Book;
 import com.billykid.template.entity.Reservation;
-import com.billykid.template.entity.User;
+import com.billykid.template.entity.DBUser;
 import com.billykid.template.utils.DTO.ReservationDTO;
 
 @Component
@@ -16,7 +16,7 @@ public class ReservationMapper {
         return new ReservationDTO(reservation);
     }
 
-    public Reservation toEntity(ReservationDTO dto, User user, List<Book> books) {
+    public Reservation toEntity(ReservationDTO dto, DBUser user, List<Book> books) {
         return Reservation.builder()
             .user(user)
             .bookList(new HashSet<>(books))
@@ -24,7 +24,7 @@ public class ReservationMapper {
             .build();
     }
 
-    public void updateEntity(Reservation existingReservation, ReservationDTO dto, User user, List<Book> books) {
+    public void updateEntity(Reservation existingReservation, ReservationDTO dto, DBUser user, List<Book> books) {
 
         if (user != null) {
             existingReservation.setUser(user);

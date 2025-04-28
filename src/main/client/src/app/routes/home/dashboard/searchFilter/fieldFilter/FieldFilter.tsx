@@ -10,16 +10,16 @@ export default function FieldFilter({type, id, label, value, selectOptions, filt
         switch(type) {
             case "Text": {
                 const textValue = filterData.value as string;
-                return <TextFilter {...filterData} value={textValue} filterCallback={filterCallback}/>;
+                return <TextFilter key={id} {...filterData} value={textValue} filterCallback={filterCallback}/>;
             }
             case "Check": {
                 const checkValue = filterData.value as boolean;
-                return <CheckFilter {...filterData} value={checkValue} filterCallback={filterCallback}/>;
+                return <CheckFilter key={id} {...filterData} value={checkValue} filterCallback={filterCallback}/>;
             }
             case "Select": {
                 const selectValue = filterData.value as number|string;
                 const options = filterData.selectOptions!;
-                return <SelectFilter {...filterData} selectOptions={options} value={selectValue} filterCallback={filterCallback}/>;
+                return <SelectFilter key={id} {...filterData} selectOptions={options} value={selectValue} filterCallback={filterCallback}/>;
             }
             // case "Number": {
             //     const numberValue = filterData.value as number;

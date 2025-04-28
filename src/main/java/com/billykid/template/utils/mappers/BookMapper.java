@@ -7,7 +7,6 @@ import com.billykid.template.entity.Book;
 import com.billykid.template.entity.BookStatus;
 import com.billykid.template.utils.DTO.BookDTO;
 import com.billykid.template.utils.DTO.BookStatusDTO;
-import com.billykid.template.utils.enums.BookCondition;
 
 @Component
 public class BookMapper {

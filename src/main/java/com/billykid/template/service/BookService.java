@@ -1,7 +1,6 @@
 package com.billykid.template.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;

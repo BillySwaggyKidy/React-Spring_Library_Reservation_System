@@ -47,7 +47,7 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-    private User user;
+    private DBUser user;
 
     @CreatedDate
     @Column(name = "begin_date", columnDefinition = "TIMESTAMP")

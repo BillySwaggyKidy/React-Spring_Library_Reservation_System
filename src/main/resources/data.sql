@@ -110,17 +110,17 @@ INSERT INTO book_genres (book_id, genre) VALUES (29, 'Fantasy');
 INSERT INTO book_genres (book_id, genre) VALUES (30, 'Children');
 INSERT INTO book_genres (book_id, genre) VALUES (30, 'Fantasy');
 
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (1, 'Billy', 'billy@gmail.com','ghghorgjergjorhp_erghp','CUSTOMER','2025-02-05');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (2, 'John', 'pork@gmail.com','6f48hj1r45errh1eh5','EMPLOYEE','2020-10-08');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (3, 'Jake', 'jake@gmail.com','mirijgmerimith646r8h4r','EMPLOYEE','2022-10-11');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (4, 'Claire', 'claire@gmail.com','5er4ge5r2g6qer5ger2','EMPLOYEE','2021-12-11');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (5, 'Trolly', 'trololol@gmail.com','62e5ge4rg68e4g68','CUSTOMER','2023-03-03');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (6, 'Thatguy', 'iamhim@gmail.com','64g684g6e464h68eh46','CUSTOMER','2023-03-03');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (7, 'George', 'curious@gmail.com','468er4g16g5468461z6eg','CUSTOMER','1986-06-10');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (8, 'Blake', 'whatabadname@gmail.com','64er43g6g6e4rg68erg','CUSTOMER','1999-08-20');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (9, 'Pro', 'IamPro@gmail.com','erg13q5ee6rgq3683erg46','CUSTOMER','2010-10-03');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (10, 'Lola', 'lola@gmail.com','98e4f84e5613ze1f5','EMPLOYEE','2018-03-03');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (11, 'Neo', 'redpilled@gmail.com','rth468rt4h31tsh6r8t4h6','ADMIN','2000-01-01');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (1, 'Billy', 'billy@gmail.com','$2a$10$g/uLLgtFDD7bXBUMcsZh4uJVZmpLX0.vz30oaLw8D3xGYk3B9pGnu','ROLE_CUSTOMER','2025-02-05');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (2, 'John', 'pork@gmail.com','$2a$12$HVa8E3rHm495EArTJZWzZOeUzU4jdfRPudXcL3W1fAaPQDAeDksOG','ROLE_EMPLOYEE','2020-10-08');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (3, 'Jake', 'jake@gmail.com','$2a$10$z4T6RwAjfhWRgYZFkN5zpeGKNCX66qF0aoS2gXKscFyLJHqTotU7i','ROLE_EMPLOYEE','2022-10-11');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (4, 'Claire', 'claire@gmail.com','$2a$10$TPIbeSWgNLnGUt2OGLoa7OBgbAWmNoGGUaYjOJg39.TITBvs/FsqK','ROLE_EMPLOYEE','2021-12-11');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (5, 'Trolly', 'trololol@gmail.com','$2a$10$Fdq0/bgsy5Kf4dcSKb0EFeayH0TxC9ehgPE950s07ATrhmVf8J20m','ROLE_CUSTOMER','2023-03-03');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (6, 'Thatguy', 'iamhim@gmail.com','$2a$12$2lt1.UAvm4zxDb1iSUH8HehSWGKzpbNfbadX8b8Y/qqR4/L17AiYC','ROLE_CUSTOMER','2023-03-03');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (7, 'George', 'curious@gmail.com','$2a$10$UljDrH8ugWfGSo6JXlg6aOvkUOhh1UqXfCO..20za0yKuJqwwTTYi','ROLE_CUSTOMER','1986-06-10');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (8, 'Blake', 'whatabadname@gmail.com','$2a$10$x9s.aos4zkkHCd4rym7Mp.8VXAofbu5bedk.FJFo.6.7GmgZrPex2','ROLE_CUSTOMER','1999-08-20');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (9, 'Pro', 'IamPro@gmail.com','$2a$10$TcvrgoIfIt4GixDo4mRTBuXgSgwYZBWznuwhErXvvqgTvrbhcIzl.','ROLE_CUSTOMER','2010-10-03');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (10, 'Lola', 'lola@gmail.com','$2a$10$F..0lGSHi2Oyv6pQMNHxJuG1PcIKmp6NKIfoYGAR7wO8wE4CKXVaK','ROLE_EMPLOYEE','2018-03-03');
+INSERT INTO users (id, username, email, password, role, created_at) VALUES (11, 'Neo', 'redpilled@gmail.com','$2a$10$K6PG5QRlwNCCZnFMHPiLbuUF83NvfAVCs13KdDrxn1shVxK97OrxC','ROLE_ADMIN','2000-01-01');
 
 INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (1, 1,'2016-05-12', '2016-05-22');
 INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (2, 1,'2017-11-13', '2017-11-23');

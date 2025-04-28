@@ -54,7 +54,7 @@ const SearchFilter = ({booksList} : {booksList : bookType[]}) => {
                 <div className="w-2/5 flex flex-row justify-around items-center p-2">
                     {
                         bookFilterFieldsData.map((filter)=>
-                            <FieldFilter {...filter} filterCallback={handleFilterFieldData}/>
+                            <FieldFilter key={filter.id} {...filter} filterCallback={handleFilterFieldData}/>
                         )
                     }
                 </div>

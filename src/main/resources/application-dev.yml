@@ -23,3 +23,6 @@ spring:
             settings:
                 trace: false
                 web-allow-others: false
+cors:
+  allowed-origins:
+    - "http://localhost:5173"

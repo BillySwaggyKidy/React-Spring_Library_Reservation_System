@@ -64,7 +64,7 @@ export const bookFilterFieldsData : filterDataType[] = [
     {
         id: "searchReserved",
         type: fieldEnum.Check,
-        label: "reserved",
+        label: "Reserved",
         value: false,
         condition: (a:bookValuesType, b: bookValuesType) =>
              {return !(a as boolean) || (a as boolean) == (b as boolean)},
