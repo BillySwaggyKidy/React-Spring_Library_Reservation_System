@@ -2,14 +2,21 @@ package com.billykid.template.config;
 
 import java.util.List;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
+
+import com.billykid.template.entity.DBUser;
+import com.billykid.template.repository.UserRepository;
+import com.billykid.template.utils.enums.UserRole;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -47,6 +54,23 @@ public class SpringProdConfiguration implements WebMvcConfigurer {
                     return super.resolveResource(request, "/index.html", locations, chain);
                 }
             });
+    }
+    
+    @Bean
+    public CommandLineRunner initAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        return args -> {
+            if (userRepository.findByRole(UserRole.ROLE_ADMIN).isEmpty()) {
+                DBUser admin = new DBUser();
+                admin.setUsername("Admin");
+                admin.setEmail("admin@example.com");
+                admin.setPassword(passwordEncoder.encode("admin123!"));
+                admin.setRole(UserRole.ROLE_ADMIN);
+                userRepository.save(admin);
+                System.out.println("| Admin user create |");
+            } else {
+                System.out.println("Admin user already exists");
+            }
+        };
     }
 
     @Override

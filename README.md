@@ -50,6 +50,7 @@ It will compile the code and launch to production
 ```
 java -jar target/template-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
+It will start the prod server at the following address: http://localhost:8080/
 
 
 ## Commands

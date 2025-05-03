@@ -1,4 +1,5 @@
-import { fieldEnum, filterDataType, bookValuesType } from "../interfaces";
+import { filterDataType } from "@/src/types/filter";
+import { fieldEnum } from "@/src/types/input";
 
 export const bookFilterFieldsData : filterDataType[] = [
     {
@@ -6,17 +7,13 @@ export const bookFilterFieldsData : filterDataType[] = [
         type: fieldEnum.Text,
         label: "Author",
         value: "",
-        condition: (a:bookValuesType, b: bookValuesType) => 
-            {return (a as string).toLowerCase().includes((b as string).toLowerCase())},
-        objKeyRef: "author"
+        searchParamName: "author"
     },
     {
         id: "searchGenres",
         type: fieldEnum.Select,
         label: "Genres",
         value: "",
-        condition: (a:bookValuesType, b: bookValuesType) =>
-            {return (a as string[]).every((element)=>(b as string[]).includes(element))},
         selectOptions: [
             {
                 label: "---",
@@ -59,16 +56,57 @@ export const bookFilterFieldsData : filterDataType[] = [
                 value: "Videos games"
             },
         ],
-        objKeyRef: "genres"
+        searchParamName: "genres"
     },
     {
         id: "searchReserved",
         type: fieldEnum.Check,
         label: "Reserved",
         value: false,
-        condition: (a:bookValuesType, b: bookValuesType) =>
-             {return !(a as boolean) || (a as boolean) == (b as boolean)},
-        objKeyRef: "isReserved"
+        searchParamName: "isReserved"
     },
     
+];
+
+export const userFilterFieldsData : filterDataType[] = [
+    {
+        id: "searchUsername",
+        type: fieldEnum.Text,
+        label: "Username",
+        value: "",
+        searchParamName: "username"
+    },
+    {
+        id: "searchEmail",
+        type: fieldEnum.Text,
+        label: "Email",
+        value: "",
+        searchParamName: "email"
+    },
+    {
+        id: "searchRole",
+        type: fieldEnum.Select,
+        label: "Role",
+        value: "",
+        selectOptions: [
+            {
+                label: "---",
+                value: ""
+            },
+            {
+                label: "Customer",
+                value: "ROLE_CUSTOMER"
+            },
+            {
+                label: "Employee",
+                value: "ROLE_EMPLOYEE"
+            },
+            {
+                label: "Admin",
+                value: "ROLE_ADMIN"
+            },
+        ],
+        searchParamName: "role"
+
+    }
 ];

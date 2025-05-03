@@ -28,7 +28,7 @@ public class UserMapper {
             existingUser.setEmail(dto.getEmail());
         }
         if (dto.getRole() != null) {
-            existingUser.setUsername(dto.getRole());
+            existingUser.setRole(UserRole.valueOf(dto.getRole()));
         }
     }
 }

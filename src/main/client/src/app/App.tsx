@@ -1,25 +1,14 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./routes/home/Home.tsx";
-import Login from "./routes/login/LoginPage.tsx";
-import UserProvider from "./context/userContext.tsx";
-import Signup from "./routes/signup/SignupPage.tsx";
-
+import { Suspense } from "react";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes";
+import UserProvider from "../context/userContext";
 
 export default function App() {
-
-  const router = createBrowserRouter([
-    { path: "/", element: <Home/> },
-    {
-      path: '/signup', element: <Signup/>,
-    },
-    {
-      path: '/login', element: <Login/>,
-    },
-  ]);
-
   return (
     <UserProvider>
-      <RouterProvider router={router} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </UserProvider>
   );
-};
+}
