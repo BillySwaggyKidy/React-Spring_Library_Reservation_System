@@ -1,7 +1,7 @@
 package com.billykid.template.service;
 
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,12 +41,12 @@ public class ReservationService {
         return reservationList.stream().map(ReservationDTO::new).collect(Collectors.toList());
     }
 
-    public List<ReservationDTO> findReservationsByBeginDate(Instant beginDate, Pageable pageable) {
-        List<Reservation> reservationList = reservationRepository.findByBeginDateAfter(beginDate);
+    public List<ReservationDTO> findReservationsByBeginDate(LocalDate beginDate, Pageable pageable) {
+        List<Reservation> reservationList = reservationRepository.findByBeginDateAfter(beginDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return reservationList.stream().map(ReservationDTO::new).collect(Collectors.toList());
     }
 
-    public List<ReservationDTO> findReservationsByEndDate(Date endDate, Pageable pageable) {
+    public List<ReservationDTO> findReservationsByEndDate(LocalDate endDate, Pageable pageable) {
         List<Reservation> reservationList = reservationRepository.findByEndDateLessThanEqual(endDate);
         return reservationList.stream().map(ReservationDTO::new).collect(Collectors.toList());
     }

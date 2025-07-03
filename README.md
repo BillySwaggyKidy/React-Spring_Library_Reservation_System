@@ -21,8 +21,11 @@ git clone https://github.com/BillySwaggyKidy/Vite_React_Spring_Java_Template.git
 ```
 npm install
 ```
+## Profiles:
 
-**4.** To start developping, you need first to go launch the spring boot server by either:<br>
+### Dev mode:
+
+**1.** To start developping, you need first to go launch the spring boot server by either:<br>
 * running the following command: `mvn spring-boot:run -Pdev`
 * or if you are using visual studio code, using the Spring boot dashboard to start the server by cliking in the APPS section
 
@@ -31,7 +34,7 @@ This will start a spring boot server at the following address: http://localhost:
 Don't forget to type inside the JDBC URL input: "jdbc:h2:~/h2db/dev"
 Then type the password inside the form in order to access the database.
 
-**5.** Then open a new terminal and start the dev server for the front-end:<br>
+**2.** Then open a new terminal and start the dev server for the front-end:<br>
 Go to the src/main/client folder where the vite architecture is then start the following command:
 ```
 cd src/main/client
@@ -39,18 +42,29 @@ npm run dev
 ```
 It will start a local server at the following address: http://localhost:5173/
 
-**6.** If you want to launch the app to production, first you need to have docker running then type the following command:
+
+### Test mode:
+
+If you want to execute unit tests in the app, run the following command:
+```
+mvn test -Ptest
+```
+
+### Prod mode:
+
+**1.** If you want to launch the app to production, first you need to have docker running then type the following command:
 ```
 docker-compose up
-./mvnw package
+./mvnw clean package -DskipTests
 ```
 It will compile the code and launch to production
 
-**7.** Finaly execute the Jar file by typing the following command:
+**2.** Finaly execute the Jar file by typing the following command:
 ```
 java -jar target/template-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 It will start the prod server at the following address: http://localhost:8080/
+
 
 
 ## Commands
@@ -60,8 +74,8 @@ It will start the prod server at the following address: http://localhost:8080/
 You can find the following commands:
 * `mvn spring-boot:run -Pdev`: start the spring boot server
 * `./mvnw compile`: build the application with the frontend assets ready
-* `./mvnw test`: runs the unit tests in your project
-* `./mvnw package`: compiles the source code, runs the tests, and then packages the compiled code into a distributable format, such as a JAR or WAR file
+* `./mvnw test -Ptest | mvn test -Ptest`: runs the unit tests in your project
+* `./mvnw clean package -DskipTests`: compiles the source code, runs the tests, and then packages the compiled code into a distributable format, such as a JAR or WAR file
 * `./mvnw install`: performs everything that package does, and then installs the built package (e.g., JAR/WAR) into the local Maven repository
 
 **Vite frontend (src/main/client):**

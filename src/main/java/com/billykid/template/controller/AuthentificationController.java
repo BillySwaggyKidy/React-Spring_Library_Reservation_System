@@ -16,9 +16,8 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.billykid.template.entity.DBUser;
 import com.billykid.template.service.CustomUserDetailsService;
-import com.billykid.template.utils.DTO.UserDTO;
+import com.billykid.template.utils.DTO.DBUserDTO;
 import com.billykid.template.utils.parameters.AuthRequest;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,13 +43,11 @@ public class AuthentificationController {
     public ResponseEntity<Map<String, Object>> ping() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) {
-            System.out.println("UNAUTHORIZED");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("authenticated", false));
         }
 
         String username = auth.getName(); // safely get the username
         Collection<? extends GrantedAuthority> roles = auth.getAuthorities();
-        System.out.println(roles.stream().map(authority -> authority.getAuthority()).collect(Collectors.toList()).get(0));
 
         return ResponseEntity.ok(Map.of(
             "authenticated", true,
@@ -60,14 +57,9 @@ public class AuthentificationController {
     }
     
     @PostMapping("/signup")
-    public ResponseEntity<UserDTO> signup(@RequestBody UserDTO user, HttpServletRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        boolean hasAdminRole = auth.getAuthorities().stream().map(authority -> authority.getAuthority()).anyMatch(role -> role.equals("ROLE_ADMIN"));
-        if (!hasAdminRole) {
-            user.setRole("ROLE_CUSTOMER");
-        }
-        UserDTO newUser = customUserDetailsService.registerUser(user);
-
+    public ResponseEntity<DBUserDTO> signup(@RequestBody DBUserDTO user, HttpServletRequest request) {
+        user.setRole("ROLE_CUSTOMER");
+        DBUserDTO newUser = customUserDetailsService.registerUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
     

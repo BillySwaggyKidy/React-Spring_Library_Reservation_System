@@ -17,7 +17,7 @@ import com.billykid.template.exception.DBUserUserAlreadyExist;
 
 import org.springframework.security.core.userdetails.User;
 import com.billykid.template.repository.UserRepository;
-import com.billykid.template.utils.DTO.UserDTO;
+import com.billykid.template.utils.DTO.DBUserDTO;
 import com.billykid.template.utils.enums.UserRole;
 import com.billykid.template.utils.mappers.UserMapper;
 import com.billykid.template.utils.parameters.UserParametersObject;
@@ -34,31 +34,29 @@ import lombok.RequiredArgsConstructor;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-
-    public List<UserDTO> findByUsernameContainingIgnoreCase(String username) {
+    public List<DBUserDTO> findByUsernameContainingIgnoreCase(String username, Pageable pageable) {
         List<DBUser> usersList = userRepository.findByUsernameContainingIgnoreCase(username);
-        return usersList.stream().map(UserDTO::new).collect(Collectors.toList());
+        return usersList.stream().map(DBUserDTO::new).collect(Collectors.toList());
     }
 
-    public List<UserDTO> findByEmailContainingIgnoreCase(String email) {
+    public List<DBUserDTO> findByEmailContainingIgnoreCase(String email, Pageable pageable) {
         List<DBUser> usersList = userRepository.findByEmailContainingIgnoreCase(email);
-        return usersList.stream().map(UserDTO::new).collect(Collectors.toList());
+        return usersList.stream().map(DBUserDTO::new).collect(Collectors.toList());
     }
 
-    public List<UserDTO> findByRole(UserRole role) {
+    public List<DBUserDTO> findByRole(UserRole role, Pageable pageable) {
         List<DBUser> usersList = userRepository.findByRole(role);
-        return usersList.stream().map(UserDTO::new).collect(Collectors.toList());
+        return usersList.stream().map(DBUserDTO::new).collect(Collectors.toList());
     }
 
-    public List<UserDTO> findUsersByQueryParams(UserParametersObject params, Pageable pageable) {
+    public List<DBUserDTO> findUsersByQueryParams(UserParametersObject params, Pageable pageable) {
         Specification<DBUser> spec = buildSpecification(params);
         Page<DBUser> userPage = userRepository.findAll(spec, pageable);
         List<DBUser> userList = userPage.getContent();
-        return userList.stream().map(UserDTO::new).collect(Collectors.toList());
+        return userList.stream().map(DBUserDTO::new).collect(Collectors.toList());
     }
 
     private Specification<DBUser> buildSpecification(UserParametersObject params) {
@@ -77,7 +75,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return spec;
     }
 
-    public UserDTO registerUser(UserDTO user) {
+    public DBUserDTO registerUser(DBUserDTO user) {
         if (!userRepository.findByEmail(user.getEmail()).isPresent()) {
             DBUser newUser = userMapper.toEntity(user);
             String encryptedPassword = passwordEncoder.encode(user.getPassword());
@@ -90,14 +88,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
     }
 
-    public UserDTO updateUser(Integer id, UserDTO user) {
+    public DBUserDTO updateUser(Integer id, DBUserDTO user) {
         DBUser existingUser = userRepository.findById(id).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + id + " does not exist"));
         userMapper.updateEntity(existingUser, user);
         userRepository.save(existingUser);
         return userMapper.toDTO(existingUser);
     }
 
-    public UserDTO removeUser(Integer id) {
+    public DBUserDTO removeUser(Integer id) {
         DBUser existingUser = userRepository.findById(id).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + id + " does not exist"));
         userRepository.delete(existingUser);
         return userMapper.toDTO(existingUser);

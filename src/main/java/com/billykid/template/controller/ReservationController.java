@@ -1,6 +1,7 @@
 package com.billykid.template.controller;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -45,24 +46,22 @@ public class ReservationController {
 
     @GetMapping("/reservations/start/{beginDate}")
     @RolesAllowed({"EMPLOYEE", "ADMIN"})
-    public ResponseEntity<List<ReservationDTO>> getReservationsByBeginDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date beginDate, Pageable pageable) {
-        List<ReservationDTO> reservationList = reservationService.findReservationsByBeginDate(beginDate.toInstant(), pageable);
+    public ResponseEntity<List<ReservationDTO>> getReservationsByBeginDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate, Pageable pageable) {
+        List<ReservationDTO> reservationList = reservationService.findReservationsByBeginDate(beginDate, pageable);
         return ResponseEntity.ok(reservationList); 
     }
 
     @GetMapping("/reservations/end/{endDate}")
     @RolesAllowed({"EMPLOYEE", "ADMIN"})
-    public ResponseEntity<List<ReservationDTO>> getReservationsByEndDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Pageable pageable) {
+    public ResponseEntity<List<ReservationDTO>> getReservationsByEndDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate, Pageable pageable) {
         List<ReservationDTO> reservationList = reservationService.findReservationsByEndDate(endDate, pageable);
         return ResponseEntity.ok(reservationList);
     }
 
     @GetMapping("/reservations")
     @RolesAllowed({"EMPLOYEE", "ADMIN"})
-    public ResponseEntity<List<ReservationDTO>> getReservations(@RequestParam(required=false) String username, @RequestParam(required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date beginDate, @RequestParam(required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Pageable pageable) {
+    public ResponseEntity<List<ReservationDTO>> getReservations(@RequestParam(required=false) String username, @RequestParam(required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate, @RequestParam(required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate, Pageable pageable) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Logged in user: " + auth.getName());
-        System.out.println("Authorities: " + auth.getAuthorities());
         ReservationParametersObject reservationsParameters = ReservationParametersObject.builder().userName(username).beginDate(beginDate).endDate(endDate).build();
         List<ReservationDTO> reservationList = reservationService.findReservationsByQueryParams(reservationsParameters, pageable);
         return ResponseEntity.ok(reservationList);

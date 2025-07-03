@@ -20,6 +20,13 @@ export default function UserProvider({ children }: { children: ReactNode }) {
         setCurrentUser(newData);
     }, []);
 
+    const resetUserData = () => {
+        setCurrentUser({
+            username: "",
+            role: "ROLE_ANONYMOUS"
+        });
+    }
+
     // UseEffect to rehydrate the user context on app startup
     useEffect(() => {
         const rehydrateUser = async () => {
@@ -29,10 +36,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
                 });
 
                 if (!res.ok) {
-                    setCurrentUser({
-                        username: "",
-                        role: "ROLE_ANONYMOUS"
-                    });
+                    resetUserData();
                     return;
                 }
 
@@ -44,17 +48,11 @@ export default function UserProvider({ children }: { children: ReactNode }) {
                         role: data.role,
                     });
                 } else {
-                    setCurrentUser({
-                        username: "",
-                        role: "ROLE_ANONYMOUS"
-                    }); // No authentication, clear the context
+                    resetUserData();
                 }
             } catch (error) {
                 console.error("Error fetching user data:", error);
-                setCurrentUser({
-                    username: "",
-                    role: "ROLE_ANONYMOUS"
-                }); // Clear user data in case of error
+                resetUserData();
             }
         };
 

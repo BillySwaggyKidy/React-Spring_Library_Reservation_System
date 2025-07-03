@@ -1,5 +1,7 @@
 package com.billykid.template.utils.mappers;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class ReservationMapper {
             existingReservation.setBookList(new HashSet<>(books));
         }
         if (dto.getBeginDate() != null) {
-            existingReservation.setBeginDate(dto.getBeginDate().toInstant());
+            existingReservation.setBeginDate(dto.getBeginDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
         if (dto.getEndDate() != null) {
             existingReservation.setEndDate(dto.getEndDate());

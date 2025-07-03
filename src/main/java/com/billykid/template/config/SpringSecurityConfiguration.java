@@ -65,6 +65,14 @@ public class SpringSecurityConfiguration implements WebMvcConfigurer {
         .headers(headers -> headers
             .frameOptions(frameOptions -> frameOptions.sameOrigin())
         )
+        .exceptionHandling(ex -> ex
+            .authenticationEntryPoint((request, response, authException) -> {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+            })
+            .accessDeniedHandler((request, response, accessDeniedException) -> {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+            })
+        )
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/h2-console/**").permitAll() // Allow h2-console access
             .requestMatchers("/auth/**").permitAll() // Allow use auth request

@@ -1,7 +1,7 @@
 package com.billykid.template.entity;
 
-import java.util.Date;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -52,7 +52,7 @@ public class Reservation {
     private Instant beginDate;
 
     @Column(name="end_date")
-    private Date endDate;
+    private LocalDate endDate;
 
 
 }

@@ -1,6 +1,6 @@
 package com.billykid.template.utils.DTO;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.billykid.template.entity.Author;
 
@@ -15,7 +15,14 @@ public class AuthorDTO {
     private Integer id;
     private String name;
     private String bio;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
+
+    public AuthorDTO(Integer id, String name, String bio, LocalDate dateOfBirth) {
+        this.id = id;
+        this.name = name;
+        this.bio = bio;
+        this.dateOfBirth = dateOfBirth;
+    }
 
     // Constructor to map entity to DTO
     public AuthorDTO(Author author) {

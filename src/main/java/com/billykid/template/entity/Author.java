@@ -1,6 +1,6 @@
 package com.billykid.template.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,5 +34,5 @@ public class Author {
     private String bio;
 
     @Column(name="date_of_birth")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 }

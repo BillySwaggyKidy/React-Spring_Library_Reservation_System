@@ -1,6 +1,6 @@
 package com.billykid.template.utils.specifications;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -22,7 +22,7 @@ public class ReservationSpecifications {
     }
 
     // Filter by if the reservation start on/after given date
-    public static Specification<Reservation> hasBeginDate(Date beginDate) {
+    public static Specification<Reservation> hasBeginDate(LocalDate beginDate) {
         return (root, query, criteriaBuilder) -> {
             if (beginDate == null) {
                 return null;
@@ -32,7 +32,7 @@ public class ReservationSpecifications {
     }
 
     // Filter by if the reservation end on/before given date
-    public static Specification<Reservation> hasEndDate(Date endDate) {
+    public static Specification<Reservation> hasEndDate(LocalDate endDate) {
         return (root, query, criteriaBuilder) -> {
             if (endDate == null) {
                 return null;

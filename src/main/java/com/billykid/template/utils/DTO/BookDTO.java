@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor 
+@NoArgsConstructor
 public class BookDTO {
     private Integer id;
     private String title;
@@ -21,6 +21,18 @@ public class BookDTO {
     private BookStatusDTO status;
     private Integer authorId;
     private Integer volume;
+
+
+    public BookDTO(Integer id, String title, String description, String bookCoverUrl, List<String> genres, BookStatusDTO status, Integer authorId, Integer volume) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.bookCoverUrl = bookCoverUrl;
+        this.genres = genres;
+        this.status = status;
+        this.authorId = authorId;
+        this.volume = volume;
+    }
 
     // Constructor to map entity to DTO
     public BookDTO(Book book) {

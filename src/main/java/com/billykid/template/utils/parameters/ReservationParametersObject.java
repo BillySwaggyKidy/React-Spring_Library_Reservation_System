@@ -1,6 +1,6 @@
 package com.billykid.template.utils.parameters;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,7 @@ import lombok.Setter;
 
 public class ReservationParametersObject {
     String userName;
-    Date beginDate;
-    Date endDate;
+    LocalDate beginDate;
+    LocalDate endDate;
     
 }
