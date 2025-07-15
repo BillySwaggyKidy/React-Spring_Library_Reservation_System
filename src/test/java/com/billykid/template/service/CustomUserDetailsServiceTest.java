@@ -117,7 +117,7 @@ public class CustomUserDetailsServiceTest {
 
         when(userRepository.findAll(any(Specification.class), nullable(Pageable.class))).thenReturn(new PageImpl<>(users));
 
-        List<DBUserDTO> result = customUserDetailsService.findUsersByQueryParams(new UserParametersObject("M","m",UserRole.ROLE_EMPLOYEE), null);
+        List<DBUserDTO> result = customUserDetailsService.findUsersByQueryParams(new UserParametersObject("M","m",UserRole.ROLE_EMPLOYEE), null).getContent();
 
         assertEquals(3, result.size());
         assertEquals("Mason", result.get(0).getUsername());

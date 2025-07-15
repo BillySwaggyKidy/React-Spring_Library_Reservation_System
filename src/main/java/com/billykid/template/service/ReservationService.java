@@ -19,6 +19,7 @@ import com.billykid.template.repository.BookRepository;
 import com.billykid.template.repository.ReservationRepository;
 import com.billykid.template.repository.UserRepository;
 import com.billykid.template.utils.DTO.BookDTO;
+import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.DTO.ReservationDTO;
 import com.billykid.template.utils.mappers.ReservationMapper;
 import com.billykid.template.utils.parameters.ReservationParametersObject;
@@ -51,11 +52,17 @@ public class ReservationService {
         return reservationList.stream().map(ReservationDTO::new).collect(Collectors.toList());
     }
 
-    public List<ReservationDTO> findReservationsByQueryParams(ReservationParametersObject params, Pageable pageable) {
+    public PagedResponse<ReservationDTO> findReservationsByQueryParams(ReservationParametersObject params, Pageable pageable) {
         Specification<Reservation> spec = buildSpecification(params);
         Page<Reservation> reservationPage = reservationRepository.findAll(spec, pageable);
-        List<Reservation> reservationList = reservationPage.getContent();
-        return reservationList.stream().map(ReservationDTO::new).collect(Collectors.toList());
+        List<ReservationDTO> reservationList = reservationPage.getContent().stream().map(ReservationDTO::new).collect(Collectors.toList());
+        return new PagedResponse<ReservationDTO>(
+            reservationList,
+            reservationPage.getNumber(),
+            reservationPage.getSize(),
+            reservationPage.getTotalElements(),
+            reservationPage.getTotalPages()
+        );
     }
 
     private Specification<Reservation> buildSpecification(ReservationParametersObject params) {

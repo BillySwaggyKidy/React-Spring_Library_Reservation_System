@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.billykid.template.service.CustomUserDetailsService;
 import com.billykid.template.utils.DTO.DBUserDTO;
+import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.enums.UserRole;
 import com.billykid.template.utils.parameters.UserParametersObject;
 
@@ -13,6 +14,7 @@ import jakarta.annotation.security.RolesAllowed;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,9 +54,9 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<DBUserDTO>> getUsers(@RequestParam(required=false) String username, @RequestParam(required=false) String email, @RequestParam(required = false) UserRole role, Pageable pageable) {
+    public ResponseEntity<PagedResponse<DBUserDTO>> getUsers(@RequestParam(required=false) String username, @RequestParam(required=false) String email, @RequestParam(required = false) UserRole role, @PageableDefault(size = 10) Pageable pageable) {
         UserParametersObject params = UserParametersObject.builder().userName(username).email(email).role(role).build();
-        List<DBUserDTO> userList = customUserDetailsService.findUsersByQueryParams(params, pageable);
+        PagedResponse<DBUserDTO> userList = customUserDetailsService.findUsersByQueryParams(params, pageable);
         return ResponseEntity.ok(userList);
     }
 

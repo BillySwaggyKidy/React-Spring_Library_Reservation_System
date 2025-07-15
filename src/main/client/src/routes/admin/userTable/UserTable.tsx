@@ -7,6 +7,7 @@ import { userDataType } from "@/src/types/user";
 import { useEffect, useState } from "react";
 import UserItem from "./items/UserItem";
 import CreateUserModal from "./modal/CreateUserModal";
+import { PagedResponse } from "@/src/types/pageResponse";
 
 export default function UserTable() {
     const [filterFields, setFilterFields] = useState<filterDataType[]>(userFilterFieldsData);
@@ -35,9 +36,8 @@ export default function UserTable() {
         });
         if (response.ok) {
             // Save state, redirect, show badge, etc
-            const usersList : userDataType[] = await response.json();
-            setUsersDataList(usersList);
-            
+            const usersResponse : PagedResponse<userDataType> = await response.json();
+            setUsersDataList(usersResponse.content);
         }
     };
 

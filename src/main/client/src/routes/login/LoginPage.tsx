@@ -46,12 +46,12 @@ export default function Login() {
           <h2 className="text-6xl font-bold text-violet-600 mb-4">Login</h2>
           <form className="w-1/3 flex flex-col justify-around items-center border-4 rounded-lg bg-indigo-900/50 border-indigo-400 shadow-lg shadow-slate-400 px-8 py-2" onSubmit={handleSubmit(onSubmit)}>
             <div className="w-full flex flex-col items-start mb-2">
-              <label className="text-2xl">Username</label>
-              <input className="rounded-md border-2 border-white bg-indigo-900/60 h-8 text-xl w-3/4" {...register("username")} />
+              <label htmlFor="Username" className="text-2xl">Username</label>
+              <input id="Username" className="rounded-md border-2 border-white bg-indigo-900/60 h-8 text-xl w-3/4" {...register("username")} />
             </div>
             <div className="w-full flex flex-col items-start mb-2">
-              <label className="text-2xl">Password</label>
-              <input className="rounded-md border-2 border-white bg-indigo-900/60 h-8 text-xl w-3/4" type="password" {...register("password")} />
+              <label htmlFor="Password" className="text-2xl">Password</label>
+              <input id="Password" className="rounded-md border-2 border-white bg-indigo-900/60 h-8 text-xl w-3/4" type="password" {...register("password")} />
             </div>
             <input className="border-2 border-violet-800 bg-violet-600 hover:bg-violet-700 active:bg-violet-500 hover:cursor-pointer text-white text-xl p-2 rounded-lg" type="submit" value={"login"}/>
           </form>

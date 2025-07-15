@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.billykid.template.service.BookService;
 import com.billykid.template.utils.DTO.BookDTO;
+import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.parameters.BookParametersObject;
 
 import jakarta.annotation.security.RolesAllowed;
@@ -69,9 +71,9 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public ResponseEntity<List<BookDTO>> getBooks(@RequestParam(required=false) String title, @RequestParam(required=false) String author, @RequestParam(required=false) List<String> genres, @RequestParam(required=false) boolean isReserved, Pageable pageable) {
+    public ResponseEntity<PagedResponse<BookDTO>> getBooks(@RequestParam(required=false) String title, @RequestParam(required=false) String author, @RequestParam(required=false) List<String> genres, @RequestParam(required=false) Boolean isReserved, @PageableDefault(size = 10) Pageable pageable) {
         BookParametersObject parametersData = BookParametersObject.builder().title(title).author(author).genres(genres).isReserved(isReserved).build();
-        List<BookDTO> books = bookService.findBooksByQueryParams(parametersData, pageable);
+        PagedResponse<BookDTO> books = bookService.findBooksByQueryParams(parametersData, pageable);
         return ResponseEntity.ok(books);
     }
 

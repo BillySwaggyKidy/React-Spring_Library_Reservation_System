@@ -11,7 +11,7 @@ interface IFormInput {
   }
 
 export default function Signup() {
-    const { register, handleSubmit } = useForm<IFormInput>();
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm<IFormInput>();
     const [errorText, setErrorText] = useState<string>("");
     const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ export default function Signup() {
         
       if (response.ok) {
         setErrorText("");
-        navigate("/");
+        navigate("/login");
       } 
       else {
         // Show error
@@ -42,20 +42,41 @@ export default function Signup() {
           <h2 className="text-6xl font-bold text-orange-600 mb-4">Signup</h2>
           <form className="w-1/3 flex flex-col justify-around items-center border-4 rounded-lg bg-red-900/50 border-amber-400 shadow-lg shadow-slate-400 px-8 py-2" onSubmit={handleSubmit(onRegister)}>
             <div className="w-full flex flex-col items-start">
-              <label className="text-2xl">Username</label>
-              <input className="rounded-md border-2 border-white bg-red-900/60 h-8 text-xl w-3/4 mb-2" {...register("username")} />
+              <label htmlFor="Username" className="text-2xl">Username</label>
+              <input id="Username" className="rounded-md border-2 border-white bg-red-900/60 h-8 text-xl w-3/4 mb-2" {...register("username", { required: "Username is required" })} />
+              {errors.username && <span className="text-red-500">{errors.username.message}</span>}
             </div>
             <div className="w-full flex flex-col items-start mb-2">
-              <label className="text-2xl">Email</label>
-              <input className="rounded-md border-2 border-white bg-red-900/60 h-8 text-xl w-3/4" type="email" {...register("email")} />
+              <label htmlFor="Email" className="text-2xl">Email</label>
+              <input id="Email" className="rounded-md border-2 border-white bg-red-900/60 h-8 text-xl w-3/4" type="email" {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  message: "Email is not valid"
+                }
+              })} />
+              {errors.email && <span className="text-red-500">{errors.email.message}</span>}
             </div>
             <div className="w-full flex flex-col items-start mb-2">
-              <label className="text-2xl">Password</label>
-              <input className="rounded-md border-2 border-white bg-red-900/60 h-8 text-xl w-3/4" type="password" {...register("password")} />
+              <label htmlFor="Password" className="text-2xl">Password</label>
+              <input id="Password" className="rounded-md border-2 border-white bg-red-900/60 h-8 text-xl w-3/4" type="password" {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters"
+                }
+              })} />
+              {errors.password && <span className="text-red-500">{errors.password.message}</span>}
             </div>
             <div className="w-full flex flex-col items-start mb-2">
-              <label className="text-2xl">Confirm password</label>
-              <input className="rounded-md border-2 border-white bg-red-900/60 h-8 text-xl w-3/4" type="password" {...register("confirmPassword")} />
+              <label htmlFor="Confirm password" className="text-2xl">Confirm password</label>
+              <input id="Confirm password" className="rounded-md border-2 border-white bg-red-900/60 h-8 text-xl w-3/4" type="password" {...register("confirmPassword", {
+                required: "Please confirm your password",
+                validate: value => {
+                  const password = getValues("password");
+                  return value === password;
+              }})}/>
+              {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword.message}</span>}
             </div>
             <input className="border-2 border-orange-800 bg-orange-600 hover:bg-orange-700 active:bg-orange-500 hover:cursor-pointer text-white text-xl p-2 rounded-lg" type="submit" value={"Create new account"}/>
           </form>

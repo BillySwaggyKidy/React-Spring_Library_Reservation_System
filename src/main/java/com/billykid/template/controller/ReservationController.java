@@ -1,10 +1,9 @@
 package com.billykid.template.controller;
-
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.billykid.template.service.ReservationService;
 import com.billykid.template.utils.DTO.BookDTO;
+import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.DTO.ReservationDTO;
 import com.billykid.template.utils.parameters.ReservationParametersObject;
 
@@ -60,10 +60,10 @@ public class ReservationController {
 
     @GetMapping("/reservations")
     @RolesAllowed({"EMPLOYEE", "ADMIN"})
-    public ResponseEntity<List<ReservationDTO>> getReservations(@RequestParam(required=false) String username, @RequestParam(required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate, @RequestParam(required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate, Pageable pageable) {
+    public ResponseEntity<PagedResponse<ReservationDTO>> getReservations(@RequestParam(required=false) String username, @RequestParam(required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate, @RequestParam(required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate, @PageableDefault(size = 10) Pageable pageable) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ReservationParametersObject reservationsParameters = ReservationParametersObject.builder().userName(username).beginDate(beginDate).endDate(endDate).build();
-        List<ReservationDTO> reservationList = reservationService.findReservationsByQueryParams(reservationsParameters, pageable);
+        PagedResponse<ReservationDTO> reservationList = reservationService.findReservationsByQueryParams(reservationsParameters, pageable);
         return ResponseEntity.ok(reservationList);
     }
 

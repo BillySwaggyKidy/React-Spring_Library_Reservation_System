@@ -18,6 +18,8 @@ import com.billykid.template.exception.DBUserUserAlreadyExist;
 import org.springframework.security.core.userdetails.User;
 import com.billykid.template.repository.UserRepository;
 import com.billykid.template.utils.DTO.DBUserDTO;
+import com.billykid.template.utils.DTO.PagedResponse;
+import com.billykid.template.utils.DTO.ReservationDTO;
 import com.billykid.template.utils.enums.UserRole;
 import com.billykid.template.utils.mappers.UserMapper;
 import com.billykid.template.utils.parameters.UserParametersObject;
@@ -52,11 +54,17 @@ public class CustomUserDetailsService implements UserDetailsService {
         return usersList.stream().map(DBUserDTO::new).collect(Collectors.toList());
     }
 
-    public List<DBUserDTO> findUsersByQueryParams(UserParametersObject params, Pageable pageable) {
+    public PagedResponse<DBUserDTO> findUsersByQueryParams(UserParametersObject params, Pageable pageable) {
         Specification<DBUser> spec = buildSpecification(params);
         Page<DBUser> userPage = userRepository.findAll(spec, pageable);
-        List<DBUser> userList = userPage.getContent();
-        return userList.stream().map(DBUserDTO::new).collect(Collectors.toList());
+        List<DBUserDTO> userList = userPage.getContent().stream().map(DBUserDTO::new).collect(Collectors.toList());
+        return new PagedResponse<DBUserDTO>(
+            userList,
+            userPage.getNumber(),
+            userPage.getSize(),
+            userPage.getTotalElements(),
+            userPage.getTotalPages()
+        );
     }
 
     private Specification<DBUser> buildSpecification(UserParametersObject params) {

@@ -85,3 +85,6 @@ You can find the following commands:
 * `npm run build`: build the frontend assets
 * `npm run preview`: start a local web server that serves the built solution from ./dist for previewing
 * `npm run lint`: execute eslint to analyse the code for problems
+* `test`: launch the tests in watch mode 
+* `test:ui`: lauch the tests with a local graphical interface (http://localhost:51204 by default)
+* `coverage`: Launch the tests once only (not in watch mode) with a code coverage report

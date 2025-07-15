@@ -3,6 +3,13 @@ import { fieldEnum } from "@/src/types/input";
 
 export const bookFilterFieldsData : filterDataType[] = [
     {
+        id: "searchTitle",
+        type: fieldEnum.Text,
+        label: "Title",
+        value: "",
+        searchParamName: "title"
+    },
+    {
         id: "searchAuthor",
         type: fieldEnum.Text,
         label: "Author",
@@ -21,27 +28,27 @@ export const bookFilterFieldsData : filterDataType[] = [
             },
             {
                 label: "Fantasy",
-                value: "fantasy"
+                value: "Fantasy"
             },
             {
                 label: "Sci-Fi",
-                value: "sci-fi"
+                value: "Sci-Fi"
             },
             {
                 label: "History",
-                value: "history"
+                value: "History"
             },
             {
                 label: "Horror",
-                value: "horror"
+                value: "Horror"
             },
             {
                 label: "Detective",
-                value: "detective"
+                value: "Detective"
             },
             {
                 label: "Comedy",
-                value: "comedy"
+                value: "Comedy"
             },
             {
                 label: "Tutorial",

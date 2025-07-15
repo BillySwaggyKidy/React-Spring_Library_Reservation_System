@@ -139,7 +139,7 @@ public class BookServiceTest {
 
         when(bookRepository.findAll(any(Specification.class), nullable(Pageable.class))).thenReturn(new PageImpl<>(books));
 
-        List<BookDTO> result = bookService.findBooksByQueryParams(new BookParametersObject("Captain underpants", "John Parry", List.of("Adventure", "Comedy"), true),null);
+        List<BookDTO> result = bookService.findBooksByQueryParams(new BookParametersObject("Captain underpants", "John Parry", List.of("Adventure", "Comedy"), true),null).getContent();
 
         assertEquals(3, result.size());
         assertEquals("Captain underpants", result.get(0).getTitle());

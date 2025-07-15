@@ -3,7 +3,6 @@ package com.billykid.template.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.nullable;
@@ -127,7 +126,7 @@ public class ReservationServiceTest {
 
         when(reservationRepository.findAll(any(Specification.class),nullable(Pageable.class))).thenReturn(new PageImpl<>(reservations));
 
-        List<ReservationDTO> result = reservationService.findReservationsByQueryParams(new ReservationParametersObject("j",LocalDate.of(2000,1,1),LocalDate.of(2000,1,11)), null);
+        List<ReservationDTO> result = reservationService.findReservationsByQueryParams(new ReservationParametersObject("j",LocalDate.of(2000,1,1),LocalDate.of(2000,1,11)), null).getContent();
 
         assertEquals(3, result.size());
         assertEquals(1, result.get(0).getUserID());

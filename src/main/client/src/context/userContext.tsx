@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useCallback, useMemo, useState, useEffect } from "react";
 import { accountType } from "../types/user";
+import { Env } from "../Env";
 
 // Define the context type
 export type UserContextType = {
@@ -31,7 +32,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         const rehydrateUser = async () => {
             try {
-                const res = await fetch("http://localhost:8080/auth/ping", {
+                const res = await fetch(`${Env.API_BASE_URL}/auth/ping`, {
                     credentials: "include", // To send cookies with the request
                 });
 

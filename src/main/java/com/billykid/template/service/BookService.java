@@ -16,6 +16,7 @@ import com.billykid.template.exception.BookNotFoundException;
 import com.billykid.template.repository.AuthorRepository;
 import com.billykid.template.repository.BookRepository;
 import com.billykid.template.utils.DTO.BookDTO;
+import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.enums.BookCondition;
 import com.billykid.template.utils.mappers.BookMapper;
 import com.billykid.template.utils.parameters.BookParametersObject;
@@ -52,11 +53,17 @@ public class BookService {
         return bookList.stream().map(BookDTO::new).collect(Collectors.toList());
     }
 
-    public List<BookDTO> findBooksByQueryParams(BookParametersObject params, Pageable pageable) {
+    public PagedResponse<BookDTO> findBooksByQueryParams(BookParametersObject params, Pageable pageable) {
         Specification<Book> spec = buildSpecification(params);
         Page<Book> bookPage = bookRepository.findAll(spec, pageable);
-        List<Book> bookList = bookPage.getContent();
-        return bookList.stream().map(BookDTO::new).collect(Collectors.toList());
+        List<BookDTO> bookList = bookPage.getContent().stream().map(BookDTO::new).collect(Collectors.toList());
+        return new PagedResponse<BookDTO>(
+            bookList,
+            bookPage.getNumber(),
+            bookPage.getSize(),
+            bookPage.getTotalElements(),
+            bookPage.getTotalPages()
+        );
     }
 
     private Specification<Book> buildSpecification(BookParametersObject params) {

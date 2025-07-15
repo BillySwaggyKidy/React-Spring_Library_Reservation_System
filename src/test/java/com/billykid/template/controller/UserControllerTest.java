@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.billykid.template.config.SpringSecurityConfiguration;
 import com.billykid.template.service.CustomUserDetailsService;
 import com.billykid.template.utils.DTO.DBUserDTO;
+import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.enums.UserRole;
 import com.billykid.template.utils.parameters.UserParametersObject;
 import com.billykid.template.utils.properties.CorsProperties;
@@ -102,8 +103,15 @@ public class UserControllerTest {
             new DBUserDTO(5, "Maly", "baily@gmail.com", "3s684h36rdth436d4h368d4h", "EMPLOYEE"),
             new DBUserDTO(8, "Moise", "moise@gmail.com", "3s84h36d84h368rd4h368r4", "EMPLOYEE")
         );
+        PagedResponse<DBUserDTO> pagedResponse = new PagedResponse<>(
+            users,
+            0,
+            2,
+            3,
+            2
+        );
 
-        when(customUserDetailsService.findUsersByQueryParams(any(UserParametersObject.class), any(Pageable.class))).thenReturn(users);
+        when(customUserDetailsService.findUsersByQueryParams(any(UserParametersObject.class), any(Pageable.class))).thenReturn(pagedResponse);
 
         mockMvc.perform(get("/api/users?username=M&email=b&role=ROLE_EMPLOYEE&page=0&size=2&sort=name,asc"))
         .andExpect(status().isOk())

@@ -27,13 +27,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.billykid.template.config.SpringSecurityConfiguration;
-import com.billykid.template.service.BookService;
 import com.billykid.template.service.CustomUserDetailsService;
 import com.billykid.template.service.ReservationService;
 import com.billykid.template.utils.DTO.BookDTO;
 import com.billykid.template.utils.DTO.BookStatusDTO;
+import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.DTO.ReservationDTO;
-import com.billykid.template.utils.parameters.BookParametersObject;
 import com.billykid.template.utils.parameters.ReservationParametersObject;
 import com.billykid.template.utils.properties.CorsProperties;
 
@@ -160,8 +159,15 @@ public class ReservationControllerTest {
             new ReservationDTO(2,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
             new ReservationDTO(3,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
         );
+        PagedResponse<ReservationDTO> pagedResponse = new PagedResponse<>(
+            reservations,
+            0,
+            2,
+            3,
+            2
+        );
 
-        when(reservationService.findReservationsByQueryParams(any(ReservationParametersObject.class), any(Pageable.class))).thenReturn(reservations);
+        when(reservationService.findReservationsByQueryParams(any(ReservationParametersObject.class), any(Pageable.class))).thenReturn(pagedResponse);
 
         mockMvc.perform(get("/api/reservations?username=Billy&beginDate=2000-02-01&endDate=2000-02-11&page=0&size=2&sort=name,asc")).andExpect(status().isForbidden());
     }
@@ -174,15 +180,22 @@ public class ReservationControllerTest {
             new ReservationDTO(2,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
             new ReservationDTO(3,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
         );
+        PagedResponse<ReservationDTO> pagedResponse = new PagedResponse<>(
+            reservations,
+            0,
+            2,
+            3,
+            2
+        );
 
-        when(reservationService.findReservationsByQueryParams(any(ReservationParametersObject.class), any(Pageable.class))).thenReturn(reservations);
+        when(reservationService.findReservationsByQueryParams(any(ReservationParametersObject.class), any(Pageable.class))).thenReturn(pagedResponse);
 
         mockMvc.perform(get("/api/reservations?username=Billy&beginDate=2000-02-01&endDate=2000-02-11&page=0&size=2&sort=name,asc"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.length()").value(3))
-        .andExpect(jsonPath("$[0].endDate").value("2000-02-11"))
-        .andExpect(jsonPath("$[1].endDate").value("2000-02-11"))
-        .andExpect(jsonPath("$[2].endDate").value("2000-02-11"));
+        .andExpect(jsonPath("$.content.length()").value(3))
+        .andExpect(jsonPath("$.content[0].endDate").value("2000-02-11"))
+        .andExpect(jsonPath("$.content[1].endDate").value("2000-02-11"))
+        .andExpect(jsonPath("$.content[2].endDate").value("2000-02-11"));
     }
 
     @Test

@@ -30,6 +30,7 @@ import com.billykid.template.service.BookService;
 import com.billykid.template.service.CustomUserDetailsService;
 import com.billykid.template.utils.DTO.BookDTO;
 import com.billykid.template.utils.DTO.BookStatusDTO;
+import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.parameters.BookParametersObject;
 import com.billykid.template.utils.properties.CorsProperties;
 
@@ -132,15 +133,23 @@ public class BookControllerTest {
 			new BookDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,2),
 			new BookDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,3)
         );
+        PagedResponse<BookDTO> pagedResponse = new PagedResponse<>(
+            books,
+            0,
+            2,
+            3,
+            2
+        );
 
-        when(bookService.findBooksByQueryParams(any(BookParametersObject.class), any(Pageable.class))).thenReturn(books);
+
+        when(bookService.findBooksByQueryParams(any(BookParametersObject.class), any(Pageable.class))).thenReturn(pagedResponse);
         // When & Then
         mockMvc.perform(get("/api/books?title=Captain&author=Bobby&genres=Adventure, Comedy&isReserved=false&page=0&size=2&sort=name,asc"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.length()").value(3))
-            .andExpect(jsonPath("$[0].title").value("Captain underpants"))
-            .andExpect(jsonPath("$[1].title").value("Captain underpants: Dr Kratus unchained"))
-			.andExpect(jsonPath("$[2].title").value("Captain underpants: Finally peace"));
+            .andExpect(jsonPath("$.content.length()").value(3))
+            .andExpect(jsonPath("$.content[0].title").value("Captain underpants"))
+            .andExpect(jsonPath("$.content[1].title").value("Captain underpants: Dr Kratus unchained"))
+			.andExpect(jsonPath("$.content[2].title").value("Captain underpants: Finally peace"));
 	}
 
 	@Test

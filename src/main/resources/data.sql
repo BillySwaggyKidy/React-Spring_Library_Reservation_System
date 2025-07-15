@@ -74,8 +74,8 @@ INSERT INTO book_status (book_id, is_available, condition) VALUES (28, true, 'GO
 INSERT INTO book_status (book_id, is_available, condition) VALUES (29, true, 'GOOD');
 INSERT INTO book_status (book_id, is_available, condition) VALUES (30, true, 'GOOD');
 
-INSERT INTO book_genres (book_id, genre) VALUES (1, 'Comical');
-INSERT INTO book_genres (book_id, genre) VALUES (2, 'Comical');
+INSERT INTO book_genres (book_id, genre) VALUES (1, 'Comedy');
+INSERT INTO book_genres (book_id, genre) VALUES (2, 'Comedy');
 INSERT INTO book_genres (book_id, genre) VALUES (3, 'Fantasy');
 INSERT INTO book_genres (book_id, genre) VALUES (4, 'Fantasy');
 INSERT INTO book_genres (book_id, genre) VALUES (5, 'Tutorial');
