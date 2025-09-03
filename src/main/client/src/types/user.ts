@@ -1,4 +1,5 @@
 export interface accountType {
+    id: number,
     username: string,
     role: string
 };
@@ -10,3 +11,10 @@ export interface userDataType {
     password?: string,
     role: string
 };
+
+export interface userPingResponse {
+    authenticated: boolean,
+    id: number,
+    username: string,
+    role: string
+}

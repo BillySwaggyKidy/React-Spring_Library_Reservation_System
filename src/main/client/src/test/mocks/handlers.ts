@@ -2,7 +2,7 @@ import { http } from 'msw';
 import { mockBooks } from './data/books';
 import { accountType } from '@/src/types/user';
 import { PagedResponse } from '@/src/types/pageResponse';
-import { bookType } from '@/src/types/book';
+import { bookSummaryType } from '@/src/types/book';
 
 type UserRequestBody = {
   username: string,
@@ -20,6 +20,7 @@ export const handlers = [
   http.get('http://localhost:8001/auth/ping', () => {
     return new Response(JSON.stringify({
       authenticated: true,
+      id: 11,
       username: "Bob",
       role: "ADMIN"
     }), {
@@ -34,6 +35,7 @@ export const handlers = [
     const {username, email, password} = body;
     if (username === 'Bob' && email === "bob@gmail.com" && password === 'godgod') {
         const account: accountType = {
+            id: 18,
             username: "Bob",
             role: "ADMIN"
         } 
@@ -51,6 +53,7 @@ export const handlers = [
     const {username, password} = body;
     if (username === 'Bob' && password === 'godgod') {
         const account: accountType = {
+            id: 18,
             username: "Bob",
             role: "ADMIN"
         } 
@@ -88,16 +91,16 @@ export const handlers = [
 
     if (author) {
       bookFiltered = bookFiltered.filter(book =>
-        book.author.toLowerCase().includes(author)
+        book.authorName.toLowerCase().includes(author)
       );
     }
 
     if (reserved !== null) {
       const isReserved = reserved === 'true';
-      bookFiltered = bookFiltered.filter(book => book.reserved === isReserved);
+      bookFiltered = bookFiltered.filter(book => book.status.available === isReserved);
     }
 
-    const responseObj: PagedResponse<bookType> = {
+    const responseObj: PagedResponse<bookSummaryType> = {
       content: bookFiltered,
       page: 1,
       sizePerPage: 10,

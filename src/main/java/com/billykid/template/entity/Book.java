@@ -1,6 +1,7 @@
 package com.billykid.template.entity;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -61,7 +62,7 @@ public class Book {
     @CollectionTable(name="book_genres", joinColumns = @JoinColumn(name="book_id"))
     @Column(name="genre", nullable = false)
     private List<String> genres;
-    
+
     @ManyToOne
     @JoinColumn(name="author",referencedColumnName="id")
     private Author author;
@@ -69,10 +70,16 @@ public class Book {
     @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true, optional = false)
     private BookStatus bookStatus;
 
+    @Column(name="publish_date")
+    private LocalDate publishDate;
+
     @CreatedDate
     @Column(name="added_date")
     private Instant addedDate;
 
     @Column(name="volume_number")
     private Integer volume;
+
+    @Column(name="total_pages")
+    private Integer totalPages;
 }

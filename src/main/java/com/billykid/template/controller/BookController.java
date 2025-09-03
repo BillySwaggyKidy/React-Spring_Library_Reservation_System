@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.billykid.template.service.BookService;
-import com.billykid.template.utils.DTO.BookDTO;
 import com.billykid.template.utils.DTO.PagedResponse;
+import com.billykid.template.utils.DTO.book.BookDetailsDTO;
+import com.billykid.template.utils.DTO.book.BookSummaryDTO;
 import com.billykid.template.utils.parameters.BookParametersObject;
 
 import jakarta.annotation.security.RolesAllowed;
@@ -47,54 +48,60 @@ public class BookController {
     }
 
     @GetMapping("/books/title/{title}")
-    public ResponseEntity<List<BookDTO>> getBookByTitle(@PathVariable String title, Pageable pageable) {
-        List<BookDTO> books = bookService.findBooksByTitle(title, pageable);
+    public ResponseEntity<List<BookSummaryDTO>> getBookByTitle(@PathVariable String title, Pageable pageable) {
+        List<BookSummaryDTO> books = bookService.findBooksByTitle(title, pageable);
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/books/author/{author}")
-    public ResponseEntity<List<BookDTO>> getBooksByAuthor(@PathVariable String author, Pageable pageable) {
-        List<BookDTO> books = bookService.findBooksByAuthor(author, pageable);
+    public ResponseEntity<List<BookSummaryDTO>> getBooksByAuthor(@PathVariable String author, Pageable pageable) {
+        List<BookSummaryDTO> books = bookService.findBooksByAuthor(author, pageable);
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/books/genres/{genres}")
-    public ResponseEntity<List<BookDTO>> getBooksByGenres(@PathVariable List<String> genres, Pageable pageable) {
-        List<BookDTO> books = bookService.findBooksByGenres(genres, pageable);
+    public ResponseEntity<List<BookSummaryDTO>> getBooksByGenres(@PathVariable List<String> genres, Pageable pageable) {
+        List<BookSummaryDTO> books = bookService.findBooksByGenres(genres, pageable);
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/books/reserved/{isReserved}")
-    public ResponseEntity<List<BookDTO>> getBooksByAvailable(@PathVariable boolean isReserved, Pageable pageable) {
-        List<BookDTO> books = bookService.findBooksByAvailable(isReserved, pageable);
+    public ResponseEntity<List<BookSummaryDTO>> getBooksByAvailable(@PathVariable boolean isReserved, Pageable pageable) {
+        List<BookSummaryDTO> books = bookService.findBooksByAvailable(isReserved, pageable);
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/books")
-    public ResponseEntity<PagedResponse<BookDTO>> getBooks(@RequestParam(required=false) String title, @RequestParam(required=false) String author, @RequestParam(required=false) List<String> genres, @RequestParam(required=false) Boolean isReserved, @PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<PagedResponse<BookSummaryDTO>> getBooks(@RequestParam(required=false) String title, @RequestParam(required=false) String author, @RequestParam(required=false) List<String> genres, @RequestParam(required=false) Boolean isReserved, @PageableDefault(size = 10) Pageable pageable) {
         BookParametersObject parametersData = BookParametersObject.builder().title(title).author(author).genres(genres).isReserved(isReserved).build();
-        PagedResponse<BookDTO> books = bookService.findBooksByQueryParams(parametersData, pageable);
+        PagedResponse<BookSummaryDTO> books = bookService.findBooksByQueryParams(parametersData, pageable);
         return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/books/{id}")
+    public ResponseEntity<BookDetailsDTO> getBookDetails(@PathVariable Integer id) {
+        BookDetailsDTO bookDetails = bookService.findBookDetails(id);
+        return ResponseEntity.ok(bookDetails);
     }
 
     @PostMapping("/books/add")
     @RolesAllowed({"EMPLOYEE", "ADMIN"})
-    public ResponseEntity<BookDTO> addBook(@RequestBody BookDTO newBook) {
-        BookDTO book = bookService.addNewBook(newBook);
+    public ResponseEntity<BookSummaryDTO> getDetailsOfBook(@RequestBody BookDetailsDTO newBook) {
+        BookSummaryDTO book = bookService.addNewBook(newBook);
         return ResponseEntity.status(HttpStatus.CREATED).body(book);
     }
 
     @PutMapping("books/update/{id}")
     @RolesAllowed({"EMPLOYEE", "ADMIN"})
-    public ResponseEntity<BookDTO> putMethodName(@PathVariable Integer id, @RequestBody BookDTO book) {
-        BookDTO updatedBook = bookService.updateBook(id, book);
+    public ResponseEntity<BookSummaryDTO> putMethodName(@PathVariable Integer id, @RequestBody BookDetailsDTO book) {
+        BookSummaryDTO updatedBook = bookService.updateBook(id, book);
         return ResponseEntity.ok(updatedBook);
     }
 
     @DeleteMapping("books/remove/{id}")
     @RolesAllowed({"EMPLOYEE", "ADMIN"})
-    public ResponseEntity<BookDTO> deleteMethodName(@PathVariable Integer id) {
-        BookDTO removedBook = bookService.removeBook(id);
+    public ResponseEntity<BookSummaryDTO> deleteMethodName(@PathVariable Integer id) {
+        BookSummaryDTO removedBook = bookService.removeBook(id);
         return ResponseEntity.ok(removedBook);
     }
     

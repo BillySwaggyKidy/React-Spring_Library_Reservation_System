@@ -1,7 +1,7 @@
-package com.billykid.template.utils.mappers;
+package com.billykid.template.utils.mappers.book;
 
 import com.billykid.template.entity.BookStatus;
-import com.billykid.template.utils.DTO.BookStatusDTO;
+import com.billykid.template.utils.DTO.book.BookStatusDTO;
 import com.billykid.template.utils.enums.BookCondition;
 
 public class BookStatusMapper {

@@ -1,35 +1,34 @@
-package com.billykid.template.utils.mappers;
+package com.billykid.template.utils.mappers.book;
 
 import org.springframework.stereotype.Component;
 
 import com.billykid.template.entity.Author;
 import com.billykid.template.entity.Book;
 import com.billykid.template.entity.BookStatus;
-import com.billykid.template.utils.DTO.BookDTO;
-import com.billykid.template.utils.DTO.BookStatusDTO;
+import com.billykid.template.utils.DTO.book.BookDetailsDTO;
+import com.billykid.template.utils.DTO.book.BookStatusDTO;
 
 @Component
-public class BookMapper {
-
-
-    public BookDTO toDTO(Book book) {
-        return new BookDTO(book);
+public class BookDetailsMapper {
+    public BookDetailsDTO toDTO(Book book) {
+        return new BookDetailsDTO(book);
     }
 
-    public Book toEntity(BookDTO dto, Author author, BookStatus bookStatus) {
+    public Book toEntity(BookDetailsDTO dto, Author author, BookStatus bookStatus) {
         return Book.builder()
             .id(dto.getId())
             .title(dto.getTitle())
-            .author(author)
-            .description(dto.getDescription())
             .bookCoverUrl(dto.getBookCoverUrl())
             .genres(dto.getGenres())
-            .bookStatus(bookStatus)
             .volume(dto.getVolume())
+            .author(author)
+            .publishDate(dto.getPublishDate())
+            .totalPages(dto.getTotalPages())
+            .bookStatus(bookStatus)
             .build();
     }
 
-    public void updateEntity(Book existingBook, BookDTO dto, Author author) {
+    public void updateEntity(Book existingBook, BookDetailsDTO dto, Author author) {
         if (author != null) {
             existingBook.setAuthor(author);
         }
@@ -47,6 +46,12 @@ public class BookMapper {
         }
         if (dto.getVolume() != null) {
             existingBook.setVolume(dto.getVolume());
+        }
+        if (dto.getPublishDate() != null) {
+            existingBook.setPublishDate(dto.getPublishDate());
+        }
+        if (dto.getTotalPages() != null) {
+            existingBook.setTotalPages(dto.getTotalPages());
         }
         if (dto.getStatus() != null) {
             BookStatusDTO dtoStatus = dto.getStatus();

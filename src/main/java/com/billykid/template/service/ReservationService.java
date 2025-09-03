@@ -14,13 +14,14 @@ import com.billykid.template.entity.Book;
 import com.billykid.template.entity.Reservation;
 import com.billykid.template.entity.DBUser;
 import com.billykid.template.exception.ReservationNotFoundException;
+import com.billykid.template.exception.BookNotAvailableForReservation;
 import com.billykid.template.exception.DBUserNotFoundException;
 import com.billykid.template.repository.BookRepository;
 import com.billykid.template.repository.ReservationRepository;
 import com.billykid.template.repository.UserRepository;
-import com.billykid.template.utils.DTO.BookDTO;
 import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.DTO.ReservationDTO;
+import com.billykid.template.utils.DTO.book.BookDetailsDTO;
 import com.billykid.template.utils.mappers.ReservationMapper;
 import com.billykid.template.utils.parameters.ReservationParametersObject;
 import com.billykid.template.utils.specifications.ReservationSpecifications;
@@ -81,14 +82,22 @@ public class ReservationService {
         return spec;
     }
 
-    public List<BookDTO> findReservationContent(Integer id, Pageable pageable) {
+    public List<BookDetailsDTO> findReservationContent(Integer id, Pageable pageable) {
         Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation with ID: " + id + " not found"));
-        return reservation.getBookList().stream().map(BookDTO::new).collect(Collectors.toList());
+        return reservation.getBookList().stream().map(BookDetailsDTO::new).collect(Collectors.toList());
     }
 
-    public ReservationDTO addNewReservation(ReservationDTO reservationDTO) {  
+    public ReservationDTO addNewReservation(ReservationDTO reservationDTO) {
         DBUser user = userRepository.findById(reservationDTO.getUserID()).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + reservationDTO.getUserID() + " not found"));
         List<Book> bookList = bookRepository.findAllById(reservationDTO.getBookIds());
+        List<Integer> bookIdNotAvailable = bookList.stream().filter((book)->!book.getBookStatus().isAvailable()).map((book)->book.getId()).toList();
+        if (bookIdNotAvailable.size() == 0) {
+            reservationRepository.updateBookAvailable(false, reservationDTO.getBookIds());
+        }
+        else {
+            String listOfBooksIDNotAvailable = bookIdNotAvailable.stream().map(String::valueOf).collect(Collectors.joining(","));
+            throw new BookNotAvailableForReservation("Some books are not available for reservation: [" + listOfBooksIDNotAvailable + "]");
+        }
         Reservation reservation = reservationMapper.toEntity(reservationDTO, user, bookList);
         reservationRepository.save(reservation);
         return reservationMapper.toDTO(reservation);
@@ -99,6 +108,16 @@ public class ReservationService {
         DBUser user = userRepository.findById(reservationDTO.getUserID()).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + reservationDTO.getUserID() + " not found"));
         List<Book> bookList = bookRepository.findAllById(reservationDTO.getBookIds());
         reservationMapper.updateEntity(existingReservation, reservationDTO, user, bookList);
+        reservationRepository.save(existingReservation);
+        return reservationMapper.toDTO(existingReservation);
+    }
+
+    public ReservationDTO returnReservationContent(Integer id, ReservationDTO reservationDTO) {
+        Reservation existingReservation = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation with ID: " + id + " not found"));
+        DBUser user = userRepository.findById(reservationDTO.getUserID()).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + reservationDTO.getUserID() + " not found"));
+        List<Integer> bookIdList = bookRepository.findAllById(reservationDTO.getBookIds()).stream().map((book)->book.getId()).toList();
+        reservationRepository.updateBookAvailable(false, bookIdList);
+        existingReservation.setEndDate(reservationDTO.getEndDate());
         reservationRepository.save(existingReservation);
         return reservationMapper.toDTO(existingReservation);
     }

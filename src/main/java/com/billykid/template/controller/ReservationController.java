@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.billykid.template.service.ReservationService;
-import com.billykid.template.utils.DTO.BookDTO;
 import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.DTO.ReservationDTO;
+import com.billykid.template.utils.DTO.book.BookDetailsDTO;
 import com.billykid.template.utils.parameters.ReservationParametersObject;
 
 import jakarta.annotation.security.RolesAllowed;
@@ -69,8 +69,8 @@ public class ReservationController {
 
     @GetMapping("/reservations/view/{id}")
     @RolesAllowed({"EMPLOYEE", "ADMIN"})
-    public ResponseEntity<List<BookDTO>> getReservationContent(@PathVariable Integer id, Pageable pageable) {
-        List<BookDTO> books = reservationService.findReservationContent(id, pageable);
+    public ResponseEntity<List<BookDetailsDTO>> getReservationContent(@PathVariable Integer id, Pageable pageable) {
+        List<BookDetailsDTO> books = reservationService.findReservationContent(id, pageable);
         return ResponseEntity.ok(books);
     }
 

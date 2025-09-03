@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -28,9 +29,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.billykid.template.config.SpringSecurityConfiguration;
 import com.billykid.template.service.BookService;
 import com.billykid.template.service.CustomUserDetailsService;
-import com.billykid.template.utils.DTO.BookDTO;
-import com.billykid.template.utils.DTO.BookStatusDTO;
 import com.billykid.template.utils.DTO.PagedResponse;
+import com.billykid.template.utils.DTO.book.BookDetailsDTO;
+import com.billykid.template.utils.DTO.book.BookStatusDTO;
+import com.billykid.template.utils.DTO.book.BookSummaryDTO;
 import com.billykid.template.utils.parameters.BookParametersObject;
 import com.billykid.template.utils.properties.CorsProperties;
 
@@ -52,10 +54,10 @@ public class BookControllerTest {
 	@Test
 	void shouldReturnBookByTitleWithPagination() throws Exception {
 		// Given
-        List<BookDTO> books = List.of(
-            new BookDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1),
-			new BookDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,2),
-			new BookDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,3)
+        List<BookSummaryDTO> books = List.of(
+            new BookSummaryDTO(1, "Captain underpants", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(2, "Captain underpants: Dr Kratus unchained", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(3, "Captain underpants: Finally peace", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW"))
         );
 
         when(bookService.findBooksByTitle(eq("Captain"), any(Pageable.class))).thenReturn(books);
@@ -71,10 +73,10 @@ public class BookControllerTest {
 	@Test
 	void shouldReturnBookByAuthorWithPagination() throws Exception {
 		// Given
-        List<BookDTO> books = List.of(
-            new BookDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1),
-			new BookDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,2),
-			new BookDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,3)
+        List<BookSummaryDTO> books = List.of(
+            new BookSummaryDTO(1, "Captain underpants", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(2, "Captain underpants: Dr Kratus unchained", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(3, "Captain underpants: Finally peace", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW"))
         );
 
         when(bookService.findBooksByAuthor(eq("Bobby"), any(Pageable.class))).thenReturn(books);
@@ -90,10 +92,10 @@ public class BookControllerTest {
 	@Test
 	void shouldReturnBookByGenresWithPagination() throws Exception {
 		// Given
-        List<BookDTO> books = List.of(
-            new BookDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1),
-			new BookDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,2),
-			new BookDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,3)
+        List<BookSummaryDTO> books = List.of(
+            new BookSummaryDTO(1, "Captain underpants", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(2, "Captain underpants: Dr Kratus unchained", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(3, "Captain underpants: Finally peace", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW"))
         );
 
         when(bookService.findBooksByGenres(eq(List.of("Adventure","Comedy")), any(Pageable.class))).thenReturn(books);
@@ -109,10 +111,10 @@ public class BookControllerTest {
 	@Test
 	void shouldReturnBookByReservedWithPagination() throws Exception {
 		// Given
-        List<BookDTO> books = List.of(
-            new BookDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1),
-			new BookDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,2),
-			new BookDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,3)
+        List<BookSummaryDTO> books = List.of(
+           new BookSummaryDTO(1, "Captain underpants", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(2, "Captain underpants: Dr Kratus unchained", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(3, "Captain underpants: Finally peace", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW"))
         );
 
         when(bookService.findBooksByAvailable(eq(true), any(Pageable.class))).thenReturn(books);
@@ -128,12 +130,12 @@ public class BookControllerTest {
 	@Test
 	void shouldReturnBookByFiltersWithPagination() throws Exception {
 		// Given
-        List<BookDTO> books = List.of(
-            new BookDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1),
-			new BookDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,2),
-			new BookDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,3)
+        List<BookSummaryDTO> books = List.of(
+            new BookSummaryDTO(1, "Captain underpants", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(2, "Captain underpants: Dr Kratus unchained", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(3, "Captain underpants: Finally peace", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW"))
         );
-        PagedResponse<BookDTO> pagedResponse = new PagedResponse<>(
+        PagedResponse<BookSummaryDTO> pagedResponse = new PagedResponse<>(
             books,
             0,
             2,
@@ -152,11 +154,23 @@ public class BookControllerTest {
 			.andExpect(jsonPath("$.content[2].title").value("Captain underpants: Finally peace"));
 	}
 
+    @Test
+    void tryGettingBookDetails() throws Exception {
+        BookDetailsDTO bookDetails = new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"),1,"John Doe", LocalDate.ofYearDay(2015, 5), 1, 100);
+        when(bookService.findBookDetails(anyInt())).thenReturn(bookDetails);
+        mockMvc.perform(get("/api/books/1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.title").value("Captain underpants"))
+            .andExpect(jsonPath("$.description").value("This is a story about a funny hero"))
+            .andExpect(jsonPath("$.genres[0]").value("Adventure"))
+            .andExpect(jsonPath("$.genres[1]").value("Comedy"));
+    }
+
 	@Test
 	@WithMockUser(username = "John", roles = {"CUSTOMER"})
 	void tryAddingBookAsCustomerRole() throws Exception {
-		BookDTO book = new BookDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1);
-		when(bookService.addNewBook(any(BookDTO.class))).thenReturn(book);
+		BookDetailsDTO book = new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"),1,"John Doe", LocalDate.ofYearDay(2015, 5), 1, 100);
+		when(bookService.addNewBook(any(BookDetailsDTO.class))).thenReturn(book);
         // Effectuer la requête POST et vérifier la réponse
         mockMvc.perform(post("/api/books/add")
                 .contentType("application/json")
@@ -180,8 +194,8 @@ public class BookControllerTest {
     @Test
 	@WithMockUser(username = "John", roles = {"EMPLOYEE", "ADMIN"})
 	void tryAddingBookAsEmployeeOrAdminRole() throws Exception {
-		BookDTO book = new BookDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1);
-		when(bookService.addNewBook(any(BookDTO.class))).thenReturn(book);
+		BookDetailsDTO book = new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"),1,"John Doe", LocalDate.ofYearDay(2015, 5), 1, 100);
+		when(bookService.addNewBook(any(BookDetailsDTO.class))).thenReturn(book);
         // Effectuer la requête POST et vérifier la réponse
         mockMvc.perform(post("/api/books/add")
                 .contentType("application/json")
@@ -207,14 +221,14 @@ public class BookControllerTest {
 	@Test
 	@WithMockUser(username = "John", roles = {"CUSTOMER"})
 	void tryUpdatingBookAsCustomerRole() throws Exception {
-		BookDTO book = new BookDTO(1, "Captain underpant", "This is a story about a wacky hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1);
-		when(bookService.updateBook(anyInt(),any(BookDTO.class))).thenReturn(book);
+		BookDetailsDTO book = new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"),1,"John Doe", LocalDate.ofYearDay(2015, 5), 1, 100);
+		when(bookService.updateBook(anyInt(),any(BookDetailsDTO.class))).thenReturn(book);
         // Effectuer la requête PUT et vérifier la réponse
         mockMvc.perform(put("/api/books/update/1")
                 .contentType("application/json")
                 .content("""
                     {
-                        "title": "Captain underpant",
+                        "title": "Captain underpants",
                         "description": "This is a story about a wacky hero"
                     }
                     """))
@@ -224,8 +238,8 @@ public class BookControllerTest {
     @Test
 	@WithMockUser(username = "John", roles = {"EMPLOYEE", "ADMIN"})
 	void tryUpdatingBookAsEmployeeOrAdminRole() throws Exception {
-		BookDTO book = new BookDTO(1, "Captain underpant", "This is a story about a wacky hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1);
-		when(bookService.updateBook(anyInt(),any(BookDTO.class))).thenReturn(book);
+		BookDetailsDTO book = new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1, "John Doe", LocalDate.ofYearDay(2013, 5), 1, 199);
+		when(bookService.updateBook(anyInt(),any(BookDetailsDTO.class))).thenReturn(book);
         // Effectuer la requête PUT et vérifier la réponse
         mockMvc.perform(put("/api/books/update/1")
                 .contentType("application/json")
@@ -236,14 +250,14 @@ public class BookControllerTest {
                     }
                     """))
                 .andExpect(status().isOk())
-				.andExpect(jsonPath("$.title").value("Captain underpant"))
-				.andExpect(jsonPath("$.description").value("This is a story about a wacky hero"));
+				.andExpect(jsonPath("$.title").value("Captain underpants"))
+				.andExpect(jsonPath("$.description").value("This is a story about a funny hero"));
 	}
 
 	@Test
 	@WithMockUser(username = "John", roles = {"CUSTOMER"})
 	void tryDeletingBookAsCustomerRole() throws Exception {
-		BookDTO book = new BookDTO(1, "Captain underpant", "This is a story about a wacky hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1);
+		BookDetailsDTO book = new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"),1,"John Doe", LocalDate.ofYearDay(2015, 5), 1, 100);
 		when(bookService.removeBook(anyInt())).thenReturn(book);
         // Effectuer la requête PUT et vérifier la réponse
         mockMvc.perform(delete("/api/books/remove/1")).andExpect(status().isForbidden());
@@ -252,12 +266,12 @@ public class BookControllerTest {
     @Test
 	@WithMockUser(username = "John", roles = {"EMPLOYEE", "ADMIN"})
 	void tryDeletingBookAsEmployeeOrAdminRole() throws Exception {
-		BookDTO book = new BookDTO(1, "Captain underpant", "This is a story about a wacky hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1);
+		BookDetailsDTO book = new BookDetailsDTO(1, "Captain underpants", "This is a story about a wacky hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"),1,"John Doe", LocalDate.ofYearDay(2015, 5), 1, 100);
 		when(bookService.removeBook(anyInt())).thenReturn(book);
         // Effectuer la requête PUT et vérifier la réponse
         mockMvc.perform(delete("/api/books/remove/1"))
                 .andExpect(status().isOk())
-				.andExpect(jsonPath("$.title").value("Captain underpant"))
+				.andExpect(jsonPath("$.title").value("Captain underpants"))
 				.andExpect(jsonPath("$.description").value("This is a story about a wacky hero"));
 	}
 }

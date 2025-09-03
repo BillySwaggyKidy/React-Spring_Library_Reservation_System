@@ -20,6 +20,7 @@ import com.billykid.template.repository.UserRepository;
 import com.billykid.template.utils.DTO.DBUserDTO;
 import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.DTO.ReservationDTO;
+import com.billykid.template.utils.custom.CustomUserDetails;
 import com.billykid.template.utils.enums.UserRole;
 import com.billykid.template.utils.mappers.UserMapper;
 import com.billykid.template.utils.parameters.UserParametersObject;
@@ -27,6 +28,7 @@ import com.billykid.template.utils.specifications.UserSpecifications;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -113,7 +115,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         DBUser user = userRepository.findByUsername(username).orElseThrow(() -> new DBUserNotFoundException("The user with username: " + username + " not found"));
 
-        return new User(user.getUsername(), user.getPassword(), getGrantedAuthorities(user.getRole().toString()));
+        return new CustomUserDetails(user);
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(String role) {

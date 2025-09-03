@@ -1,6 +1,7 @@
 package com.billykid.template.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -11,14 +12,18 @@ import org.springframework.stereotype.Service;
 import com.billykid.template.entity.Author;
 import com.billykid.template.entity.Book;
 import com.billykid.template.entity.BookStatus;
+import com.billykid.template.entity.Reservation;
 import com.billykid.template.exception.AuthorNotFoundException;
 import com.billykid.template.exception.BookNotFoundException;
 import com.billykid.template.repository.AuthorRepository;
 import com.billykid.template.repository.BookRepository;
-import com.billykid.template.utils.DTO.BookDTO;
+import com.billykid.template.repository.ReservationRepository;
 import com.billykid.template.utils.DTO.PagedResponse;
+import com.billykid.template.utils.DTO.book.BookDetailsDTO;
+import com.billykid.template.utils.DTO.book.BookSummaryDTO;
 import com.billykid.template.utils.enums.BookCondition;
-import com.billykid.template.utils.mappers.BookMapper;
+import com.billykid.template.utils.mappers.book.BookDetailsMapper;
+import com.billykid.template.utils.mappers.book.BookSummaryMapper;
 import com.billykid.template.utils.parameters.BookParametersObject;
 import com.billykid.template.utils.specifications.BookSpecifications;
 
@@ -30,40 +35,54 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final ReservationRepository reservationRepository;
 
-    private final BookMapper bookMapper;
+    private final BookSummaryMapper bookSummaryMapper;
+    private final BookDetailsMapper bookDetailsMapper;
 
-    public List<BookDTO> findBooksByTitle(String title, Pageable pageable) {
+    public List<BookSummaryDTO> findBooksByTitle(String title, Pageable pageable) {
         List<Book> bookList = bookRepository.findByTitleContainingIgnoreCase(title);
-        return bookList.stream().map(BookDTO::new).collect(Collectors.toList());
+        return bookList.stream().map(book -> new BookSummaryDTO(book)).collect(Collectors.toList());
     }
 
-    public List<BookDTO> findBooksByAuthor(String author, Pageable pageable) {
+    public List<BookSummaryDTO> findBooksByAuthor(String author, Pageable pageable) {
         List<Book> bookList = bookRepository.findByAuthor_NameContainingIgnoreCase(author);
-        return bookList.stream().map(BookDTO::new).collect(Collectors.toList());
+        return bookList.stream().map(book -> new BookSummaryDTO(book)).collect(Collectors.toList());
     }
 
-    public List<BookDTO> findBooksByGenres(List<String> genres, Pageable pageable) {
+    public List<BookSummaryDTO> findBooksByGenres(List<String> genres, Pageable pageable) {
         List<Book> bookList = bookRepository.findAll(BookSpecifications.hasGenre(genres));
-        return bookList.stream().map(BookDTO::new).collect(Collectors.toList());
+        return bookList.stream().map(book -> new BookSummaryDTO(book)).collect(Collectors.toList());
     }
 
-    public List<BookDTO> findBooksByAvailable(boolean available, Pageable pageable) {
+    public List<BookSummaryDTO> findBooksByAvailable(boolean available, Pageable pageable) {
         List<Book> bookList = bookRepository.findByBookStatus_IsAvailable(!available);
-        return bookList.stream().map(BookDTO::new).collect(Collectors.toList());
+        return bookList.stream().map(book -> new BookSummaryDTO(book)).collect(Collectors.toList());
     }
 
-    public PagedResponse<BookDTO> findBooksByQueryParams(BookParametersObject params, Pageable pageable) {
+    public PagedResponse<BookSummaryDTO> findBooksByQueryParams(BookParametersObject params, Pageable pageable) {
         Specification<Book> spec = buildSpecification(params);
         Page<Book> bookPage = bookRepository.findAll(spec, pageable);
-        List<BookDTO> bookList = bookPage.getContent().stream().map(BookDTO::new).collect(Collectors.toList());
-        return new PagedResponse<BookDTO>(
+        List<BookSummaryDTO> bookList = bookPage.getContent().stream().map(book -> new BookSummaryDTO(book)).collect(Collectors.toList());
+        return new PagedResponse<BookSummaryDTO>(
             bookList,
             bookPage.getNumber(),
             bookPage.getSize(),
             bookPage.getTotalElements(),
             bookPage.getTotalPages()
         );
+    }
+
+    public BookDetailsDTO findBookDetails(Integer id) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book with ID " + id + " not found"));
+        BookDetailsDTO bookDetails = bookDetailsMapper.toDTO(book);
+        if (!bookDetails.getStatus().isAvailable()) {
+            Optional<Reservation> reservation = reservationRepository.findFirstByBookList_IdOrderByEndDateDesc(bookDetails.getId());
+            if (reservation.isPresent()) {
+                bookDetails.getStatus().setBeAvailableAt(reservation.get().getEndDate());
+            }
+        }
+        return bookDetails;
     }
 
     private Specification<Book> buildSpecification(BookParametersObject params) {
@@ -78,38 +97,38 @@ public class BookService {
         if (params.getGenres() != null) {
             spec = spec.and(BookSpecifications.hasGenre(params.getGenres()));
         }
-        if (params.isReserved()) {
-            spec = spec.and(BookSpecifications.isReserved(params.isReserved()));
+        if (params.getIsReserved() != null) {
+            spec = spec.and(BookSpecifications.isReserved(params.getIsReserved()));
         }
 
         return spec;
     }
 
-    public BookDTO addNewBook(BookDTO bookDTO) {
+    public BookSummaryDTO addNewBook(BookDetailsDTO bookDTO) {
         Author author = authorRepository.findById(bookDTO.getAuthorId()).orElseThrow(() -> new AuthorNotFoundException("Author with ID " + bookDTO.getId() + " not found"));
-        Book newBook = bookMapper.toEntity(bookDTO, author, null);
+        Book newBook = bookDetailsMapper.toEntity(bookDTO, author, null);
         bookRepository.save(newBook);
         BookStatus bookStatus = BookStatus.builder().book(newBook).isAvailable(true).condition(BookCondition.NEW).build();
         newBook.setBookStatus(bookStatus);
         bookRepository.save(newBook);
-        return new BookDTO(newBook);
+        return new BookSummaryDTO(newBook);
     }
 
-    public BookDTO updateBook(Integer id, BookDTO bookDTO) {
+    public BookSummaryDTO updateBook(Integer id, BookDetailsDTO bookDTO) {
         Book existingBook = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book with ID " + id + " not found"));
         Author author = bookDTO.getAuthorId() != null ? authorRepository.findById(bookDTO.getAuthorId()).orElseThrow(() -> new AuthorNotFoundException("Author with ID " + bookDTO.getId() + " not found")) : null;
-        bookMapper.updateEntity(existingBook, bookDTO, author);
+        bookDetailsMapper.updateEntity(existingBook, bookDTO, author);
         bookRepository.save(existingBook);
-        return bookMapper.toDTO(existingBook);
+        return bookSummaryMapper.toDTO(existingBook);
     }
 
-    public BookDTO removeBook(Integer id) {
+    public BookSummaryDTO removeBook(Integer id) {
         Book deletedBook = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book with ID " + id + " not found"));
         if (deletedBook.getBookStatus() != null) {
             deletedBook.setBookStatus(null); // This will trigger orphan removal
         }    
         bookRepository.delete(deletedBook);
-        return bookMapper.toDTO(deletedBook);
+        return bookSummaryMapper.toDTO(deletedBook);
     }
     
 }

@@ -1,9 +1,5 @@
 package com.billykid.template.controller;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.billykid.template.service.CustomUserDetailsService;
 import com.billykid.template.utils.DTO.DBUserDTO;
+import com.billykid.template.utils.DTO.PingResponseDTO;
+import com.billykid.template.utils.custom.CustomUserDetails;
 import com.billykid.template.utils.parameters.AuthRequest;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,20 +38,21 @@ public class AuthentificationController {
     }
 
     @GetMapping("/ping")
-    public ResponseEntity<Map<String, Object>> ping() {
+    public ResponseEntity<PingResponseDTO> ping() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("authenticated", false));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new PingResponseDTO(false, null,null,null));
         }
 
-        String username = auth.getName(); // safely get the username
-        Collection<? extends GrantedAuthority> roles = auth.getAuthorities();
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
 
-        return ResponseEntity.ok(Map.of(
-            "authenticated", true,
-            "username", username,
-            "role", roles.stream().map(authority -> authority.getAuthority()).collect(Collectors.toList()).get(0)
-        ));
+        PingResponseDTO response = new PingResponseDTO(
+            true,
+            userDetails.getId(),
+            userDetails.getUsername(),
+            userDetails.getAuthorities().iterator().next().getAuthority()
+        );
+        return ResponseEntity.ok(response);
     }
     
     @PostMapping("/signup")
@@ -65,7 +64,7 @@ public class AuthentificationController {
     
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest loginData, HttpServletRequest request) {
+    public ResponseEntity<PingResponseDTO> login(@RequestBody AuthRequest loginData, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword());
         Authentication auth = authenticationManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
@@ -80,10 +79,16 @@ public class AuthentificationController {
             HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context
         );
 
-        return ResponseEntity.ok(Map.of(
-            "username", auth.getName(),
-            "role", auth.getAuthorities().stream().map(authority -> authority.getAuthority()).collect(Collectors.toList()).get(0)
-        ));
+         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+
+        PingResponseDTO response = new PingResponseDTO(
+            true,
+            userDetails.getId(),
+            userDetails.getUsername(),
+            userDetails.getAuthorities().iterator().next().getAuthority()
+        );
+
+        return ResponseEntity.ok(response);
     }
     
 }

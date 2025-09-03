@@ -11,7 +11,7 @@ const dummyFunction = (page: number) => {
 
 describe('Pagination', () => {
   it('display pagination without previous button because we are at the beginning', async () => {
-    render(<Pagination totalPages={10} handlePageRequest={dummyFunction}/>);
+    render(<Pagination totalPages={10} currentPage={0} handlePageRequest={dummyFunction}/>);
 
     const nextButton = await screen.findByText(/next/i);
 
@@ -24,7 +24,7 @@ describe('Pagination', () => {
   });
 
   it('navigate using the incr button', async () => {
-    render(<Pagination totalPages={10} handlePageRequest={dummyFunction}/>);
+    render(<Pagination totalPages={10} currentPage={0} handlePageRequest={dummyFunction}/>);
 
     const nextButton = await screen.findByText(/next/i);
     const user = userEvent.setup();
@@ -38,7 +38,7 @@ describe('Pagination', () => {
   });
 
   it('going to the last page', async () => {
-    render(<Pagination totalPages={10} handlePageRequest={dummyFunction}/>);
+    render(<Pagination totalPages={10} currentPage={0} handlePageRequest={dummyFunction}/>);
 
     const lastPage = await screen.findByText(/10/i);
     const user = userEvent.setup();

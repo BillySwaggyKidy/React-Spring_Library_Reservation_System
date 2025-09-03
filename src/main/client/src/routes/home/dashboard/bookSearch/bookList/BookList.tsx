@@ -1,7 +1,7 @@
-import { bookType } from "@/src/types/book";
+import { bookSummaryType } from "@/src/types/book";
 import BookCard from "./bookCard/BookCard";
 
-export default function BookList({booksList} : {booksList : bookType[]}) {
+export default function BookList({booksList} : {booksList : bookSummaryType[]}) {
     return (
         
         booksList.length > 0 ? booksList.map(bookData => 

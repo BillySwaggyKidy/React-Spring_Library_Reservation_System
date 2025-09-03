@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import AuthSection from "./authSection/AuthSection";
 import { UserContext } from "@/src/context/userContext";
-import NavLinks from "./authSection/navLinks/NavLinks";
+import NavLinks from "./navLinks/NavLinks";
 
 export default function Navbar() {
     const userContext = useContext(UserContext);

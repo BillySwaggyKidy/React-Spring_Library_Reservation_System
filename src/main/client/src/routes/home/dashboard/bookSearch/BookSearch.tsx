@@ -5,14 +5,40 @@ import { filterDataType } from "@/src/types/filter";
 import { inputFieldValueType } from "@/src/types/input";
 import BookList from "./bookList/BookList";
 import { Env } from "@/src/Env";
-import { bookType } from "@/src/types/book";
+import { bookSummaryType } from "@/src/types/book";
 import { PagedResponse } from "@/src/types/pageResponse";
 import Pagination from "@/src/components/pagination/Pagination";
+import { useSearchParams } from "react-router-dom";
 
 // this represent the search filter component inside the work page
 export default function BookSearch() {
-    const [filterFields, setFilterFields] = useState<filterDataType[]>(bookFilterFieldsData);
-    const [booksList, setBooksList] = useState<bookType[]>([]);
+    /**
+     * 1) searchParams: 
+     * Synchronization with the URL (e.g., ?title=Dune&page=2).
+     * Allows filters to be retained even after refreshing or navigating.
+     */
+    const [searchParams, setSearchParams] = useSearchParams();
+    /**
+     * 2) filterFields (local state):
+     * Represents what the user is typing into the fields.
+     * We initialize with what is already in the URL (searchParams),
+     * so that the filters are pre-filled when we return to the page.
+     */
+    const [filterFields, setFilterFields] = useState<filterDataType[]>(() => {
+        return bookFilterFieldsData.map(filter => {
+            const filterValue = searchParams.get(filter.searchParamName);
+            return { ...filter, value: filterValue ?? "" };
+        });
+    });
+    /**
+     * 3) currentSearchFilters (persistent ref):
+     * Contains the validated filters (those used when the “Search” button was last clicked).
+     * It is used for pagination: thus, changing pages
+     * does not depend on what the user types in the inputs,
+     * but only on the last validated search.
+     */
+    const currentSearchFilters = useRef<filterDataType[]>(structuredClone(bookFilterFieldsData));
+    const [booksList, setBooksList] = useState<bookSummaryType[]>([]);
     const pageIndex = useRef<number>(0);
     const totalPages = useRef<number>(0);
 
@@ -35,29 +61,73 @@ export default function BookSearch() {
 
     // handle the change of the page
     const changePageIndex = (newPage : number) => {
-        pageIndex.current = newPage;
-        getBooksData();
+        setSearchParams(prev => {
+            const newParams = new URLSearchParams(prev);
+            newParams.set("page", newPage.toString());
+            return newParams;
+        })
+        getBooksData(newPage);
     };
 
-    const getBooksData = async () => {
-        const searchParams: Record<string, string> = {};
-        filterFields.forEach((filterData)=>{
-            searchParams[filterData.searchParamName] = String(filterData.value);
+    const initialSearchFilterData = () => {
+
+        // Synchroniser la ref
+        currentSearchFilters.current = currentSearchFilters.current.map(filter => {
+            const filterValue = searchParams.get(filter.searchParamName);
+            return {
+                ...filter,
+                value: filterValue ?? ""
+            };
         });
-        const response = await fetch(`${Env.API_BASE_URL}/api/books?` + new URLSearchParams(searchParams) + `&page=${pageIndex.current}`, {
+
+        const pageIndex = Number(searchParams.get("page")) || 0;
+        getBooksData(pageIndex);
+    };
+
+    const handleSearchBooks = () => {
+        setSearchParams(prev => {
+            const newParams = new URLSearchParams(prev);
+
+            currentSearchFilters.current.forEach((filter, index) => {
+            filter.value = filterFields[index].value;
+                if (filter.value !== "") {
+                    newParams.set(filter.searchParamName, String(filter.value));
+                } else {
+                    newParams.delete(filter.searchParamName);
+                }
+            });
+
+            // reset toujours à page 0 quand on refait une recherche
+            newParams.set("page", "0");
+
+            return newParams;
+        });
+
+        getBooksData(0);
+    }
+
+    const getBooksData = async (pageNumber : number) => {
+        const searchParams: Record<string, string> = {};
+        currentSearchFilters.current.forEach((filterData)=>{
+            if (filterData.value != "") searchParams[filterData.searchParamName] = String(filterData.value);
+        });
+        const urlSearchParams = new URLSearchParams(searchParams);
+        const urlParams : string = urlSearchParams.size > 0 ? new URLSearchParams(searchParams) + "&" : "";
+        const response = await fetch(`${Env.API_BASE_URL}/api/books?` + urlParams + `page=${pageNumber}`, {
             method: "GET",
             credentials: "include",
         });
         if (response.ok) {
             // Save state, redirect, show badge, etc
-            const booksResponse : PagedResponse<bookType> = await response.json();
+            const booksResponse : PagedResponse<bookSummaryType> = await response.json();
             totalPages.current = booksResponse.totalPages;
+            pageIndex.current = booksResponse.page;
             setBooksList(booksResponse.content);
         }
     };
 
     useEffect(()=>{
-        getBooksData();
+        initialSearchFilterData();
     },[]);
 
     return (
@@ -67,15 +137,16 @@ export default function BookSearch() {
                     <input 
                         className="w-2/5 border-2 border-solid rounded-lg text-lg text-lavender placeholder:text-lavender border-blue-400 bg-blue-300/70 bg-search-icon bg-no-repeat bg-[length:30px_30px] bg-[center_left_0.3rem] py-2 pl-10 pr-5"
                         type="text" name="search" placeholder="Search the book's name"
+                        value={filterFields[0].value.toString()}
                         onChange={handleSearchBar}
                     />
                     <div className="w-1/5 flex flex-row items-center justify-center">
-                        <button className="bg-blue-500 hover:bg-blue-400 active:bg-blue-600 text-lg font-bold p-2 rounded-lg cursor-pointer" onClick={getBooksData}>Search</button>
+                        <button className="bg-blue-500 hover:bg-blue-400 active:bg-blue-600 text-lg font-bold p-2 rounded-lg cursor-pointer" onClick={handleSearchBooks}>Search</button>
                     </div>
                 </div>  
                 <div className="w-2/5 flex flex-row justify-around items-center p-2 gap-4">
                     {
-                        bookFilterFieldsData.slice(1).map((filter)=>
+                        filterFields.slice(1).map((filter)=>
                             <FieldFilter key={filter.id} {...filter} filterCallback={handleFilterFieldData}/>
                         )
                     }
@@ -85,7 +156,7 @@ export default function BookSearch() {
                 <BookList booksList={booksList}/>
             </div>
             {
-               booksList.length > 0 && <Pagination totalPages={totalPages.current} handlePageRequest={changePageIndex}/>
+               booksList.length > 0 && <Pagination key={pageIndex.current + "|" + totalPages.current} totalPages={totalPages.current} currentPage={pageIndex.current} handlePageRequest={changePageIndex}/>
             }
         </div>
     );

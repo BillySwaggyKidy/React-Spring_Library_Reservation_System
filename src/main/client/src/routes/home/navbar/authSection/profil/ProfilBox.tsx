@@ -23,6 +23,7 @@ export default function ProfilBox({username = ""} : {username : string}) {
             
         if (response.ok) {
             userContext?.setUserData({
+                id: -1,
                 username: "",
                 role: "ROLE_ANONYMOUS"
             });
@@ -35,7 +36,7 @@ export default function ProfilBox({username = ""} : {username : string}) {
     }
 
     return (
-        <div className="w-full mx-2">
+        <div className="w-full mx-2 relative">
             <div id="profile" className={`flex flex-row justify-center items-center mt-1 py-1 px-2 bg-slate-400 border-slate-400 border-2 border-solid hover:border-black ${checked ? "rounded-t-md border-black" : "rounded-md"} `} onClick={toggleProfileMenu}>
                 <div className="h-10 w-10 rounded-full flex flex-row justify-center items-center bg-teal-300 border-gray-500 border-2">
                     <p className="font-bold text-2xl">{username.charAt(0).toUpperCase()}</p>
@@ -44,7 +45,7 @@ export default function ProfilBox({username = ""} : {username : string}) {
             </div>
             {
                 checked &&
-                <div className="relative w-full rounded-b-md bg-gray-700 shadow mr-8 transition-[border-color] border-2 border-black linear delay-75 animate-fade-in-down">
+                <div className="absolute w-full rounded-b-md bg-gray-700 shadow mr-8 transition-[border-color] border-2 border-black linear delay-75 animate-fade-in-down">
                     <ul className="">
                         <li className="font-medium cursor-pointer hover:bg-gray-500">
                             <a className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent">

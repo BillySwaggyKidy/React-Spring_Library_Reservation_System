@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function Pagination({totalPages, handlePageRequest} : {totalPages : number, handlePageRequest: (page : number) => void}) {
-    const [currentPageNav, setCurrentPageNav] = useState<number>(0);
+export default function Pagination({totalPages, currentPage, handlePageRequest} : {totalPages : number, currentPage : number, handlePageRequest: (page : number) => void}) {
+    const [currentPageNav, setCurrentPageNav] = useState<number>(currentPage);
 
     const changePage = (pageNumber : number) => {
         if (pageNumber != currentPageNav && (pageNumber >= 0 && pageNumber < totalPages)) {
@@ -11,6 +11,7 @@ export default function Pagination({totalPages, handlePageRequest} : {totalPages
     };
 
     const PageBox = ({pageIndex, text} : {pageIndex:number, text:string}) => {
+
         return (
             <div className={`w-6 h-6 flex flex-row justify-center items-center ${pageIndex == currentPageNav ? "cursor-none bg-blue-400" : "cursor-pointer hover:bg-gray-400/50"} rounded-md`} onClick={() => changePage(pageIndex)}>
                 <p className="text-lg font-bold text-gray-600">{text}</p>

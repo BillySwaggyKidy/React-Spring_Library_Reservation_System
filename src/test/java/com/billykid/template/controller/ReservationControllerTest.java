@@ -29,10 +29,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.billykid.template.config.SpringSecurityConfiguration;
 import com.billykid.template.service.CustomUserDetailsService;
 import com.billykid.template.service.ReservationService;
-import com.billykid.template.utils.DTO.BookDTO;
-import com.billykid.template.utils.DTO.BookStatusDTO;
 import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.DTO.ReservationDTO;
+import com.billykid.template.utils.DTO.book.BookDetailsDTO;
+import com.billykid.template.utils.DTO.book.BookStatusDTO;
 import com.billykid.template.utils.parameters.ReservationParametersObject;
 import com.billykid.template.utils.properties.CorsProperties;
 
@@ -201,10 +201,10 @@ public class ReservationControllerTest {
     @Test
     @WithMockUser(username="John", roles={"CUSTOMER"})
     void tryGettingReservationDetailsAsCustomerRole() throws Exception {
-        List<BookDTO> reservationDetails = List.of(
-            new BookDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1),
-			new BookDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,2),
-			new BookDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,3)
+        List<BookDetailsDTO> reservationDetails = List.of(
+            new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 1, 100),
+			new BookDetailsDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 2, 112),
+			new BookDetailsDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 3, 142)
         );
 
         when(reservationService.findReservationContent(anyInt(), any(Pageable.class))).thenReturn(reservationDetails);
@@ -215,10 +215,10 @@ public class ReservationControllerTest {
     @Test
     @WithMockUser(username = "John",roles = {"EMPLOYEE","ADMIN"})
     void tryGettingReservationDetailsAsEmployeeOrAdminRole() throws Exception {
-        List<BookDTO> reservationDetails = List.of(
-            new BookDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,1),
-			new BookDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,2),
-			new BookDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,3)
+        List<BookDetailsDTO> reservationDetails = List.of(
+                        new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 1, 100),
+			new BookDetailsDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 2, 112),
+			new BookDetailsDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 3, 142)
         );
 
         when(reservationService.findReservationContent(anyInt(), any(Pageable.class))).thenReturn(reservationDetails);

@@ -17,5 +17,5 @@ public class BookParametersObject {
     private String title;
     private String author;
     private List<String> genres;
-    private boolean isReserved;
+    private Boolean isReserved;
 }
