@@ -32,4 +32,8 @@ public class UserSpecifications {
             return criteriaBuilder.equal(root.get("role"),role);
         };
     }
+
+    public static Specification<DBUser> isActive() {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("active"));
+    }
 }

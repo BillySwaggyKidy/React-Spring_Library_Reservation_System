@@ -18,11 +18,14 @@ import com.billykid.template.utils.DTO.PingResponseDTO;
 import com.billykid.template.utils.custom.CustomUserDetails;
 import com.billykid.template.utils.parameters.AuthRequest;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 
@@ -40,7 +43,7 @@ public class AuthentificationController {
     @GetMapping("/ping")
     public ResponseEntity<PingResponseDTO> ping() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated()) {
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal() == "anonymousUser") {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new PingResponseDTO(false, null,null,null));
         }
 
@@ -79,7 +82,10 @@ public class AuthentificationController {
             HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context
         );
 
-         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+        if (!userDetails.isActive()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new PingResponseDTO(false, null,null,null));
+        }
 
         PingResponseDTO response = new PingResponseDTO(
             true,
@@ -89,6 +95,13 @@ public class AuthentificationController {
         );
 
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/account/{id}")
+    @RolesAllowed({"CUSTOMER", "EMPLOYEE", "ADMIN"})
+    public ResponseEntity<DBUserDTO> changeAccountInfo(@PathVariable Integer id, @RequestBody DBUserDTO user) {
+        DBUserDTO updatedUser = customUserDetailsService.updateUser(id, user);
+        return ResponseEntity.ok(updatedUser);
     }
     
 }

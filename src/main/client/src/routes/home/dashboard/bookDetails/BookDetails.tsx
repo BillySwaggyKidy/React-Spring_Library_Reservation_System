@@ -1,12 +1,15 @@
 import PointHandLogo from '@/src/assets/icons/Pointing_hand_cursor.svg?react';
+import MiniBookPreview from '@/src/components/MiniBook/MiniBookPreview';
 import { UserContext } from '@/src/context/userContext';
 import { Env } from "@/src/Env";
 import { bookDetailsType, bookSummaryType } from "@/src/types/book";
 import { useContext, useEffect, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 
+// this page represent the details of a book in the search book page
 export default function BookDetails() {
     const details = useLoaderData<bookDetailsType>();
+    // represent the list of book written by the same author
     const [booksSameAuthor, setBooksSameAuthor] = useState<bookSummaryType[]>([]);
     const userContext = useContext(UserContext);
     const userData = userContext.currentUser;
@@ -20,6 +23,7 @@ export default function BookDetails() {
         const cartContent = userContext?.cartContent;
         if (!cartContent) return; // bail early if undefined
 
+        // we check if the book is not already in the cart before putting it in
         const exists = cartContent.some((book) => book.id === details.id);
 
         if (!exists) {
@@ -40,7 +44,6 @@ export default function BookDetails() {
             credentials: "include",
         });
         if (response.ok) {
-            // Save state, redirect, show badge, etc
             const booksResponse : bookSummaryType[] = await response.json();
             setBooksSameAuthor(booksResponse.filter((book)=>book.id != details.id));
         }
@@ -79,60 +82,49 @@ export default function BookDetails() {
         }
     }
 
-    const MiniBookPreview = ({id, imgSrc, title} : {id : number, imgSrc : string, title : string}) => {
-
-        const goToDetails = () => {
-            navigate("/books/" + id);
-        }
-
-        return (
-            <div className="w-36 flex-col justify-between items-center m-2 p-2 bg-transparent cursor-pointer transition duration-200 ease-in-out hover:scale-110" onClick={goToDetails}>
-                <img src={imgSrc} alt={"image " + title}/>
-                <p className="text-large font-bold text-center text-black">{title}</p>
-            </div>
-        );
-    };
-
     return (
-        <div className="h-full w-full flex flex-col justify-center items-center overflow-y-auto">
-            <div className="h-full w-3/4 grid grid-cols-5 bg-neutral-400/80 rounded-xl m-5">
-                <div className="col-span-4 h-full flex flex-col items-starts p-2">
-                    <h1 className="font-bold text-6xl">{details.title}</h1>
-                    <p className="text-2xl mt-4">By: <span className="text-blue-500">{details.authorName}</span></p>
-                    <p className="mt-2">
-                        Genres:
-                        {
-                            details.genres.map((genre, index) => {
-                                const text : string = index != details.genres.length - 1 ? genre + ", " : genre;
-                                return <span key={genre} className="font-bold"> {text}</span>;
-                            })
-                        }
+        <div className="h-full w-full flex flex-col justify-center items-center overflow-y-auto py-2">
+            <div className="h-full w-3/4 grid grid-cols-5 bg-white/90 shadow-lg rounded-xl p-6 gap-6">
+                <div className="col-span-4 h-full flex flex-col items-starts p-2 overflow-y-auto">
+                    <h1 className="font-bold text-black text-4xl md:text-5xl lg:text-6xl break-words whitespace-normal">{details.title}</h1>
+                    <p className="text-lg md:text-2xl mt-4 text-gray-700">By: <span className="text-blue-600 font-semibold">{details.authorName}</span></p>
+                    <p className="mt-3 flex flex-wrap gap-2">
+                        {details.genres.map((genre) => (
+                            <span key={genre} className="bg-blue-100 text-blue-700 text-sm font-medium px-2 py-0.5 rounded-full">
+                                {genre}
+                            </span>
+                        ))}
                     </p>
-                    <div className="flex flex-row justify-evenly items-center mt-2">
+                    <div className="flex flex-row flex-wrap gap-6 mt-4">
                         <InfoBox text="Publish Date" subText={new Date(details.publishDate).getFullYear()}/>
-                        <InfoBox text="Volume" subText={details.volume}/>
+                        {details.volume && <InfoBox text="Volume" subText={details.volume}/>}
                         <InfoBox text="Pages" subText={details.totalPages}/>
                     </div>
-                    <p className="mt-2 text-lg">{details.description}</p>
-                    <div className="w-full h-2 mx-2 my-6 bg-gradient-to-r from-transparent via-white to-transparent"/>
-                    <div className="flex flex-col items-start w-full">
-                        <p className="text-white text-xl">Written by the same author:</p>
-                        <div className="w-full flex flex-row items-center justify-evenly overflow-x-auto mt-4">
-                            {
-                                booksSameAuthor.map((book)=>
-                                    <MiniBookPreview key={book.title + book.id} id={book.id} imgSrc={book.bookCoverUrl} title={book.title}/>
-                                )
-                            }
-                        </div>
-                    </div>
+                    <p className="mt-4 text-base md:text-lg leading-relaxed text-gray-800">{details.description}</p>
+                    {
+                        booksSameAuthor.length > 0 &&
+                        <>
+                            <div className="w-full h-2 my-6 border-3 border-gray-200"></div>
+                            <div className="flex flex-col items-start w-full">
+                                <p className="text-xl font-semibold text-gray-800 border-b-2 border-amber-600 inline-block pb-1">More from {details.authorName}:</p>
+                                <div className="w-full flex flex-row items-start justify-evenly overflow-x-auto mt-4">
+                                    {
+                                        booksSameAuthor.map((book)=>
+                                            <MiniBookPreview key={book.title + book.id} id={book.id} imgSrc={book.bookCoverUrl} title={book.title}/>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                        </>
+                    }
                 </div>
                 <div className="col-span-1 h-full flex flex-col items-center p-2">
-                    <div className="w-full h-full flex flex-col items-center justify-between bg-transparent border-2 border-white rounded-2xl pt-2">
+                    <div className="w-full h-full flex flex-col items-center justify-between bg-gray-50 rounded-xl shadow-md p-4">
                         <div className="w-full flex flex-col items-center justify-start">
-                            <img className="h-50 w-3/4 rounded-xl shadow" src={details.bookCoverUrl} alt={details.title}/>
+                            <img className="h-60 rounded-xl shadow" src={details.bookCoverUrl} alt={details.title}/>
                             <ReservationBookSection/>
                         </div>
-                        <button className="w-full h-10 bg-gray-800 font-bold text-white text-2xl rounded-b-2xl hover:bg-gray-700 transition-colors cursor-pointer" onClick={goBack}>Go back</button>
+                        <button className="w-full h-10 bg-amber-700 text-white font-semibold text-lg rounded-md hover:bg-amber-600 transition" onClick={goBack}>Go back</button>
                     </div>
                 </div>
             </div>

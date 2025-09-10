@@ -170,7 +170,7 @@ public class BookServiceTest {
         BookDetailsDTO bookDetailsDTO = new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1, "John Doe", LocalDate.ofYearDay(2013, 5), 1, 199);
         when(bookRepository.findById(anyInt())).thenReturn(Optional.of(bookDetails));
         when(bookDetailsMapper.toDTO(any(Book.class))).thenReturn(bookDetailsDTO);
-        when(reservationRepository.findFirstByBookList_IdOrderByEndDateDesc(anyInt())).thenReturn(Optional.of(Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build()));
+        when(reservationRepository.findFirstByBookList_IdOrderByEndDateDesc(anyInt())).thenReturn(Optional.of(Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build()));
 
         BookDetailsDTO result = bookService.findBookDetails(1);
 

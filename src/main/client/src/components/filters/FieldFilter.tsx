@@ -3,7 +3,9 @@ import { fieldEnum } from "@/src/types/input";
 import TextField from "@/src/components/inputs/TextField";
 import SelectField from "@/src/components/inputs/SelectField";
 import CheckSection from "@/src/components/inputs/CheckSection";
+import DateField from "../inputs/DateField";
 
+// this component handle the display of differents type of input fields
 export default function FieldFilter({type, id, label, value, selectOptions, filterCallback} : fieldFilterDataType) {
 
     const renderFilterType = (type : fieldEnum, filterData : filterCommonDataType) => {
@@ -21,10 +23,10 @@ export default function FieldFilter({type, id, label, value, selectOptions, filt
                 const options = filterData.selectOptions!;
                 return <SelectField key={id} {...filterData} selectOptions={options} value={selectValue} callback={filterCallback}/>;
             }
-            // case "Number": {
-            //     const numberValue = filterData.value as number;
-            //     return <NumberFilter {...filterData} value={numberValue} filterCallback={filterCallback}/>;
-            // }
+            case "Date": {
+                const dateValue = filterData.value as string;
+                return <DateField {...filterData} value={dateValue} callback={filterCallback}/>;
+            }
         }
     }
 

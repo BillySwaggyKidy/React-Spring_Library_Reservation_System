@@ -18,6 +18,10 @@ public class ReservationMapper {
         return new ReservationDTO(reservation);
     }
 
+    public ReservationDTO toDetailsDTO(Reservation reservation) {
+        return new ReservationDTO(reservation, reservation.getBookList());
+    }
+
     public Reservation toEntity(ReservationDTO dto, DBUser user, List<Book> books) {
         return Reservation.builder()
             .user(user)

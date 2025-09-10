@@ -184,6 +184,30 @@
 				</plugins>
 			</build>
         </profile>
+		<profile>
+			<id>demo</id>
+			<properties>
+				<applicationProfile>demo</applicationProfile>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<arguments>--spring.profiles.active=demo</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
     </profiles>
 
 	<build>

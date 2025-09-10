@@ -21,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -52,6 +53,7 @@ public class Book {
     @Column(name="title")
     private String title;
 
+    @Lob
     @Column(name="description")
     private String description;
 
@@ -77,7 +79,7 @@ public class Book {
     @Column(name="added_date")
     private Instant addedDate;
 
-    @Column(name="volume_number")
+    @Column(name="volume_number", nullable = true)
     private Integer volume;
 
     @Column(name="total_pages")

@@ -31,8 +31,8 @@ import com.billykid.template.service.CustomUserDetailsService;
 import com.billykid.template.service.ReservationService;
 import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.DTO.ReservationDTO;
-import com.billykid.template.utils.DTO.book.BookDetailsDTO;
 import com.billykid.template.utils.DTO.book.BookStatusDTO;
+import com.billykid.template.utils.DTO.book.BookSummaryDTO;
 import com.billykid.template.utils.parameters.ReservationParametersObject;
 import com.billykid.template.utils.properties.CorsProperties;
 
@@ -56,9 +56,9 @@ public class ReservationControllerTest {
     @WithMockUser(username = "John", roles = {"CUSTOMER"})
     void shouldReturnReservationByUserNameAsCustomerRole() throws Exception {
         List<ReservationDTO> reservations = List.of(
-            new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
-            new ReservationDTO(2,1,LocalDate.of(2001,2,1),LocalDate.of(2001,2,11), List.of(1,2,3)),
-            new ReservationDTO(3,1,LocalDate.of(2002,2,1),LocalDate.of(2002,2,11), List.of(1,2,3))
+            new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
+            new ReservationDTO(2,1,"John",LocalDate.of(2001,2,1),LocalDate.of(2001,2,11), List.of(1,2,3)),
+            new ReservationDTO(3,1,"John",LocalDate.of(2002,2,1),LocalDate.of(2002,2,11), List.of(1,2,3))
         );
 
         when(reservationService.findReservationsByUserName(eq("Billy"), any(Pageable.class))).thenReturn(reservations);
@@ -70,9 +70,9 @@ public class ReservationControllerTest {
     @WithMockUser(username = "John", roles = {"EMPLOYEE", "ADMIN"})
     void shouldReturnReservationByUserNameAsEmployeeOrAdminRole() throws Exception {
         List<ReservationDTO> reservations = List.of(
-            new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
-            new ReservationDTO(2,1,LocalDate.of(2001,2,1),LocalDate.of(2001,2,11), List.of(1,2,3)),
-            new ReservationDTO(3,1,LocalDate.of(2002,2,1),LocalDate.of(2002,2,11), List.of(1,2,3))
+            new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
+            new ReservationDTO(2,1,"John",LocalDate.of(2001,2,1),LocalDate.of(2001,2,11), List.of(1,2,3)),
+            new ReservationDTO(3,1,"John",LocalDate.of(2002,2,1),LocalDate.of(2002,2,11), List.of(1,2,3))
         );
 
         when(reservationService.findReservationsByUserName(eq("Billy"), any(Pageable.class))).thenReturn(reservations);
@@ -89,9 +89,9 @@ public class ReservationControllerTest {
     @WithMockUser(username = "John", roles = {"CUSTOMER"})
     void shouldReturnReservationByBeginDateAsCustomerRole() throws Exception {
         List<ReservationDTO> reservations = List.of(
-            new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
-            new ReservationDTO(2,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
-            new ReservationDTO(3,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
+            new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
+            new ReservationDTO(2,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
+            new ReservationDTO(3,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
         );
 
         when(reservationService.findReservationsByBeginDate(eq(LocalDate.of(2000,2,1)), any(Pageable.class))).thenReturn(reservations);
@@ -103,9 +103,9 @@ public class ReservationControllerTest {
     @WithMockUser(username = "John", roles = {"EMPLOYEE", "ADMIN"})
     void shouldReturnReservationByBeginDateAsEmployeeOrAdminRole() throws Exception {
         List<ReservationDTO> reservations = List.of(
-            new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
-            new ReservationDTO(2,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
-            new ReservationDTO(3,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
+            new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
+            new ReservationDTO(2,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
+            new ReservationDTO(3,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
         );
 
         when(reservationService.findReservationsByBeginDate(eq(LocalDate.of(2000,2,1)), any(Pageable.class))).thenReturn(reservations);
@@ -122,9 +122,9 @@ public class ReservationControllerTest {
     @WithMockUser(username = "John", roles = {"CUSTOMER"})
     void shouldReturnReservationByEndDateAsCustomerRole() throws Exception {
         List<ReservationDTO> reservations = List.of(
-            new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
-            new ReservationDTO(2,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
-            new ReservationDTO(3,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
+            new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
+            new ReservationDTO(2,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
+            new ReservationDTO(3,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
         );
 
         when(reservationService.findReservationsByEndDate(eq(LocalDate.of(2000,2,11)), any(Pageable.class))).thenReturn(reservations);
@@ -136,9 +136,9 @@ public class ReservationControllerTest {
     @WithMockUser(username = "John", roles = {"EMPLOYEE", "ADMIN"})
     void shouldReturnReservationByEndDateAsEmployeeOrAdminRole() throws Exception {
         List<ReservationDTO> reservations = List.of(
-            new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
-            new ReservationDTO(2,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
-            new ReservationDTO(3,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
+            new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
+            new ReservationDTO(2,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
+            new ReservationDTO(3,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
         );
 
         when(reservationService.findReservationsByEndDate(eq(LocalDate.of(2000,2,11)), any(Pageable.class))).thenReturn(reservations);
@@ -155,9 +155,9 @@ public class ReservationControllerTest {
     @WithMockUser(username = "John", roles = {"CUSTOMER"})
     void shouldReturnReservationByFiltersAsCustomer() throws Exception {
         List<ReservationDTO> reservations = List.of(
-            new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
-            new ReservationDTO(2,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
-            new ReservationDTO(3,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
+            new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
+            new ReservationDTO(2,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
+            new ReservationDTO(3,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
         );
         PagedResponse<ReservationDTO> pagedResponse = new PagedResponse<>(
             reservations,
@@ -176,9 +176,9 @@ public class ReservationControllerTest {
     @WithMockUser(username = "John", roles = {"EMPLOYEE", "ADMIN"})
     void shouldReturnReservationByFiltersAsEmployeeOrAdminRole() throws Exception {
         List<ReservationDTO> reservations = List.of(
-            new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
-            new ReservationDTO(2,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
-            new ReservationDTO(3,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
+            new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3)),
+            new ReservationDTO(2,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(2,3,4)),
+            new ReservationDTO(3,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(4,5,6))
         );
         PagedResponse<ReservationDTO> pagedResponse = new PagedResponse<>(
             reservations,
@@ -201,13 +201,15 @@ public class ReservationControllerTest {
     @Test
     @WithMockUser(username="John", roles={"CUSTOMER"})
     void tryGettingReservationDetailsAsCustomerRole() throws Exception {
-        List<BookDetailsDTO> reservationDetails = List.of(
-            new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 1, 100),
-			new BookDetailsDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 2, 112),
-			new BookDetailsDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 3, 142)
+        List<BookSummaryDTO> reservationDetails = List.of(
+            new BookSummaryDTO(1, "Captain underpants", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(2, "Captain underpants: Dr Kratus unchained", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(3, "Captain underpants: Finally peace", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW"))
         );
+        ReservationDTO reservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
+        reservation.setContent(reservationDetails);
 
-        when(reservationService.findReservationContent(anyInt(), any(Pageable.class))).thenReturn(reservationDetails);
+        when(reservationService.findReservationDetails(anyInt())).thenReturn(reservation);
 
         mockMvc.perform(get("/api/reservations/view/1?page=0&size=2&sort=name,asc")).andExpect(status().isForbidden());
     }
@@ -215,26 +217,28 @@ public class ReservationControllerTest {
     @Test
     @WithMockUser(username = "John",roles = {"EMPLOYEE","ADMIN"})
     void tryGettingReservationDetailsAsEmployeeOrAdminRole() throws Exception {
-        List<BookDetailsDTO> reservationDetails = List.of(
-                        new BookDetailsDTO(1, "Captain underpants", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 1, 100),
-			new BookDetailsDTO(2, "Captain underpants: Dr Kratus unchained", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 2, 112),
-			new BookDetailsDTO(3, "Captain underpants: Finally peace", "This is a story about a funny hero", "https://picsum.photos/id/237/250", List.of("Adventure","Comedy"), new BookStatusDTO(true, "NEW"), 1,"John Doe", LocalDate.ofYearDay(2013, 5), 3, 142)
+        List<BookSummaryDTO> reservationDetails = List.of(
+            new BookSummaryDTO(1, "Captain underpants", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(2, "Captain underpants: Dr Kratus unchained", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(3, "Captain underpants: Finally peace", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW"))
         );
+        ReservationDTO reservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
+        reservation.setContent(reservationDetails);
 
-        when(reservationService.findReservationContent(anyInt(), any(Pageable.class))).thenReturn(reservationDetails);
+        when(reservationService.findReservationDetails(anyInt())).thenReturn(reservation);
 
         mockMvc.perform(get("/api/reservations/view/1?page=0&size=2&sort=name,asc"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.length()").value(3))
-        .andExpect(jsonPath("$[0].title").value("Captain underpants"))
-        .andExpect(jsonPath("$[1].title").value("Captain underpants: Dr Kratus unchained"))
-        .andExpect(jsonPath("$[2].title").value("Captain underpants: Finally peace"));
+        .andExpect(jsonPath("$.content.length()").value(3))
+        .andExpect(jsonPath("$.content[0].title").value("Captain underpants"))
+        .andExpect(jsonPath("$.content[1].title").value("Captain underpants: Dr Kratus unchained"))
+        .andExpect(jsonPath("$.content[2].title").value("Captain underpants: Finally peace"));
     }
 
     @Test
     @WithMockUser(username = "John", roles = {"CUSTOMER","EMPLOYEE","ADMIN"})
     void tryAddingNewReservation() throws Exception {
-        ReservationDTO newReservation = new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
+        ReservationDTO newReservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
 
         when(reservationService.addNewReservation(any(ReservationDTO.class))).thenReturn(newReservation);
 
@@ -257,7 +261,7 @@ public class ReservationControllerTest {
     @Test
     @WithMockUser(username = "John", roles = {"CUSTOMER"})
     void tryUpdatingReservationAsCustomer() throws Exception {
-        ReservationDTO reservation = new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
+        ReservationDTO reservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
 
         when(reservationService.updateReservation(anyInt(), any(ReservationDTO.class))).thenReturn(reservation);
 
@@ -274,7 +278,7 @@ public class ReservationControllerTest {
     @Test
     @WithMockUser(username = "John", roles = {"EMPLOYEE","ADMIN"})
     void tryUpdatingReservationAsEmployeeOrAdmin() throws Exception {
-        ReservationDTO reservation = new ReservationDTO(1,1,LocalDate.of(2001,2,1),LocalDate.of(2001,2,11), List.of(1,2,3));
+        ReservationDTO reservation = new ReservationDTO(1,1,"John",LocalDate.of(2001,2,1),LocalDate.of(2001,2,11), List.of(1,2,3));
 
         when(reservationService.updateReservation(anyInt(), any(ReservationDTO.class))).thenReturn(reservation);
 
@@ -294,7 +298,7 @@ public class ReservationControllerTest {
     @Test
     @WithMockUser(username = "John", roles = {"CUSTOMER"})
     void tryDeletingReservationAsCustomer() throws Exception {
-        ReservationDTO reservation = new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
+        ReservationDTO reservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
 
         when(reservationService.removeReservation(anyInt())).thenReturn(reservation);
 
@@ -304,7 +308,7 @@ public class ReservationControllerTest {
     @Test
     @WithMockUser(username = "John", roles = {"EMPLOYEE","ADMIN"})
     void tryDeletingReservationAsEmployeeOrAdmin() throws Exception {
-        ReservationDTO reservation = new ReservationDTO(1,1,LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
+        ReservationDTO reservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
 
         when(reservationService.removeReservation(anyInt())).thenReturn(reservation);
 

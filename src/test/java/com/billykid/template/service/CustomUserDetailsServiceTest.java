@@ -1,6 +1,7 @@
 package com.billykid.template.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -56,9 +57,9 @@ public class CustomUserDetailsServiceTest {
     @Test
     void tryFindingUserByUsername() throws Exception {
         List<DBUser> users = List.of(
-            new DBUser(1, "Billy", "billy@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant()),
-            new DBUser(2, "Bob", "bob@gmail.com", "54g36e84g368esr43g6s8e43g684e36", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant()),
-            new DBUser(3, "Brade", "brade@gmail.com", "3348s368g436r84h3r68t4h6rh84", UserRole.ROLE_ADMIN, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant())
+            new DBUser(1, "Billy", "billy@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true),
+            new DBUser(2, "Bob", "bob@gmail.com", "54g36e84g368esr43g6s8e43g684e36", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true),
+            new DBUser(3, "Brade", "brade@gmail.com", "3348s368g436r84h3r68t4h6rh84", UserRole.ROLE_ADMIN, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(),true)
         );
 
         when(userRepository.findByUsernameContainingIgnoreCase(any(String.class))).thenReturn(users);
@@ -74,9 +75,9 @@ public class CustomUserDetailsServiceTest {
     @Test
     void tryFindingUserByEmail() throws Exception {
         List<DBUser> users = List.of(
-            new DBUser(1, "Billy", "billy@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant()),
-            new DBUser(2, "Bob", "bob@gmail.com", "54g36e84g368esr43g6s8e43g684e36", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant()),
-            new DBUser(3, "Brade", "brade@gmail.com", "3348s368g436r84h3r68t4h6rh84", UserRole.ROLE_ADMIN, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant())
+            new DBUser(1, "Billy", "billy@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true),
+            new DBUser(2, "Bob", "bob@gmail.com", "54g36e84g368esr43g6s8e43g684e36", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true),
+            new DBUser(3, "Brade", "brade@gmail.com", "3348s368g436r84h3r68t4h6rh84", UserRole.ROLE_ADMIN, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true)
         );
 
         when(userRepository.findByEmailContainingIgnoreCase(any(String.class))).thenReturn(users);
@@ -92,9 +93,9 @@ public class CustomUserDetailsServiceTest {
     @Test
     void tryFindingUserByRole() throws Exception {
         List<DBUser> users = List.of(
-            new DBUser(1, "Billy", "billy@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant()),
-            new DBUser(5, "Laila", "laila@gmail.com", "46s38r4h38r43h84sr3t6h84s3rth84", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant()),
-            new DBUser(8, "Mary", "mary@gmail.com", "3s84h36d84h368rd4h368r4", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant())
+            new DBUser(1, "Billy", "billy@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true),
+            new DBUser(5, "Laila", "laila@gmail.com", "46s38r4h38r43h84sr3t6h84s3rth84", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true),
+            new DBUser(8, "Mary", "mary@gmail.com", "3s84h36d84h368rd4h368r4", UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true)
         );
 
         when(userRepository.findByRole(eq(UserRole.ROLE_CUSTOMER))).thenReturn(users);
@@ -110,9 +111,9 @@ public class CustomUserDetailsServiceTest {
     @Test
     void tryFindingUserByQueryParams() throws Exception {
         List<DBUser> users = List.of(
-            new DBUser(1, "Mason", "mason@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant()),
-            new DBUser(5, "Maly", "maly@gmail.com", "3s684h36rdth436d4h368d4h", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant()),
-            new DBUser(8, "Moise", "moise@gmail.com", "3s84h36d84h368rd4h368r4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant())
+            new DBUser(1, "Mason", "mason@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true),
+            new DBUser(5, "Maly", "maly@gmail.com", "3s684h36rdth436d4h368d4h", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true),
+            new DBUser(8, "Moise", "moise@gmail.com", "3s84h36d84h368rd4h368r4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true)
         );
 
         when(userRepository.findAll(any(Specification.class), nullable(Pageable.class))).thenReturn(new PageImpl<>(users));
@@ -134,7 +135,7 @@ public class CustomUserDetailsServiceTest {
     @Test
     void tryAddingNewUser() throws Exception {
         DBUserDTO dto = new DBUserDTO(1, "Mason", "mason@gmail.com", "68t21t6th46s5th46r8ht4", "ROLE_EMPLOYEE");
-        DBUser newUser = new DBUser(1, "Mason", "mason@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        DBUser newUser = new DBUser(1, "Mason", "mason@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true);
 
         when(userRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
         when(passwordEncoder.encode(any())).thenReturn("encryptedPassword");
@@ -172,9 +173,9 @@ public class CustomUserDetailsServiceTest {
     void tryUpdatingUser() throws Exception {
         Integer id = 1;
         DBUserDTO dto = new DBUserDTO(1, "Marc", "marc@gmail.com", null, null);
-        DBUser oldUser = new DBUser(1, "Mason", "mason@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant());
-        DBUser newUser = new DBUser(1, "Marc", "marc@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant());
-        DBUserDTO newDto = new DBUserDTO(1, "Marc", "marc@gmail.com", "68t21t6th46s5th46r8ht4", "ROLE_EMPLOYEE");
+        DBUser oldUser = new DBUser(1, "Mason", "mason@gmail.com", "68t21t6th46s5th46r8ht4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true);
+        DBUser newUser = new DBUser(1, "Marc", "marc@gmail.com", "68t21ttyj5146s5th46r8ht4", UserRole.ROLE_EMPLOYEE, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true);
+        DBUserDTO newDto = new DBUserDTO(1, "Marc", "marc@gmail.com", "68t21ttyj5146s5th46r8ht4", "ROLE_EMPLOYEE");
         
         when(userRepository.findById(id)).thenReturn(Optional.of(oldUser));
         when(userRepository.save(any(DBUser.class))).thenReturn(newUser);
@@ -183,6 +184,42 @@ public class CustomUserDetailsServiceTest {
         DBUserDTO result = customUserDetailsService.updateUser(id, dto);
         assertEquals("Marc", result.getUsername());
         assertEquals("marc@gmail.com", result.getEmail());
+    }
+
+    @Test
+    void trySoftDeletingUser() throws Exception {
+
+        Integer id = 1;
+        DBUser user = new DBUser(
+                id,
+                "Mason",
+                "mason@gmail.com",
+                "68t21t6th46s5th46r8ht4",
+                UserRole.ROLE_EMPLOYEE,
+                LocalDate.of(2000, 1, 11).atStartOfDay(ZoneId.systemDefault()).toInstant(),
+                true
+        );
+        DBUserDTO expectedDTO = new DBUserDTO(
+                id,
+                "Mason",
+                "mason@gmail.com",
+                "68t21t6th46s5th46r8ht4",
+                "ROLE_EMPLOYEE"
+        );
+
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(userMapper.toDTO(user)).thenReturn(expectedDTO);
+
+        // When
+        DBUserDTO result = customUserDetailsService.softDeleteUser(id);
+
+        // Then
+        verify(userRepository).findById(id);
+        verify(userRepository).save(user);
+        verify(userMapper).toDTO(user);
+
+        assertFalse(user.isActive(), "User should be marked as inactive");
+        assertEquals(expectedDTO, result);
     }
 
     @Test

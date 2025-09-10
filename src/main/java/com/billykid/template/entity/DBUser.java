@@ -53,5 +53,8 @@ public class DBUser {
     @CreatedDate
     @Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP")
     private Instant createdDate;
+
+    @Column(name = "active", nullable = false)
+    private boolean active;
     
 }

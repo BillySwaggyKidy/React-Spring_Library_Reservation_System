@@ -21,7 +21,6 @@ import com.billykid.template.repository.ReservationRepository;
 import com.billykid.template.repository.UserRepository;
 import com.billykid.template.utils.DTO.PagedResponse;
 import com.billykid.template.utils.DTO.ReservationDTO;
-import com.billykid.template.utils.DTO.book.BookDetailsDTO;
 import com.billykid.template.utils.mappers.ReservationMapper;
 import com.billykid.template.utils.parameters.ReservationParametersObject;
 import com.billykid.template.utils.specifications.ReservationSpecifications;
@@ -82,9 +81,9 @@ public class ReservationService {
         return spec;
     }
 
-    public List<BookDetailsDTO> findReservationContent(Integer id, Pageable pageable) {
+    public ReservationDTO findReservationDetails(Integer id) {
         Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation with ID: " + id + " not found"));
-        return reservation.getBookList().stream().map(BookDetailsDTO::new).collect(Collectors.toList());
+        return reservationMapper.toDetailsDTO(reservation);
     }
 
     public ReservationDTO addNewReservation(ReservationDTO reservationDTO) {
@@ -106,17 +105,16 @@ public class ReservationService {
     public ReservationDTO updateReservation(Integer id, ReservationDTO reservationDTO) {
         Reservation existingReservation = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation with ID: " + id + " not found"));
         DBUser user = userRepository.findById(reservationDTO.getUserID()).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + reservationDTO.getUserID() + " not found"));
-        List<Book> bookList = bookRepository.findAllById(reservationDTO.getBookIds());
-        reservationMapper.updateEntity(existingReservation, reservationDTO, user, bookList);
+        reservationMapper.updateEntity(existingReservation, reservationDTO, user, null);
         reservationRepository.save(existingReservation);
         return reservationMapper.toDTO(existingReservation);
     }
 
-    public ReservationDTO returnReservationContent(Integer id, ReservationDTO reservationDTO) {
+    public ReservationDTO retrieveReservationContent(Integer id, ReservationDTO reservationDTO) {
         Reservation existingReservation = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation with ID: " + id + " not found"));
         DBUser user = userRepository.findById(reservationDTO.getUserID()).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + reservationDTO.getUserID() + " not found"));
         List<Integer> bookIdList = bookRepository.findAllById(reservationDTO.getBookIds()).stream().map((book)->book.getId()).toList();
-        reservationRepository.updateBookAvailable(false, bookIdList);
+        reservationRepository.updateBookAvailable(true, bookIdList);
         existingReservation.setEndDate(reservationDTO.getEndDate());
         reservationRepository.save(existingReservation);
         return reservationMapper.toDTO(existingReservation);
@@ -126,8 +124,6 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation with ID: " + id + " not found"));
         reservationRepository.delete(reservation);
         return reservationMapper.toDTO(reservation);
-    }
-
-    
+    } 
     
 }

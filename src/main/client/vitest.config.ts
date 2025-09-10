@@ -1,17 +1,23 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite';
+import svgr from 'vite-plugin-svgr';
 import path from 'path'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    svgr()
+  ],
   test: {
-    globals: true,                  // pour utiliser `describe`, `it`, `expect` sans import
-    environment: 'jsdom',           // simulate un DOM pour React
-    setupFiles: './src/test/setupTests.ts',  // fichier où tu importes jest-dom
-    include: ['src/**/*.test.{ts,tsx}'], // où sont tes fichiers de tests
-    css: true,                      // si tu utilises Tailwind
+    globals: true,                 
+    environment: 'jsdom',
+    setupFiles: './src/test/setupTests.tsx',
+    include: ['src/**/*.test.{ts,tsx}'],
+    css: true,
     alias: {
-    '@': path.resolve(__dirname, './'),
-  },
+      '@': path.resolve(__dirname, './'),
+    },
   },
 })

@@ -34,6 +34,14 @@ public class UserController {
     public UserController(CustomUserDetailsService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
     }
+    
+    @GetMapping("/users/details/{id}")
+    @RolesAllowed({"CUSTOMER", "EMPLOYEE", "ADMIN"})
+    public ResponseEntity<DBUserDTO> getMethodName(@PathVariable Integer id) {
+        DBUserDTO userDetails = customUserDetailsService.getUserDetailsById(id);
+        return ResponseEntity.ok(userDetails);
+    }
+    
 
     @GetMapping("/users/name/{username}")
     public ResponseEntity<List<DBUserDTO>> getUsersByName(@PathVariable String username, Pageable pageable) {
@@ -74,7 +82,14 @@ public class UserController {
     }
 
     @DeleteMapping("/users/delete/{id}")
-    public ResponseEntity<DBUserDTO> deleteUser(@PathVariable Integer id) {
+    @RolesAllowed({"CUSTOMER", "EMPLOYEE", "ADMIN"})
+    public ResponseEntity<DBUserDTO> softDeleteUser(@PathVariable Integer id) {
+        DBUserDTO deletedUser = customUserDetailsService.softDeleteUser(id);
+        return ResponseEntity.ok(deletedUser);
+    }
+
+    @DeleteMapping("/users/remove/{id}")
+    public ResponseEntity<DBUserDTO> removeUser(@PathVariable Integer id) {
         DBUserDTO removedUser = customUserDetailsService.removeUser(id);
         return ResponseEntity.ok(removedUser);
     }

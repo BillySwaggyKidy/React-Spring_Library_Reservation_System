@@ -1,6 +1,5 @@
 package com.billykid.template.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,11 +14,9 @@ import com.billykid.template.entity.DBUser;
 import com.billykid.template.exception.DBUserNotFoundException;
 import com.billykid.template.exception.DBUserUserAlreadyExist;
 
-import org.springframework.security.core.userdetails.User;
 import com.billykid.template.repository.UserRepository;
 import com.billykid.template.utils.DTO.DBUserDTO;
 import com.billykid.template.utils.DTO.PagedResponse;
-import com.billykid.template.utils.DTO.ReservationDTO;
 import com.billykid.template.utils.custom.CustomUserDetails;
 import com.billykid.template.utils.enums.UserRole;
 import com.billykid.template.utils.mappers.UserMapper;
@@ -28,7 +25,6 @@ import com.billykid.template.utils.specifications.UserSpecifications;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -40,6 +36,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+
+    public DBUserDTO getUserDetailsById(Integer id) {
+        DBUser existingUser = userRepository.findById(id).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + id + " does not exist"));
+        return userMapper.toDTO(existingUser);
+    }
 
     public List<DBUserDTO> findByUsernameContainingIgnoreCase(String username, Pageable pageable) {
         List<DBUser> usersList = userRepository.findByUsernameContainingIgnoreCase(username);
@@ -81,6 +82,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (params.getRole() != null) {
             spec = spec.and(UserSpecifications.hasRole(params.getRole()));
         }
+        spec = spec.and(UserSpecifications.isActive());
 
         return spec;
     }
@@ -90,6 +92,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             DBUser newUser = userMapper.toEntity(user);
             String encryptedPassword = passwordEncoder.encode(user.getPassword());
             newUser.setPassword(encryptedPassword);
+            newUser.setActive(true);
             userRepository.save(newUser);
             return userMapper.toDTO(newUser);
         }
@@ -100,7 +103,18 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public DBUserDTO updateUser(Integer id, DBUserDTO user) {
         DBUser existingUser = userRepository.findById(id).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + id + " does not exist"));
+        if (user.getPassword() != null) {
+            String encryptedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encryptedPassword);
+        }
         userMapper.updateEntity(existingUser, user);
+        userRepository.save(existingUser);
+        return userMapper.toDTO(existingUser);
+    }
+
+    public DBUserDTO softDeleteUser(Integer id) {
+        DBUser existingUser = userRepository.findById(id).orElseThrow(() -> new DBUserNotFoundException("User with ID: " + id + " does not exist"));
+        existingUser.setActive(false);
         userRepository.save(existingUser);
         return userMapper.toDTO(existingUser);
     }

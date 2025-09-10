@@ -164,7 +164,7 @@ public class UserControllerTest {
     void tryDeletingUser() throws Exception {
         DBUserDTO user = new DBUserDTO(1, "Mason", "mason123@gmail.com", "68t21t6th46s5th46r8ht4", "EMPLOYEE");
 
-        when(customUserDetailsService.removeUser(anyInt())).thenReturn(user);
+        when(customUserDetailsService.softDeleteUser(anyInt())).thenReturn(user);
 
         mockMvc.perform(post("/api/users/remove/1")).andExpect(status().isOk());
     }

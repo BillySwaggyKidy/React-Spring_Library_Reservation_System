@@ -7,8 +7,9 @@
 }
 
 @theme {
-  --background-image-home-bg: url('/background/white_wood.jpg');
-  --background-image-admin-bg: url('/background/admin.jpg');
+  --background-image-home: url('/background/white_wood.jpg');
+  --background-image-reservation: url('/background/library_reservation.jpg');
+  --background-image-admin: url('/background/admin.jpg');
 }
 
 @theme {

@@ -44,7 +44,7 @@ public class Reservation {
     private Set<Book> bookList;
 
     @ManyToOne
-    @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+    @JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
     private DBUser user;
 
     @CreatedDate

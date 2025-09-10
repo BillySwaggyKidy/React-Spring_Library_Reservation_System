@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.nullable;
@@ -34,7 +33,8 @@ import com.billykid.template.repository.BookRepository;
 import com.billykid.template.repository.ReservationRepository;
 import com.billykid.template.repository.UserRepository;
 import com.billykid.template.utils.DTO.ReservationDTO;
-import com.billykid.template.utils.DTO.book.BookDetailsDTO;
+import com.billykid.template.utils.DTO.book.BookStatusDTO;
+import com.billykid.template.utils.DTO.book.BookSummaryDTO;
 import com.billykid.template.utils.enums.BookCondition;
 import com.billykid.template.utils.enums.UserRole;
 import com.billykid.template.entity.Author;
@@ -69,9 +69,9 @@ public class ReservationServiceTest {
     @Test
     void tryFindingReservationByUsername() throws Exception {
         List<Reservation> reservations = List.of(
-            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
-            Reservation.builder().id(2).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2001,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2001,1,11)).build(),
-            Reservation.builder().id(3).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2002,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2002,1,11)).build()
+            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(2).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2001,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2001,1,11)).build(),
+            Reservation.builder().id(3).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2002,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2002,1,11)).build()
         );
 
         when(reservationRepository.findByUser_UsernameContainingIgnoreCase(any(String.class))).thenReturn(reservations);
@@ -87,9 +87,9 @@ public class ReservationServiceTest {
     @Test
     void tryFindingReservationByBeginDate() throws Exception {
         List<Reservation> reservations = List.of(
-            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
-            Reservation.builder().id(2).user(new DBUser(2, "Mary.babe", "mary@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
-            Reservation.builder().id(3).user(new DBUser(3, "Larry.spook", "larry@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build()
+            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(2).user(new DBUser(2, "Mary.babe", "mary@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(3).user(new DBUser(3, "Larry.spook", "larry@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build()
         );
 
         when(reservationRepository.findByBeginDateAfter(any(Instant.class))).thenReturn(reservations);
@@ -105,9 +105,9 @@ public class ReservationServiceTest {
     @Test
     void tryFindingReservationByEndDate() throws Exception {
         List<Reservation> reservations = List.of(
-            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
-            Reservation.builder().id(2).user(new DBUser(2, "Mary.babe", "mary@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
-            Reservation.builder().id(3).user(new DBUser(3, "Larry.spook", "larry@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build()
+            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(2).user(new DBUser(2, "Mary.babe", "mary@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(3).user(new DBUser(3, "Larry.spook", "larry@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build()
         );
 
         when(reservationRepository.findByEndDateLessThanEqual(any(LocalDate.class))).thenReturn(reservations);
@@ -123,9 +123,9 @@ public class ReservationServiceTest {
     @Test
     void  tryFindingReservationByQueryParams() throws Exception {
         List<Reservation> reservations = List.of(
-            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
-            Reservation.builder().id(2).user(new DBUser(2, "jane.joke", "mary@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
-            Reservation.builder().id(3).user(new DBUser(3, "joe.spook", "larry@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build()
+            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(2).user(new DBUser(2, "jane.joke", "mary@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(3).user(new DBUser(3, "joe.spook", "larry@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).build()
         );
 
         when(reservationRepository.findAll(any(Specification.class),nullable(Pageable.class))).thenReturn(new PageImpl<>(reservations));
@@ -152,11 +152,18 @@ public class ReservationServiceTest {
             Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
             Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build()
         );
-        Reservation reservation = Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).bookList(books).build();
-
+        List<BookSummaryDTO> reservationDetails = List.of(
+            new BookSummaryDTO(1, "Captain underpants", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(2, "Captain underpants: Dr Kratus unchained", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(3, "Captain underpants: Finally peace", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW"))
+        );
+        Reservation reservation = Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).bookList(books).build();
+        ReservationDTO reservationDTO = new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
+        reservationDTO.setContent(reservationDetails);
         when(reservationRepository.findById(eq(1))).thenReturn(Optional.of(reservation));
+        when(reservationMapper.toDetailsDTO(any(Reservation.class))).thenReturn(reservationDTO);
 
-        List<BookDetailsDTO> result = reservationService.findReservationContent(reservationId, null);
+        ReservationDTO result = reservationService.findReservationDetails(reservationId);
 
         List<String> expectedTitles = List.of(
         "Captain underpants",
@@ -164,16 +171,16 @@ public class ReservationServiceTest {
         "Captain underpants: Finally peace"
         );
 
-        List<String> actualTitles = result.stream().map(BookDetailsDTO::getTitle).toList();
+        List<String> actualTitles = result.getContent().stream().map(BookSummaryDTO::getTitle).toList();
 
-        assertEquals(3, result.size());
+        assertEquals(3, actualTitles.size());
         assertTrue(actualTitles.containsAll(expectedTitles));
     }
 
     @Test
     void tryAddingNewReservation() throws Exception {
         Integer id = 1;
-        DBUser user = new DBUser(1,"Billy","billy@gmail.com","3rg43s6eg36e7g",UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        DBUser user = new DBUser(1,"Billy","billy@gmail.com","3rg43s6eg36e7g",UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(),true);
         Set<Book> setBooks = Set.of(
             Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).condition(BookCondition.NEW).isAvailable(true).build()).build(),
             Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).condition(BookCondition.NEW).isAvailable(true).build()).build(),
@@ -184,9 +191,9 @@ public class ReservationServiceTest {
             Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).condition(BookCondition.NEW).isAvailable(true).build()).build(),
             Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).condition(BookCondition.NEW).isAvailable(true).build()).build()
         );
-        ReservationDTO sendReservation = new ReservationDTO(1,1,LocalDate.of(2000,1,1),LocalDate.of(2000,1,11),List.of(1,2,3));
-        Reservation reservation = Reservation.builder().id(1).user(new DBUser(1, "Billy", "billy@gmail.com", "3rg43s6eg36e7g", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).bookList(setBooks).build();
-        ReservationDTO newReservation = new ReservationDTO(1,1,LocalDate.of(2000,1,1),LocalDate.of(2000,1,11),List.of(1,2,3));
+        ReservationDTO sendReservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,1,1),LocalDate.of(2000,1,11),List.of(1,2,3));
+        Reservation reservation = Reservation.builder().id(1).user(new DBUser(1, "Billy", "billy@gmail.com", "3rg43s6eg36e7g", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).bookList(setBooks).build();
+        ReservationDTO newReservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,1,1),LocalDate.of(2000,1,11),List.of(1,2,3));
 
         when(userRepository.findById(id)).thenReturn(Optional.of(user));
         when(bookRepository.findAllById(anyList())).thenReturn(listBooks);
@@ -203,7 +210,7 @@ public class ReservationServiceTest {
     @Test
     void tryUpdatingReservation() throws Exception {
         Integer id = 1;
-        DBUser user = new DBUser(2,"Larry","larry@gmail.com","3rg43s6eg36e7g",UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        DBUser user = new DBUser(2,"Larry","larry@gmail.com","3rg43s6eg36e7g",UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true);
         Set<Book> setBooks = Set.of(
             Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
             Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
@@ -214,9 +221,9 @@ public class ReservationServiceTest {
             Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
             Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build()
         );
-        ReservationDTO newDTO = new ReservationDTO(null,2,null,null,null);
-        Reservation oldReservation = Reservation.builder().id(1).user(new DBUser(1, "Billy", "billy@gmail.com", "3rg43s6eg36e7g", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).bookList(setBooks).build();
-        ReservationDTO updatedDTO = new ReservationDTO(1,2,LocalDate.of(2000,1,1),LocalDate.of(2000,1,11),List.of(1,2,3));
+        ReservationDTO newDTO = new ReservationDTO(null,2,"",null,null,null);
+        Reservation oldReservation = Reservation.builder().id(1).user(new DBUser(1, "Billy", "billy@gmail.com", "3rg43s6eg36e7g", UserRole.ROLE_CUSTOMER, Instant.now(),true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).bookList(setBooks).build();
+        ReservationDTO updatedDTO = new ReservationDTO(1,2,"Billy",LocalDate.of(2000,1,1),LocalDate.of(2000,1,11),List.of(1,2,3));
 
         when(reservationRepository.findById(id)).thenReturn(Optional.of(oldReservation));
         when(userRepository.findById(eq(2))).thenReturn(Optional.of(user));
@@ -230,10 +237,10 @@ public class ReservationServiceTest {
     }
 
     @Test
-    void returnReservationContent() throws Exception {
+    void retrieveReservationContent() throws Exception {
         Integer id = 1;
-        ReservationDTO newDTO = new ReservationDTO(id,2,LocalDate.of(2018, 1, 10),LocalDate.of(2018,1,24),List.of(1,2,3));
-        DBUser user = new DBUser(2,"Larry","larry@gmail.com","3rg43s6eg36e7g",UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        ReservationDTO newDTO = new ReservationDTO(id,2,"Billy",LocalDate.of(2018, 1, 10),LocalDate.of(2018,1,24),List.of(1,2,3));
+        DBUser user = new DBUser(2,"Larry","larry@gmail.com","3rg43s6eg36e7g",UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(),true);
         Set<Book> setBooks = Set.of(
             Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
             Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
@@ -244,8 +251,8 @@ public class ReservationServiceTest {
             Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
             Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build()
         );
-        Reservation oldReservation = Reservation.builder().id(1).user(new DBUser(1, "Billy", "billy@gmail.com", "3rg43s6eg36e7g", UserRole.ROLE_CUSTOMER, Instant.now())).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).bookList(setBooks).build();
-        ReservationDTO updatedDTO = new ReservationDTO(1,1,LocalDate.of(2018, 1, 10),LocalDate.of(2018,1,24),List.of(1,2,3));
+        Reservation oldReservation = Reservation.builder().id(1).user(new DBUser(1, "Billy", "billy@gmail.com", "3rg43s6eg36e7g", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault()).toInstant()).endDate(LocalDate.of(2000,1,11)).bookList(setBooks).build();
+        ReservationDTO updatedDTO = new ReservationDTO(1,1,"John",LocalDate.of(2018, 1, 10),LocalDate.of(2018,1,24),List.of(1,2,3));
 
         when(reservationRepository.findById(id)).thenReturn(Optional.of(oldReservation));
         when(userRepository.findById(eq(2))).thenReturn(Optional.of(user));
@@ -253,7 +260,7 @@ public class ReservationServiceTest {
         when(reservationRepository.updateBookAvailable(anyBoolean(),anyList())).thenReturn(3);
         when(reservationMapper.toDTO(any(Reservation.class))).thenReturn(updatedDTO);
 
-        ReservationDTO result = reservationService.returnReservationContent(id, newDTO);
+        ReservationDTO result = reservationService.retrieveReservationContent(id, newDTO);
 
         assertEquals(LocalDate.of(2018,1,24), result.getEndDate());
         

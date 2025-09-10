@@ -69,9 +69,16 @@ public class ReservationController {
 
     @GetMapping("/reservations/view/{id}")
     @RolesAllowed({"EMPLOYEE", "ADMIN"})
-    public ResponseEntity<List<BookDetailsDTO>> getReservationContent(@PathVariable Integer id, Pageable pageable) {
-        List<BookDetailsDTO> books = reservationService.findReservationContent(id, pageable);
-        return ResponseEntity.ok(books);
+    public ResponseEntity<ReservationDTO> getReservationDetails(@PathVariable Integer id) {
+        ReservationDTO reservatioDetails = reservationService.findReservationDetails(id);
+        return ResponseEntity.ok(reservatioDetails);
+    }
+
+    @PostMapping("/reservations/retrieve/{id}")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
+    public ResponseEntity<ReservationDTO> retrieveReservationContent(@PathVariable Integer id, @RequestBody ReservationDTO reservationDTO) {
+        ReservationDTO retrievedReservation = reservationService.retrieveReservationContent(id, reservationDTO);
+        return ResponseEntity.ok(retrievedReservation);
     }
 
     @PostMapping("/reservations/add")

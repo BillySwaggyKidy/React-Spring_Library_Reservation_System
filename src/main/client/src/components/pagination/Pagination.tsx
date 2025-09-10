@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// component used to handle pagination
 export default function Pagination({totalPages, currentPage, handlePageRequest} : {totalPages : number, currentPage : number, handlePageRequest: (page : number) => void}) {
     const [currentPageNav, setCurrentPageNav] = useState<number>(currentPage);
 
@@ -10,6 +11,7 @@ export default function Pagination({totalPages, currentPage, handlePageRequest} 
         }
     };
 
+    // display the array of page index, when clicked it redirect
     const PageBox = ({pageIndex, text} : {pageIndex:number, text:string}) => {
 
         return (
@@ -19,6 +21,7 @@ export default function Pagination({totalPages, currentPage, handlePageRequest} 
         );
     };
 
+    // small box to either go previous or next in the page navigation
     const IncrPageBox = ({text, incrValue} : {text : string, incrValue: number}) => {
         const newValue = currentPageNav + incrValue;
         const isInRange = newValue >= 0 && newValue < totalPages;

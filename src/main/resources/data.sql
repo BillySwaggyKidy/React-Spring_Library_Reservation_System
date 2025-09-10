@@ -1,172 +1,179 @@
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (1, 'John Doe', 'A american writer that like to write silly stories.', '1990-09-06');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (2, 'JK Rowling', 'The famous writer of the epic saga about magics and spells.', '1965-07-31');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (3, 'Brooklyn guy', 'Hey there, I am a guy from brookly, I started stories about my life and now i feel like helping people, you know normal stuffs...', '1995-06-10');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (4, 'Larry', 'No one know who Larry is, he is the mastermind of the universe, do not trust him!', '1666-06-06');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (5, 'Wario', 'WAH its me Wario, I am so crazy that will get a ton of fun with me around, BUY MY STUFF!!', '1992-04-01');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (6, 'Barbara lanny', 'A woman writer that love polar stories and investigations.', '1990-10-02');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (7, 'Lina Fanni', 'A woman writer how love cats and write stories about them.', '2000-02-28');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (8, 'Sodja Damn', 'The famous singer boy himself, he just started writing books to talk about his career.', '2018-03-12');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (9, 'LOL Timmy', 'Yo what up, its me Timmy and I am crack up at Fortnite, Minecraft and love skibidi toilets my guy.', '2018-06-15');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (10, 'Albert tavu', 'A french historian that just started writing novels about France.', '2005-05-10');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (11, 'Le père dorio', 'A dude who love IT stuff and want to share his knowledges to others.', '2013-10-08');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (12, 'Anonymous', 'I am the messenger in a mission to deliver the true message of the world to the people.', '2007-07-07');
-INSERT INTO author (id, name, bio, date_of_birth) VALUES (13, 'Maya labeille', 'A little bee who just wanted to start writing stories about bee because they are misunderstood...', '2002-02-26');
+INSERT INTO author(id, name, bio, date_of_birth) VALUES 
+(1, 'John Doe', 'A american writer that like to write silly stories.', '1990-09-06'),
+(2, 'JK Rowling', 'The famous writer of the epic saga about magics and spells.', '1965-07-31'),
+(3, 'Brooklyn guy', 'Hey there, I am a guy from brookly, I started stories about my life and now i feel like helping people, you know normal stuffs...', '1995-06-10'),
+(4, 'Larry', 'No one know who Larry is, he is the mastermind of the universe, do not trust him!', '1666-06-06'),
+(5, 'Wario', 'WAH its me Wario, I am so crazy that will get a ton of fun with me around, BUY MY STUFF!!', '1992-04-01'),
+(6, 'Barbara lanny', 'A woman writer that love polar stories and investigations.', '1990-10-02'),
+(7, 'Lina Fanni', 'A woman writer how love cats and write stories about them.', '2000-02-28'),
+(8, 'Sodja Damn', 'The famous singer boy himself, he just started writing books to talk about his career.', '2018-03-12'),
+(9, 'LOL Timmy', 'Yo what up, its me Timmy and I am crack up at Fortnite, Minecraft and love skibidi toilets my guy.', '2018-06-15'),
+(10, 'Albert tavu', 'A french historian that just started writing novels about France.', '2005-05-10'),
+(11, 'Le père dorio', 'A dude who love IT stuff and want to share his knowledges to others.', '2013-10-08'),
+(12, 'Anonymous', 'I am the messenger in a mission to deliver the true message of the world to the people.', '2007-07-07'),
+(13, 'Maya labeille', 'A little bee who just wanted to start writing stories about bee because they are misunderstood...', '2002-02-26');
 
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (1, 'Captain underpants', 'This is a story about a funny hero', 'https://picsum.photos/id/237/250', 1, '2015-05-05', '2013-05-05', 1, 100);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (2, 'Captain underpants: larry havoc', 'Same story but with a new bad guy', 'https://picsum.photos/id/167/250', 1, '2015-10-05', '2013-05-05', 2, 112);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (3, 'Harry potters', 'Everybody know harry potters', 'https://picsum.photos/id/16/250', 2, '2012-05-05', '1997-06-26', 1, 216);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (4, 'Harry potters', 'Everybody know harry potters', 'https://picsum.photos/id/17/250', 2, '2012-05-05', '1999-03-23', 2, 215);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (5, 'How to do every job', 'This book will teach you everything about doing a job', 'https://picsum.photos/id/1/250', 3, '2012-05-05', '2009-01-10', 1, 1000);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (6, 'How to be evil', 'I will teach you how to be evil', 'https://picsum.photos/id/666/250', 4, '2012-05-05', '2006-06-06', 1, 666);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (7, 'How to be evil part 2', 'I will teach you how to be evil', 'https://picsum.photos/id/667/250', 4, '2012-12-12', '2006-06-06', 2, 667);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (8, 'How to be evil part 3', 'I will teach you how to be evil', 'https://picsum.photos/id/668/250', 4, '2012-01-01', '2006-06-06', 3, 668);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (9, 'How to be evil part 4', 'I will teach you how to be evil', 'https://picsum.photos/id/669/250', 4, '2012-01-02', '2006-06-06', 4, 669);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (10, 'How to be evil part 5', 'Please give me your soul', 'https://picsum.photos/id/670/250', 4, '2012-01-03', '2006-06-06', 5, 690);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (11, 'Wario microgames', 'Buy my stuffs', 'https://picsum.photos/id/23/250', 5, '2005-05-05', '2002-06-10', 1, 2);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (12, 'Wario microgames 2', 'Buy my stuffs more', 'https://picsum.photos/id/65/250', 5, '2005-05-05', '2002-06-12', 2, 2);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (13, 'The curious incident', 'One night one dog died but who did it?', 'https://picsum.photos/id/132/250', 6, '2012-12-12', '2002-10-24', 1, 156);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (14, 'The curious incident: closer and closer', 'So many witness and suspects', 'https://picsum.photos/id/134/250', 6, '2012-12-12', '2003-05-13', 2, 147);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (15, 'The curious incident: found it!', 'We found the guilty, it was ...', 'https://picsum.photos/id/135/250', 6, '2012-12-12', '2005-03-30', 3, 125);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (16, 'Story of my life', 'I did basically everything I am a god u know...', 'https://picsum.photos/id/361/250', 3, '2012-12-12', '2012-07-01', 1, 98346);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (17, 'How to write a good song', 'My song are the best in the world!', 'https://picsum.photos/id/167/250', 8, '2012-12-12', '2015-11-11', 1, 67);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (18, 'Little kitty cat: the flower', 'little kitty discover a flower', 'https://picsum.photos/id/250/250', 7, '2001-04-20', '2000-01-01', 1, 31);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (19, 'Little kitty cat: the ball', 'little kitty discover a ball', 'https://picsum.photos/id/251/250', 7, '2001-04-30', '2000-05-01', 1, 26);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (20, 'Little kitty cat: the spider', 'little kitty is afraid of a spider', 'https://picsum.photos/id/252/250', 7, '2001-02-10', '2000-08-01', 1, 29);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (21, 'How to be a pro at Fortnite', 'Also you will learn how to win free Vbucks', 'https://picsum.photos/id/271/250', 9, '2020-05-05', '2018-09-16', 1, 47);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (22, 'Skibidi toilets: a new adventure', 'the entire lore', 'https://picsum.photos/id/39/250', 9, '2025-11-23', '2023-05-19', 1, 451);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (23, 'How to troll in Minecraft', 'this book will teach everything about minecraft', 'https://picsum.photos/id/64/250', 9, '2023-05-19','2020-03-18', 1, 185);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (24, 'Story of France', '10 stories about the France culture', 'https://picsum.photos/id/888/250', 10, '2010-04-14', '2004-06-28', 1, 67);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (25, 'Window for dummies', 'THe best book to give to your grandparents so they can leave you alone', 'https://picsum.photos/id/3/250', 11, '2008-08-16', '2001-07-12', 1, 404);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (26, 'Java for dummies', 'The beginner book to learn Java', 'https://picsum.photos/id/4/250', 11, '2008-08-16', '2007-03-05', 1, 158);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (27, 'Microsoft Excel for dummies', 'the book to learn about Excel', 'https://picsum.photos/id/5/250', 11, '2012-12-12', '2010-10-10', 1, 89);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (28, 'The government is controlling u', 'Are you ready to hear the truth and to face the one who is controlling us?', 'https://picsum.photos/id/42/250', 12, '2024-07-17', '2017-02-21', 1, 68);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (29, 'Mary the bee', 'a little adventure about a tiny bee', 'https://picsum.photos/id/684/250', 13, '2010-10-02', '2003-11-12', 1, 13);
-INSERT INTO book (id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES (30, 'Mary the bee', 'another little adventure about a tiny bee', 'https://picsum.photos/id/685/250', 13, '2010-10-05', '2003-11-12', 2, 15);
+INSERT INTO book(id, title, description, book_cover, author, added_date, publish_date, volume_number, total_pages) VALUES 
+(1, 'Captain underpants', 'This is a story about a funny hero', 'https://picsum.photos/id/237/250', 1, '2015-05-05', '2013-05-05', 1, 100),
+(2, 'Captain underpants: larry havoc', 'Same story but with a new bad guy', 'https://picsum.photos/id/167/250', 1, '2015-10-05', '2013-05-05', 2, 112),
+(3, 'Harry potters', 'Everybody know harry potters', 'https://picsum.photos/id/16/250', 2, '2012-05-05', '1997-06-26', 1, 216),
+(4, 'Harry potters Remake', 'Everybody know harry potters (again)', 'https://picsum.photos/id/17/250', 2, '2012-05-05', '1999-03-23', 2, 215),
+(5, 'How to do every job', 'This book will teach you everything about doing a job', 'https://picsum.photos/id/1/250', 3, '2012-05-05', '2009-01-10', NULL, 1000),
+(6, 'How to be evil', 'I will teach you how to be evil', 'https://picsum.photos/id/666/250', 4, '2012-05-05', '2006-06-06', 1, 666),
+(7, 'How to be evil part 2', 'I will teach you how to be evil', 'https://picsum.photos/id/667/250', 4, '2012-12-12', '2006-06-06', 2, 667),
+(8, 'How to be evil part 3', 'I will teach you how to be evil', 'https://picsum.photos/id/668/250', 4, '2012-01-01', '2006-06-06', 3, 668),
+(9, 'How to be evil part 4', 'I will teach you how to be evil', 'https://picsum.photos/id/669/250', 4, '2012-01-02', '2006-06-06', 4, 669),
+(10, 'How to be evil part 5', 'Please give me your soul', 'https://picsum.photos/id/670/250', 4, '2012-01-03', '2006-06-06', 5, 690),
+(11, 'Wario microgames', 'Buy my stuffs', 'https://picsum.photos/id/23/250', 5, '2005-05-05', '2002-06-10', 1, 2),
+(12, 'Wario microgames 2', 'Buy my stuffs more', 'https://picsum.photos/id/65/250', 5, '2005-05-05', '2002-06-12', 2, 2),
+(13, 'The curious incident', 'One night one dog died but who did it?', 'https://picsum.photos/id/132/250', 6, '2012-12-12', '2002-10-24', 1, 156),
+(14, 'The curious incident: closer and closer', 'So many witness and suspects', 'https://picsum.photos/id/134/250', 6, '2012-12-12', '2003-05-13', 2, 147),
+(15, 'The curious incident: found it!', 'We found the guilty, it was ...', 'https://picsum.photos/id/135/250', 6, '2012-12-12', '2005-03-30', 3, 125),
+(16, 'Story of my life', 'I did basically everything I am a god u know...', 'https://picsum.photos/id/361/250', 3, '2012-12-12', '2012-07-01', 1, 98346),
+(17, 'How to write a good song', 'My song are the best in the world!', 'https://picsum.photos/id/167/250', 8, '2012-12-12', '2015-11-11', NULL, 67),
+(18, 'Little kitty cat: the flower', 'little kitty discover a flower', 'https://picsum.photos/id/250/250', 7, '2001-04-20', '2000-01-01', NULL, 31),
+(19, 'Little kitty cat: the ball', 'little kitty discover a ball', 'https://picsum.photos/id/251/250', 7, '2001-04-30', '2000-05-01', NULL, 26),
+(20, 'Little kitty cat: the spider', 'little kitty is afraid of a spider', 'https://picsum.photos/id/252/250', 7, '2001-02-10', '2000-08-01', NULL, 29),
+(21, 'How to be a pro at Fortnite', 'Also you will learn how to win free Vbucks', 'https://picsum.photos/id/271/250', 9, '2020-05-05', '2018-09-16', NULL, 47),
+(22, 'Skibidi toilets: a new adventure', 'the entire lore', 'https://picsum.photos/id/39/250', 9, '2025-11-23', '2023-05-19', NULL, 451),
+(23, 'How to troll in Minecraft', 'this book will teach everything about minecraft', 'https://picsum.photos/id/64/250', 9, '2023-05-19','2020-03-18', NULL, 185),
+(24, 'Story of France', '10 stories about the France culture', 'https://picsum.photos/id/888/250', 10, '2010-04-14', '2004-06-28', NULL, 67),
+(25, 'Window for dummies', 'THe best book to give to your grandparents so they can leave you alone', 'https://picsum.photos/id/3/250', 11, '2008-08-16', '2001-07-12', NULL, 404),
+(26, 'Java for dummies', 'The beginner book to learn Java', 'https://picsum.photos/id/4/250', 11, '2008-08-16', '2007-03-05', NULL, 158),
+(27, 'Microsoft Excel for dummies', 'the book to learn about Excel', 'https://picsum.photos/id/5/250', 11, '2012-12-12', '2010-10-10', NULL, 89),
+(28, 'The government is controlling u', 'Are you ready to hear the truth and to face the one who is controlling us?', 'https://picsum.photos/id/42/250', 12, '2024-07-17', '2017-02-21', NULL, 68),
+(29, 'Mary the bee', 'a little adventure about a tiny bee', 'https://picsum.photos/id/684/250', 13, '2010-10-02', '2003-11-12', 1, 13),
+(30, 'Mary the bee', 'another little adventure about a tiny bee', 'https://picsum.photos/id/685/250', 13, '2010-10-05', '2003-11-12', 2, 15);
 
-INSERT INTO book_status (book_id, is_available, condition) VALUES (1, true, 'DAMAGED');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (2, true, 'DAMAGED');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (3, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (4, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (5, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (6, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (7, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (8, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (9, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (10, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (11, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (12, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (13, true, 'DAMAGED');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (14, true, 'DAMAGED');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (15, true, 'DAMAGED');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (16, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (17, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (18, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (19, true, 'DAMAGED');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (20, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (21, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (22, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (23, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (24, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (25, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (26, true, 'NEW');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (27, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (28, false, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (29, true, 'GOOD');
-INSERT INTO book_status (book_id, is_available, condition) VALUES (30, true, 'GOOD');
+INSERT INTO book_status(book_id, is_available, condition) VALUES 
+(1, true, 'DAMAGED'),
+(2, true, 'DAMAGED'),
+(3, true, 'GOOD'),
+(4, true, 'NEW'),
+(5, true, 'NEW'),
+(6, true, 'NEW'),
+(7, true, 'GOOD'),
+(8, true, 'NEW'),
+(9, true, 'NEW'),
+(10, true, 'GOOD'),
+(11, true, 'GOOD'),
+(12, true, 'GOOD'),
+(13, true, 'DAMAGED'),
+(14, true, 'DAMAGED'),
+(15, true, 'DAMAGED'),
+(16, true, 'GOOD'),
+(17, true, 'GOOD'),
+(18, true, 'GOOD'),
+(19, true, 'DAMAGED'),
+(20, true, 'NEW'),
+(21, true, 'NEW'),
+(22, true, 'NEW'),
+(23, true, 'NEW'),
+(24, true, 'NEW'),
+(25, true, 'NEW'),
+(26, true, 'NEW'),
+(27, true, 'GOOD'),
+(28, false, 'GOOD'),
+(29, true, 'GOOD'),
+(30, true, 'GOOD');
 
-INSERT INTO book_genres (book_id, genre) VALUES (1, 'Comedy');
-INSERT INTO book_genres (book_id, genre) VALUES (2, 'Comedy');
-INSERT INTO book_genres (book_id, genre) VALUES (3, 'Fantasy');
-INSERT INTO book_genres (book_id, genre) VALUES (4, 'Fantasy');
-INSERT INTO book_genres (book_id, genre) VALUES (5, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (6, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (7, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (8, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (9, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (10, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (11, 'Videos games');
-INSERT INTO book_genres (book_id, genre) VALUES (12, 'Videos games');
-INSERT INTO book_genres (book_id, genre) VALUES (13, 'Detective');
-INSERT INTO book_genres (book_id, genre) VALUES (13, 'Horror');
-INSERT INTO book_genres (book_id, genre) VALUES (14, 'Detective');
-INSERT INTO book_genres (book_id, genre) VALUES (14, 'Horror');
-INSERT INTO book_genres (book_id, genre) VALUES (15, 'Detective');
-INSERT INTO book_genres (book_id, genre) VALUES (15, 'Horror');
-INSERT INTO book_genres (book_id, genre) VALUES (16, 'History');
-INSERT INTO book_genres (book_id, genre) VALUES (17, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (18, 'Children');
-INSERT INTO book_genres (book_id, genre) VALUES (19, 'Children');
-INSERT INTO book_genres (book_id, genre) VALUES (20, 'Children');
-INSERT INTO book_genres (book_id, genre) VALUES (21, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (22, 'History');
-INSERT INTO book_genres (book_id, genre) VALUES (23, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (24, 'History');
-INSERT INTO book_genres (book_id, genre) VALUES (25, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (26, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (27, 'Tutorial');
-INSERT INTO book_genres (book_id, genre) VALUES (28, 'Sci-Fi');
-INSERT INTO book_genres (book_id, genre) VALUES (29, 'Children');
-INSERT INTO book_genres (book_id, genre) VALUES (29, 'Fantasy');
-INSERT INTO book_genres (book_id, genre) VALUES (30, 'Children');
-INSERT INTO book_genres (book_id, genre) VALUES (30, 'Fantasy');
+INSERT INTO book_genres(book_id, genre) VALUES 
+(1, 'Comedy'),
+(2, 'Comedy'),
+(3, 'Fantasy'),
+(4, 'Fantasy'),
+(5, 'Tutorial'),
+(6, 'Tutorial'),
+(7, 'Tutorial'),
+(8, 'Tutorial'),
+(9, 'Tutorial'),
+(10, 'Tutorial'),
+(11, 'Videos games'),
+(12, 'Videos games'),
+(13, 'Detective'),
+(13, 'Horror'),
+(14, 'Detective'),
+(14, 'Horror'),
+(15, 'Detective'),
+(15, 'Horror'),
+(16, 'History'),
+(17, 'Tutorial'),
+(18, 'Children'),
+(19, 'Children'),
+(20, 'Children'),
+(21, 'Tutorial'),
+(22, 'History'),
+(23, 'Tutorial'),
+(24, 'History'),
+(25, 'Tutorial'),
+(26, 'Tutorial'),
+(27, 'Tutorial'),
+(28, 'Sci-Fi'),
+(29, 'Children'),
+(29, 'Fantasy'),
+(30, 'Children'),
+(30, 'Fantasy');
 
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (1, 'Billy', 'billy@gmail.com','$2y$10$Pjrj.Bbd9MTvZ8eh6l73oOH3Xia4ve7j1Dd92RuB3xkqN9cddMGA6','ROLE_CUSTOMER','2025-02-05');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (2, 'John', 'pork@gmail.com','$2y$10$vZC05QK05wK2JQ/mYWOI9ePLUi6EWQ/aBaoKI4o680tfL2izeTysW','ROLE_EMPLOYEE','2020-10-08');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (3, 'Jake', 'jake@gmail.com','$2a$10$z4T6RwAjfhWRgYZFkN5zpeGKNCX66qF0aoS2gXKscFyLJHqTotU7i','ROLE_EMPLOYEE','2022-10-11');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (4, 'Claire', 'claire@gmail.com','$2a$10$TPIbeSWgNLnGUt2OGLoa7OBgbAWmNoGGUaYjOJg39.TITBvs/FsqK','ROLE_EMPLOYEE','2021-12-11');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (5, 'Trolly', 'trololol@gmail.com','$2a$10$Fdq0/bgsy5Kf4dcSKb0EFeayH0TxC9ehgPE950s07ATrhmVf8J20m','ROLE_CUSTOMER','2023-03-03');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (6, 'Thatguy', 'iamhim@gmail.com','$2a$12$2lt1.UAvm4zxDb1iSUH8HehSWGKzpbNfbadX8b8Y/qqR4/L17AiYC','ROLE_CUSTOMER','2023-03-03');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (7, 'George', 'curious@gmail.com','$2a$10$UljDrH8ugWfGSo6JXlg6aOvkUOhh1UqXfCO..20za0yKuJqwwTTYi','ROLE_CUSTOMER','1986-06-10');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (8, 'Blake', 'whatabadname@gmail.com','$2a$10$x9s.aos4zkkHCd4rym7Mp.8VXAofbu5bedk.FJFo.6.7GmgZrPex2','ROLE_CUSTOMER','1999-08-20');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (9, 'Pro', 'IamPro@gmail.com','$2a$10$TcvrgoIfIt4GixDo4mRTBuXgSgwYZBWznuwhErXvvqgTvrbhcIzl.','ROLE_CUSTOMER','2010-10-03');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (10, 'Lola', 'lola@gmail.com','$2a$10$F..0lGSHi2Oyv6pQMNHxJuG1PcIKmp6NKIfoYGAR7wO8wE4CKXVaK','ROLE_EMPLOYEE','2018-03-03');
-INSERT INTO users (id, username, email, password, role, created_at) VALUES (11, 'Neo', 'redpilled@gmail.com','$2a$10$K6PG5QRlwNCCZnFMHPiLbuUF83NvfAVCs13KdDrxn1shVxK97OrxC','ROLE_ADMIN','2000-01-01');
+INSERT INTO users(id, username, email, password, role, created_at, active) VALUES 
+(1, 'Billy', 'billy@gmail.com','$2y$10$Pjrj.Bbd9MTvZ8eh6l73oOH3Xia4ve7j1Dd92RuB3xkqN9cddMGA6','ROLE_CUSTOMER','2025-02-05', true),
+(2, 'John', 'pork@gmail.com','$2y$10$vZC05QK05wK2JQ/mYWOI9ePLUi6EWQ/aBaoKI4o680tfL2izeTysW','ROLE_EMPLOYEE','2020-10-08', true),
+(3, 'Jake', 'jake@gmail.com','$2a$10$z4T6RwAjfhWRgYZFkN5zpeGKNCX66qF0aoS2gXKscFyLJHqTotU7i','ROLE_EMPLOYEE','2022-10-11', true),
+(4, 'Claire', 'claire@gmail.com','$2a$10$TPIbeSWgNLnGUt2OGLoa7OBgbAWmNoGGUaYjOJg39.TITBvs/FsqK','ROLE_EMPLOYEE','2021-12-11', true),
+(5, 'Trolly', 'trololol@gmail.com','$2a$10$Fdq0/bgsy5Kf4dcSKb0EFeayH0TxC9ehgPE950s07ATrhmVf8J20m','ROLE_CUSTOMER','2023-03-03', true),
+(6, 'Thatguy', 'iamhim@gmail.com','$2a$12$2lt1.UAvm4zxDb1iSUH8HehSWGKzpbNfbadX8b8Y/qqR4/L17AiYC','ROLE_CUSTOMER','2023-03-03', true),
+(7, 'George', 'curious@gmail.com','$2a$10$UljDrH8ugWfGSo6JXlg6aOvkUOhh1UqXfCO..20za0yKuJqwwTTYi','ROLE_CUSTOMER','1986-06-10', true),
+(8, 'Blake', 'whatabadname@gmail.com','$2a$10$x9s.aos4zkkHCd4rym7Mp.8VXAofbu5bedk.FJFo.6.7GmgZrPex2','ROLE_CUSTOMER','1999-08-20', true),
+(9, 'Pro', 'IamPro@gmail.com','$2a$10$TcvrgoIfIt4GixDo4mRTBuXgSgwYZBWznuwhErXvvqgTvrbhcIzl.','ROLE_CUSTOMER','2010-10-03', true),
+(10, 'Lola', 'lola@gmail.com','$2a$10$F..0lGSHi2Oyv6pQMNHxJuG1PcIKmp6NKIfoYGAR7wO8wE4CKXVaK','ROLE_EMPLOYEE','2018-03-03', true),
+(11, 'Neo', 'redpilled@gmail.com','$2a$10$K6PG5QRlwNCCZnFMHPiLbuUF83NvfAVCs13KdDrxn1shVxK97OrxC','ROLE_ADMIN','2000-01-01', true);
 
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (1, 1,'2016-05-12', '2016-05-22');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (2, 1,'2017-11-13', '2017-11-23');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (3, 5,'2018-02-02', '2018-02-22');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (4, 1,'2019-08-01', '2019-08-20');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (5, 6,'2016-08-08', '2016-08-18');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (6, 6,'2017-05-05', '2017-05-25');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (7, 7,'2009-06-06', '2009-06-16');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (8, 7,'2013-10-02', '2013-10-12');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (9, 8,'2005-12-10', '2006-01-10');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (10, 8,'2006-01-01', '2006-01-10');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (11, 9,'2025-06-01', '2026-06-06');
-INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES (12, 9,'2023-05-06', '2023-05-26');
+INSERT INTO reservation(id, user_id, begin_date, end_date) VALUES 
+(1, 1,'2016-05-12', '2016-05-22'),
+(2, 1,'2017-11-13', '2017-11-23'),
+(3, 5,'2018-02-02', '2018-02-22'),
+(4, 1,'2019-08-01', '2019-08-20'),
+(5, 6,'2016-08-08', '2016-08-18'),
+(6, 6,'2017-05-05', '2017-05-25'),
+(7, 7,'2009-06-06', '2009-06-16'),
+(8, 7,'2013-10-02', '2013-10-12'),
+(9, 8,'2005-12-10', '2006-01-10'),
+(10, 8,'2006-01-01', '2006-01-10'),
+(11, 9,'2025-06-01', '2026-06-06'),
+(12, 9,'2023-05-06', '2023-05-26');
 
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (1,1);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (2,1);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (5,1);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (3,2);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (4,2);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (5,3);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (6,3);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (7,3);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (8,3);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (9,3);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (10,3);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (13,4);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (14,4);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (15,4);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (5,5);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (16,5);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (11,6);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (12,6);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (29,6);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (30,6);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (17,7);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (25,7);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (18,8);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (19,8);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (20,8);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (24,9);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (25,9);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (26,9);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (1,10);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (3,10);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (29,10);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (28,11);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (21,12);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (22,12);
-INSERT INTO reservation_content (book_id, reservation_id) VALUES (23,12);
+INSERT INTO reservation_content(book_id, reservation_id) VALUES 
+(1,1),
+(2,1),
+(5,1),
+(3,2),
+(4,2),
+(5,3),
+(6,3),
+(7,3),
+(8,3),
+(9,3),
+(10,3),
+(13,4),
+(14,4),
+(15,4),
+(5,5),
+(16,5),
+(11,6),
+(12,6),
+(29,6),
+(30,6),
+(17,7),
+(25,7),
+(18,8),
+(19,8),
+(20,8),
+(24,9),
+(25,9),
+(26,9),
+(1,10),
+(3,10),
+(29,10),
+(28,11),
+(21,12),
+(22,12),
+(23,12);

@@ -12,6 +12,12 @@ export interface userDataType {
     role: string
 };
 
+export interface editUserInfoType {
+    username: string,
+    email: string,
+    role: string
+} 
+
 export interface userPingResponse {
     authenticated: boolean,
     id: number,

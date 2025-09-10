@@ -30,9 +30,9 @@ public class UserRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new DBUser(null, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now());
-        user2 = new DBUser(null, "jane.smith", "jane@example.com", "pass", UserRole.ROLE_ADMIN, Instant.now());
-        user3 = new DBUser(null, "johnny.appleseed", "johnny@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now());
+        user1 = new DBUser(null, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true);
+        user2 = new DBUser(null, "jane.smith", "jane@example.com", "pass", UserRole.ROLE_ADMIN, Instant.now(), true);
+        user3 = new DBUser(null, "johnny.appleseed", "johnny@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true);
 
         userRepository.saveAll(List.of(user1, user2, user3));
     }

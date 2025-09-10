@@ -1,6 +1,7 @@
 import { filterDataType } from "@/src/types/filter";
 import { fieldEnum } from "@/src/types/input";
 
+// represent the filter data in the search book section inside the home page
 export const bookFilterFieldsData : filterDataType[] = [
     {
         id: "searchTitle",
@@ -75,6 +76,32 @@ export const bookFilterFieldsData : filterDataType[] = [
     
 ];
 
+// represent the filter data in the search reservation section inside the reservation page
+export const reservationFilterFieldsData : filterDataType[] = [
+    {
+        id: "searchUsername",
+        type: fieldEnum.Text,
+        label: "Username",
+        value: "",
+        searchParamName: "username"
+    },
+    {
+        id: "searchBeginDate",
+        type: fieldEnum.Date,
+        label: "Begin date",
+        value: "",
+        searchParamName: "beginDate"
+    },
+    {
+        id: "searchEndDate",
+        type: fieldEnum.Date,
+        label: "End date",
+        value: "",
+        searchParamName: "endDate"
+    },
+];
+
+// represent the filter data in the search user section inside the admin page
 export const userFilterFieldsData : filterDataType[] = [
     {
         id: "searchUsername",

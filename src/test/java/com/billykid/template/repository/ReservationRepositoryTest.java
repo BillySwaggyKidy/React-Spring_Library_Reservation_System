@@ -34,7 +34,7 @@ public class ReservationRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new DBUser(null, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now());
+        user1 = new DBUser(null, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true);
         user1 = userRepository.save(user1);
 
         reservation1 = Reservation.builder()
