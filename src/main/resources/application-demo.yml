@@ -1,0 +1,28 @@
+spring:
+  config:
+    activate:
+      on-profile: demo
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # ou validate en prod si tu veux figer le schéma
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-demo.sql
+
+cors:
+  allowed-origins:
+    - "http://localhost:5173"
+    - "https://tonfrontend.netlify.app"

@@ -1,0 +1,29 @@
+spring:
+    config:
+        activate:
+            on-profile: dev
+    datasource:
+        url: jdbc:h2:file:~/h2db/dev;MODE=MySQL
+        generate-unique-name: false
+        username: sa
+        password: password
+        driverClassName: org.h2.Driver
+    sql:
+        init:
+            mode: always
+            data-locations: classpath:data-demo.sql # for Test only
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        defer-datasource-initialization: true
+        hibernate:
+            ddl-auto: create-drop  # Ensure Hibernate creates the tables
+    h2:
+        console:
+            enabled: true
+            path: /h2-console
+            settings:
+                trace: false
+                web-allow-others: false
+cors:
+  allowed-origins:
+    - "http://localhost:5173"
