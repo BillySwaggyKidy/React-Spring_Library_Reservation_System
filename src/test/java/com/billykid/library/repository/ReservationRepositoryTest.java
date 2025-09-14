@@ -54,10 +54,6 @@ public class ReservationRepositoryTest {
             .endDate(LocalDate.of(2025, 8, 10))
             .build();
 
-        System.out.println("SETTING BEGIN DATES");
-        System.out.println(reservation1.getBeginDate());
-        System.out.println(reservation2.getBeginDate());
-
         reservationRepository.saveAll(List.of(reservation1, reservation2));
     }
 

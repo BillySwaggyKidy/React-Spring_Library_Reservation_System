@@ -33,8 +33,6 @@ export const handlers = [
     http.post('http://localhost:8001/auth/signup', async ({ request }) => {
     const body = (await request.json()) as NewAccountRequestBody;
     const {username, email, password} = body;
-    console.log("PASSWORD")
-    console.log(password);
     if (username === 'Bob' && email === "bob@gmail.com" && password === 'godgod1!') {
         const account: accountType = {
             id: 18,
