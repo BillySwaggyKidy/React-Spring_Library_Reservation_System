@@ -1,4 +1,5 @@
-# Vite_React_Spring_Java_Template
+# React-Spring_Library_Reservation_System
+
 A fullstack application with the following technologies:
 - Frontend: Vite, ReactJS, Tailwindcss
 - Backend: Maven, Springboot, Java, Lombook
@@ -92,8 +93,19 @@ You can find the following commands:
 You can find the following commands:
 * `npm run dev`: start the frontend server in development mode with HMR enabled
 * `npm run build`: build the frontend assets
+* `npm run demo`: build the frontend assets in demo mode
 * `npm run preview`: start a local web server that serves the built solution from ./dist for previewing
 * `npm run lint`: execute eslint to analyse the code for problems
 * `test`: launch the tests in watch mode 
 * `test:ui`: lauch the tests with a local graphical interface (http://localhost:51204 by default)
 * `coverage`: Launch the tests once only (not in watch mode) with a code coverage report
+
+
+## Acknowledgment:
+
+Many thanks to the Internet Archive's Open Library project for allowing to use its API and for his information about the books.
+https://openlibrary.org/
+
+Many thanks to the Stackoverflow website.
+
+A quick thank you to ChatGPT for its help.
