@@ -11,7 +11,7 @@ interface AdminIFormInput {
 }
 
 export default function CreateUserModal({open, close} : {open: boolean, close: (refresh: boolean)=>void}) {
-    const { register, handleSubmit } = useForm<AdminIFormInput>();
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm<AdminIFormInput>();
     const [errorText, setErrorText] = useState<string>("");
     const ref = useRef<HTMLDialogElement>(null);
 
@@ -33,12 +33,12 @@ export default function CreateUserModal({open, close} : {open: boolean, close: (
 
     const createNewUser: SubmitHandler<AdminIFormInput> = async (data : AdminIFormInput) => {
         const response = await fetch(`${Env.API_BASE_URL}/api/users/add`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include", // IMPORTANT for sending/receiving cookies
-        body: JSON.stringify(data),
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include", // IMPORTANT for sending/receiving cookies
+            body: JSON.stringify(data),
         });
         
         if (response.ok) {
@@ -46,8 +46,10 @@ export default function CreateUserModal({open, close} : {open: boolean, close: (
             close(true);
         } 
         else {
+            let errorText = await response.text();
+            errorText = errorText.substring(errorText.indexOf(":")+2);
             // Show error
-            setErrorText("Couldn't create the account, please try later");
+            setErrorText(errorText);
         }
     };
 
@@ -70,11 +72,28 @@ export default function CreateUserModal({open, close} : {open: boolean, close: (
                     </div>
                     <div className="w-full flex flex-col items-start mb-2">
                         <label className="text-2xl">Password</label>
-                        <input className="rounded-md border-2 border-white bg-green-900/60 h-8 text-xl w-3/4" type="password" {...register("password")} />
+                        <input className="rounded-md border-2 border-white bg-green-900/60 h-8 text-xl w-3/4" type="password" {...register("password", {
+                            required: "Password is required",
+                            minLength: {
+                            value: 6,
+                            message: "Password must be at least 6 characters"
+                            },
+                            pattern: {
+                            value: /^(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
+                            message: "Password must include at least one number and one special character",
+                            }
+                        })} />
+                        {errors.password && <span className="text-red-500">{errors.password.message}</span>}
                     </div>
                     <div className="w-full flex flex-col items-start mb-2">
                         <label className="text-2xl">Confirm password</label>
-                        <input className="rounded-md border-2 border-white bg-green-900/60 h-8 text-xl w-3/4" type="password" {...register("confirmPassword")} />
+                        <input className="rounded-md border-2 border-white bg-green-900/60 h-8 text-xl w-3/4" type="password" {...register("confirmPassword", {
+                            required: "Please confirm your password",
+                            validate: value => {
+                            const password = getValues("password");
+                            return value === password;
+                        }})}/>
+                        {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword.message}</span>}
                     </div>
                     <div className="w-full flex flex-col items-start mb-2">
                         <label className="text-2xl">Role</label>

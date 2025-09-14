@@ -21,6 +21,7 @@ export interface editReservationType {
 
 export interface newReservationType {
     userID: number,
+    beginDate: Date,
     endDate: Date,
     bookIds: number[]
 }

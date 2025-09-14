@@ -1,6 +1,6 @@
 export interface bookStatusType {
     available: boolean,
-    condition: string,
+    quality: string,
     beAvailableAt: Date
 }
 

@@ -1,0 +1,306 @@
+package com.billykid.library.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
+import com.billykid.library.entity.Author;
+import com.billykid.library.entity.Book;
+import com.billykid.library.entity.BookStatus;
+import com.billykid.library.entity.DBUser;
+import com.billykid.library.entity.Reservation;
+import com.billykid.library.repository.BookRepository;
+import com.billykid.library.repository.ReservationRepository;
+import com.billykid.library.repository.UserRepository;
+import com.billykid.library.service.ReservationService;
+import com.billykid.library.utils.DTO.ReservationDTO;
+import com.billykid.library.utils.DTO.book.BookStatusDTO;
+import com.billykid.library.utils.DTO.book.BookSummaryDTO;
+import com.billykid.library.utils.enums.BookQuality;
+import com.billykid.library.utils.enums.UserRole;
+import com.billykid.library.utils.mappers.ReservationMapper;
+import com.billykid.library.utils.parameters.ReservationParametersObject;
+
+
+@Profile("test")
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+public class ReservationServiceTest {
+
+    @Mock
+    private ReservationRepository reservationRepository;
+
+    @Mock
+    private BookRepository bookRepository;
+
+    @Mock
+    private UserRepository userRepository;
+    
+    @Mock
+    private ReservationMapper reservationMapper;
+
+    @InjectMocks
+    private ReservationService reservationService;
+
+    @Test
+    void tryFindingReservationByUsername() throws Exception {
+        List<Reservation> reservations = List.of(
+            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(2).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2001,1,1)).endDate(LocalDate.of(2001,1,11)).build(),
+            Reservation.builder().id(3).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2002,1,1)).endDate(LocalDate.of(2002,1,11)).build()
+        );
+
+        when(reservationRepository.findByUser_UsernameContainingIgnoreCase(any(String.class))).thenReturn(reservations);
+
+        List<ReservationDTO> result = reservationService.findReservationsByUserName("john", null);
+
+        assertEquals(3, result.size());
+        assertEquals(1, result.get(0).getUserID());
+        assertEquals(1, result.get(1).getUserID());
+        assertEquals(1, result.get(2).getUserID());
+    }
+
+    @Test
+    void tryFindingReservationByBeginDate() throws Exception {
+        List<Reservation> reservations = List.of(
+            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(2).user(new DBUser(2, "Mary.babe", "mary@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(3).user(new DBUser(3, "Larry.spook", "larry@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build()
+        );
+
+        when(reservationRepository.findByBeginDateAfter(any(LocalDate.class))).thenReturn(reservations);
+
+        List<ReservationDTO> result = reservationService.findReservationsByBeginDate(LocalDate.of(2000,1,1), null);
+
+        assertEquals(3, result.size());
+        assertEquals(LocalDate.of(2000,1,1), result.get(0).getBeginDate());
+        assertEquals(LocalDate.of(2000,1,1), result.get(1).getBeginDate());
+        assertEquals(LocalDate.of(2000,1,1), result.get(2).getBeginDate());
+    }
+
+    @Test
+    void tryFindingReservationByEndDate() throws Exception {
+        List<Reservation> reservations = List.of(
+            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(2).user(new DBUser(2, "Mary.babe", "mary@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(3).user(new DBUser(3, "Larry.spook", "larry@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build()
+        );
+
+        when(reservationRepository.findByEndDateLessThanEqual(any(LocalDate.class))).thenReturn(reservations);
+
+        List<ReservationDTO> result = reservationService.findReservationsByEndDate(LocalDate.of(2000,1,11), null);
+
+        assertEquals(3, result.size());
+        assertEquals(LocalDate.of(2000,1,11), result.get(0).getEndDate());
+        assertEquals(LocalDate.of(2000,1,11), result.get(1).getEndDate());
+        assertEquals(LocalDate.of(2000,1,11), result.get(2).getEndDate());
+    }
+
+    @Test
+    void  tryFindingReservationByQueryParams() throws Exception {
+        List<Reservation> reservations = List.of(
+            Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(2).user(new DBUser(2, "jane.joke", "mary@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build(),
+            Reservation.builder().id(3).user(new DBUser(3, "joe.spook", "larry@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).build()
+        );
+
+        when(reservationRepository.findAll(ArgumentMatchers.<Specification<Reservation>>any(),nullable(Pageable.class))).thenReturn(new PageImpl<>(reservations));
+
+        List<ReservationDTO> result = reservationService.findReservationsByQueryParams(new ReservationParametersObject("j",LocalDate.of(2000,1,1),LocalDate.of(2000,1,11)), null).getContent();
+
+        assertEquals(3, result.size());
+        assertEquals(1, result.get(0).getUserID());
+        assertEquals(2, result.get(1).getUserID());
+        assertEquals(3, result.get(2).getUserID());
+        assertEquals(LocalDate.of(2000,1,1), result.get(0).getBeginDate());
+        assertEquals(LocalDate.of(2000,1,1), result.get(1).getBeginDate());
+        assertEquals(LocalDate.of(2000,1,1), result.get(2).getBeginDate());
+        assertEquals(LocalDate.of(2000,1,11), result.get(0).getEndDate());
+        assertEquals(LocalDate.of(2000,1,11), result.get(1).getEndDate());
+        assertEquals(LocalDate.of(2000,1,11), result.get(2).getEndDate());
+    }
+
+    @Test
+    void tryGettingReservationContent() throws Exception {
+        Integer reservationId = 1;
+        Set<Book> books = Set.of(
+            Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build()
+        );
+        List<BookSummaryDTO> reservationDetails = List.of(
+            new BookSummaryDTO(1, "Captain underpants", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(2, "Captain underpants: Dr Kratus unchained", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW")),
+			new BookSummaryDTO(3, "Captain underpants: Finally peace", "https://picsum.photos/id/237/250", "John Doe", new BookStatusDTO(true, "NEW"))
+        );
+        Reservation reservation = Reservation.builder().id(1).user(new DBUser(1, "john.doe", "john@example.com", "pass", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).bookList(books).build();
+        ReservationDTO reservationDTO = new ReservationDTO(1,1,"John",LocalDate.of(2000,2,1),LocalDate.of(2000,2,11), List.of(1,2,3));
+        reservationDTO.setContent(reservationDetails);
+        when(reservationRepository.findById(eq(1))).thenReturn(Optional.of(reservation));
+        when(reservationMapper.toDetailsDTO(any(Reservation.class))).thenReturn(reservationDTO);
+
+        ReservationDTO result = reservationService.findReservationDetails(reservationId);
+
+        List<String> expectedTitles = List.of(
+        "Captain underpants",
+        "Captain underpants: Dr Kratus unchained",
+        "Captain underpants: Finally peace"
+        );
+
+        List<String> actualTitles = result.getContent().stream().map(BookSummaryDTO::getTitle).toList();
+
+        assertEquals(3, actualTitles.size());
+        assertTrue(actualTitles.containsAll(expectedTitles));
+    }
+
+    @Test
+    void tryAddingNewReservation() throws Exception {
+        Integer id = 1;
+        DBUser user = new DBUser(1,"Billy","billy@gmail.com","3rg43s6eg36e7g",UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(),true);
+        Set<Book> setBooks = Set.of(
+            Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).quality(BookQuality.NEW).isAvailable(true).build()).build(),
+            Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).quality(BookQuality.NEW).isAvailable(true).build()).build(),
+            Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).quality(BookQuality.NEW).isAvailable(true).build()).build()
+        );
+        List<Book> listBooks = List.of(
+            Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).quality(BookQuality.NEW).isAvailable(true).build()).build(),
+            Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).quality(BookQuality.NEW).isAvailable(true).build()).build(),
+            Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).bookStatus(BookStatus.builder().bookId(1).quality(BookQuality.NEW).isAvailable(true).build()).build()
+        );
+        ReservationDTO sendReservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,1,1),LocalDate.of(2000,1,11),List.of(1,2,3));
+        Reservation reservation = Reservation.builder().id(1).user(new DBUser(1, "Billy", "billy@gmail.com", "3rg43s6eg36e7g", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).bookList(setBooks).build();
+        ReservationDTO newReservation = new ReservationDTO(1,1,"John",LocalDate.of(2000,1,1),LocalDate.of(2000,1,11),List.of(1,2,3));
+
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(bookRepository.findAllById(anyList())).thenReturn(listBooks);
+        when(reservationMapper.toEntity(any(ReservationDTO.class), any(DBUser.class), anyList())).thenReturn(reservation);
+        when(reservationMapper.toDTO(any(Reservation.class))).thenReturn(newReservation);
+
+        ReservationDTO result = reservationService.addNewReservation(sendReservation);
+
+        assertEquals(1, result.getUserID());
+        assertEquals(LocalDate.of(2000,1,1), result.getBeginDate());
+        assertEquals(LocalDate.of(2000,1,11), result.getEndDate());
+    }
+
+    @Test
+    void tryUpdatingReservation() throws Exception {
+        Integer id = 1;
+        DBUser user = new DBUser(2,"Larry","larry@gmail.com","3rg43s6eg36e7g",UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(), true);
+        Set<Book> setBooks = Set.of(
+            Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build()
+        );
+        List<Book> listBooks = List.of(
+            Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build()
+        );
+        ReservationDTO newDTO = new ReservationDTO(null,2,"",null,null,null);
+        Reservation oldReservation = Reservation.builder().id(1).user(new DBUser(1, "Billy", "billy@gmail.com", "3rg43s6eg36e7g", UserRole.ROLE_CUSTOMER, Instant.now(),true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).bookList(setBooks).build();
+        ReservationDTO updatedDTO = new ReservationDTO(1,2,"Billy",LocalDate.of(2000,1,1),LocalDate.of(2000,1,11),List.of(1,2,3));
+
+        when(reservationRepository.findById(id)).thenReturn(Optional.of(oldReservation));
+        when(userRepository.findById(eq(2))).thenReturn(Optional.of(user));
+        when(bookRepository.findAllById(anyList())).thenReturn(listBooks);
+        when(reservationMapper.toDTO(any(Reservation.class))).thenReturn(updatedDTO);
+
+        ReservationDTO result = reservationService.updateReservation(id,newDTO);
+
+        assertEquals(2, result.getUserID());
+
+    }
+
+    @Test
+    void retrieveReservationContent() throws Exception {
+        Integer id = 1;
+        ReservationDTO newDTO = new ReservationDTO(id,2,"Billy",LocalDate.of(2018, 1, 10),LocalDate.of(2018,1,24),List.of(1,2,3));
+        DBUser user = new DBUser(2,"Larry","larry@gmail.com","3rg43s6eg36e7g",UserRole.ROLE_CUSTOMER, LocalDate.of(2000,01,11).atStartOfDay(ZoneId.systemDefault()).toInstant(),true);
+        Set<Book> setBooks = Set.of(
+            Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build()
+        );
+        List<Book> listBooks = List.of(
+            Book.builder().id(1).title("Captain underpants").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/250").genres(List.of("Adventure", "Comedy")).volume(1).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(2).title("Captain underpants: Dr Kratus unchained").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/240").genres(List.of("Adventure", "Comedy")).volume(2).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build(),
+            Book.builder().id(3).title("Captain underpants: Finally peace").description("This is a story about a funny hero").bookCoverUrl("https://picsum.photos/id/237/230").genres(List.of("Adventure", "Comedy")).volume(3).author(new Author(1,"John Parry","The writer of the best seller", LocalDate.of( 1985 , 1 , 1 ))).build()
+        );
+        Reservation oldReservation = Reservation.builder().id(1).user(new DBUser(1, "Billy", "billy@gmail.com", "3rg43s6eg36e7g", UserRole.ROLE_CUSTOMER, Instant.now(), true)).beginDate(LocalDate.of(2000,1,1)).endDate(LocalDate.of(2000,1,11)).bookList(setBooks).build();
+        ReservationDTO updatedDTO = new ReservationDTO(1,1,"John",LocalDate.of(2018, 1, 10),LocalDate.of(2018,1,24),List.of(1,2,3));
+
+        when(reservationRepository.findById(id)).thenReturn(Optional.of(oldReservation));
+        when(userRepository.findById(eq(2))).thenReturn(Optional.of(user));
+        when(bookRepository.findAllById(anyList())).thenReturn(listBooks);
+        when(reservationRepository.updateBookAvailable(anyBoolean(),anyList())).thenReturn(3);
+        when(reservationMapper.toDTO(any(Reservation.class))).thenReturn(updatedDTO);
+
+        ReservationDTO result = reservationService.retrieveReservationContent(id, newDTO);
+
+        assertEquals(LocalDate.of(2018,1,24), result.getEndDate());
+        
+
+    }
+
+    @Test
+    void tryRemovingReservation() throws Exception {
+        Integer id = 1;
+
+        // Mock reservation
+        Reservation reservation = new Reservation();
+        reservation.setId(id);
+
+        // Add a book to the reservation
+        Book book = new Book();
+        book.setId(42);
+        reservation.setBookList(Set.of(book));
+
+        // Expected DTO
+        ReservationDTO expectedDTO = new ReservationDTO();
+        expectedDTO.setId(id);
+
+        when(reservationRepository.findById(id)).thenReturn(Optional.of(reservation));
+        when(reservationRepository.updateBookAvailable(anyBoolean(),anyList())).thenReturn(1);
+        when(reservationMapper.toDTO(reservation)).thenReturn(expectedDTO);
+
+        // When
+        ReservationDTO result = reservationService.removeReservation(id);
+
+        // Then
+        verify(reservationRepository).findById(id);
+        verify(reservationRepository).updateBookAvailable(true, List.of(42));
+        verify(reservationRepository).delete(reservation);
+        verify(reservationMapper).toDTO(reservation);
+        assertEquals(expectedDTO, result);
+    }
+
+
+
+}

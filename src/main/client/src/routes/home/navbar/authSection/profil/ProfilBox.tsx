@@ -32,6 +32,8 @@ export default function ProfilBox({username = ""} : {username : string}) {
                 username: "",
                 role: "ROLE_ANONYMOUS"
             });
+            userContext?.setUserBookCart([]);
+            localStorage.removeItem("cart");
             navigate("/");
         } 
         else {

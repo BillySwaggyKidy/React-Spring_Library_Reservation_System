@@ -47,8 +47,9 @@ export default function EditReservationModal({id, reservationInfo, open, close} 
             close(true);
         } 
         else {
+            const errorText = await response.text();
             // Show error
-            setErrorText("Couldn't edit the account, please try later");
+            setErrorText(errorText);
         }
     };
     

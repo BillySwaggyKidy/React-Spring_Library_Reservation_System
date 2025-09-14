@@ -1,0 +1,7 @@
+target
+node_modules
+src/main/client/node_modules
+.git
+.gitignore
+Dockerfile
+docker-compose*.yml
