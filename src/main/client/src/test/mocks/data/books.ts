@@ -15,7 +15,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 320,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   },
@@ -32,7 +32,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 280,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   },
@@ -49,7 +49,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 350,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   },
@@ -66,7 +66,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 295,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   },
@@ -83,7 +83,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 400,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   },
@@ -100,7 +100,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 220,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   },
@@ -117,7 +117,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 310,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   },
@@ -134,7 +134,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 270,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   },
@@ -151,7 +151,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 330,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   },
@@ -168,7 +168,7 @@ export const mockBooks: bookDetailsType[] = [
     totalPages: 260,
     status: {
       available: true,
-      condition: 'NEW',
+      quality: 'NEW',
       beAvailableAt: new Date('2019-11-05')
     }
   }

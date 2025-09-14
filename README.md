@@ -54,7 +54,7 @@ mvn test -Ptest
 
 **1.** If you want to launch the app to production, first you need to have docker running then type the following command:
 ```
-docker-compose up
+docker-compose -f docker-compose.prod.yml up --build
 ./mvnw clean package -DskipTests
 ```
 It will compile the code and launch to production
@@ -64,6 +64,15 @@ It will compile the code and launch to production
 java -jar target/template-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 It will start the prod server at the following address: http://localhost:8080/
+<br>In prod mode, the spring app will run a docker Mysql database, in order to access phpmyadmin, go to the following address: http://localhost:8000
+
+### Demo mode:
+
+If you want to launch the app for a live demo in a free hoster like Render:
+```
+docker build -t library-demo .
+docker run -p 8080:8080 library-demo
+```
 
 
 

@@ -45,7 +45,7 @@ INSERT INTO book(id, title, description, book_cover, author, added_date, publish
 (29, 'Mary the bee', 'a little adventure about a tiny bee', 'https://picsum.photos/id/684/250', 13, '2010-10-02', '2003-11-12', 1, 13),
 (30, 'Mary the bee', 'another little adventure about a tiny bee', 'https://picsum.photos/id/685/250', 13, '2010-10-05', '2003-11-12', 2, 15);
 
-INSERT INTO book_status(book_id, is_available, condition) VALUES 
+INSERT INTO book_status(book_id, is_available, quality) VALUES 
 (1, true, 'DAMAGED'),
 (2, true, 'DAMAGED'),
 (3, true, 'GOOD'),

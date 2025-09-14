@@ -1,0 +1,101 @@
+package com.billykid.library.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.billykid.library.service.CustomUserDetailsService;
+import com.billykid.library.utils.DTO.DBUserDTO;
+import com.billykid.library.utils.DTO.PagedResponse;
+import com.billykid.library.utils.enums.UserRole;
+import com.billykid.library.utils.parameters.UserParametersObject;
+
+import jakarta.annotation.security.RolesAllowed;
+
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+@RestController
+@RequestMapping("/api")
+@RolesAllowed({"ADMIN"})
+public class UserController {
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public UserController(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
+    
+    @GetMapping("/users/details/{id}")
+    @RolesAllowed({"CUSTOMER", "EMPLOYEE", "ADMIN"})
+    public ResponseEntity<DBUserDTO> getMethodName(@PathVariable Integer id) {
+        DBUserDTO userDetails = customUserDetailsService.getUserDetailsById(id);
+        return ResponseEntity.ok(userDetails);
+    }
+    
+
+    @GetMapping("/users/name/{username}")
+    public ResponseEntity<List<DBUserDTO>> getUsersByName(@PathVariable String username, Pageable pageable) {
+        List<DBUserDTO> userList = customUserDetailsService.findByUsernameContainingIgnoreCase(username, pageable);
+        return ResponseEntity.ok(userList);
+    }
+
+    @GetMapping("/users/email/{email}")
+    public ResponseEntity<List<DBUserDTO>> getUsersByEmail(@PathVariable String email, Pageable pageable) {
+        List<DBUserDTO> userList = customUserDetailsService.findByEmailContainingIgnoreCase(email, pageable);
+        return ResponseEntity.ok(userList);
+    }
+
+    @GetMapping("/users/role/{role}")
+    public ResponseEntity<List<DBUserDTO>> getUsersByRole(@PathVariable UserRole role, Pageable pageable) {
+        List<DBUserDTO> userList = customUserDetailsService.findByRole(role, pageable);
+        return ResponseEntity.ok(userList);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<PagedResponse<DBUserDTO>> getUsers(@RequestParam(required=false) String username, @RequestParam(required=false) String email, @RequestParam(required = false) UserRole role, @PageableDefault(size = 10) Pageable pageable) {
+        UserParametersObject params = UserParametersObject.builder().userName(username).email(email).role(role).build();
+        PagedResponse<DBUserDTO> userList = customUserDetailsService.findUsersByQueryParams(params, pageable);
+        return ResponseEntity.ok(userList);
+    }
+
+    @PostMapping("/users/add")
+    public ResponseEntity<DBUserDTO> addUser(@RequestBody DBUserDTO user) {
+        DBUserDTO newUser = customUserDetailsService.registerUser(user);
+        return ResponseEntity.ok(newUser);
+    }
+
+    @PutMapping("/users/update/{id}")
+    public ResponseEntity<DBUserDTO> updateUser(@PathVariable Integer id, @RequestBody DBUserDTO user) {
+        DBUserDTO updatedUser = customUserDetailsService.updateUser(id, user);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/users/delete/{id}")
+    @RolesAllowed({"CUSTOMER", "EMPLOYEE", "ADMIN"})
+    public ResponseEntity<DBUserDTO> softDeleteUser(@PathVariable Integer id) {
+        DBUserDTO deletedUser = customUserDetailsService.softDeleteUser(id);
+        return ResponseEntity.ok(deletedUser);
+    }
+
+    @DeleteMapping("/users/remove/{id}")
+    public ResponseEntity<DBUserDTO> removeUser(@PathVariable Integer id) {
+        DBUserDTO removedUser = customUserDetailsService.removeUser(id);
+        return ResponseEntity.ok(removedUser);
+    }
+
+
+    
+    
+
+    
+}

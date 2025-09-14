@@ -19,7 +19,22 @@ export default function UserProvider({ children }: { children: ReactNode }) {
         username: "",
         role: "ROLE_ANONYMOUS",
     });
-    const [cartContent, setCartContent] = useState<bookSummaryType[]>([]);
+    const [cartContent, setCartContent] = useState<bookSummaryType[]>(() => {
+        const savedCart = localStorage.getItem("cart");
+        if (savedCart) {
+            try {
+                return JSON.parse(savedCart);
+            } catch {
+                return [];
+            }
+        }
+        return [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(cartContent));
+    }, [cartContent]);
+
 
     // Function to update user data in the context
     const setUserData = useCallback((newData: accountType) => {
@@ -31,13 +46,14 @@ export default function UserProvider({ children }: { children: ReactNode }) {
         setCartContent(newCart);
     }, []);
 
-    const resetUserData = () => {
+    const resetUserContext = () => {
         setCurrentUser({
             id: -1,
             username: "",
             role: "ROLE_ANONYMOUS"
         });
         setCartContent([]);
+        localStorage.removeItem("cart");
     }
 
     // UseEffect to rehydrate the user context on app startup
@@ -49,7 +65,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
                 });
 
                 if (!res.ok) {
-                    resetUserData();
+                    resetUserContext();
                     return;
                 }
 
@@ -62,11 +78,11 @@ export default function UserProvider({ children }: { children: ReactNode }) {
                         role: data.role,
                     });
                 } else {
-                    resetUserData();
+                    resetUserContext();
                 }
             } catch (error) {
                 console.error("Error fetching user data:", error);
-                resetUserData();
+                resetUserContext();
             }
         };
 

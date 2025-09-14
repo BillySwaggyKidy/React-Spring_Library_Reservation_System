@@ -44,7 +44,7 @@ export default function UserItem({id, username, email, role, refreshUserTable} :
     }
 
     return (
-        <div className="w-full flex flex-row items-center bg-violet-800 border-2 rounded-xl border-violet-500 text-white p-1">
+        <div className="w-full flex flex-row items-center bg-violet-800 border-2 rounded-xl border-violet-500 hover:bg-violet-700/80 transition-colors text-white p-1">
             <div className="w-4/5 flex flex-row justify-start items-center gap-4">
                 <div className="flex flex-row justify-around items-center">
                     <div className={`h-10 w-10 rounded-full flex flex-row justify-center items-center ${colorBgRole(role)} border-gray-500 border-2`}>

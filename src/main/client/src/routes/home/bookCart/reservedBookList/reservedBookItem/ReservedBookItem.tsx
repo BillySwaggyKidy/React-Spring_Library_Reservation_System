@@ -18,7 +18,14 @@ export default function ReservedBookItem({id, title, bookCoverUrl, authorName, s
     return (
         <div className="w-full grid grid-cols-3 mb-1 bg-white/60 py-1 hover:bg-white/80 transition-colors rounded-md">
             <div className="col-span-1 flex flex-row justify-start items-center pl-2">
-                <img className="h-32 w-24 transition duration-200 ease-in-out hover:scale-110 cursor-pointer" src={bookCoverUrl} alt={"image " + title} onClick={goToBookDetails}/>
+                <div className="flex-shrink-0 w-24 h-32">
+                    <img
+                        className="w-full h-full object-cover transition duration-200 ease-in-out hover:scale-110 cursor-pointer"
+                        src={bookCoverUrl}
+                        alt={"image " + title}
+                        onClick={goToBookDetails}
+                    />
+                </div>
                 <div className="h-full flex flex-col items-start ml-2">
                     <p className="text-lg font-bold text-black">{title}</p>
                     <p className="text-black">By: {authorName}</p>

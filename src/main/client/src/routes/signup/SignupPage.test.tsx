@@ -19,8 +19,8 @@ describe('Signup Form', () => {
 
         await user.type(screen.getByLabelText(/Username/i), 'Bob');
         await user.type(screen.getByLabelText(/Email/i), 'bob@gmail.com');
-        await user.type(screen.getByLabelText(/^Password$/i), 'godgod');
-        await user.type(screen.getByLabelText(/^Confirm password$/i), 'godgod');
+        await user.type(screen.getByLabelText(/^Password$/i), 'godgod1!');
+        await user.type(screen.getByLabelText(/^Confirm password$/i), 'godgod1!');
         await user.click(screen.getByDisplayValue(/Create new account/i));
 
         expect((await screen.findAllByText(/Login/i)).length).greaterThan(0);
@@ -38,7 +38,7 @@ describe('Signup Form', () => {
 
         await user.type(screen.getByLabelText(/Username/i), 'Bob');
         await user.type(screen.getByLabelText(/Email/i), 'bob@gmail.com');
-        await user.type(screen.getByLabelText(/^Password$/i), 'godgod');
+        await user.type(screen.getByLabelText(/^Password$/i), 'godgod1!');
         await user.click(screen.getByDisplayValue(/Create new account/i));
 
         expect(await screen.findByText(/Please confirm your password/i)).toBeInTheDocument();

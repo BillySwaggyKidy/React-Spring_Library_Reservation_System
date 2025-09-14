@@ -64,6 +64,10 @@ export default function Signup() {
                 minLength: {
                   value: 6,
                   message: "Password must be at least 6 characters"
+                },
+                pattern: {
+                  value: /^(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
+                  message: "Password must include at least one number and one special character",
                 }
               })} />
               {errors.password && <span className="text-red-500">{errors.password.message}</span>}

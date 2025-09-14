@@ -44,7 +44,7 @@ INSERT INTO book (id, title, description, book_cover, author, added_date, publis
 (29, 'Video Games: From Concept to Consumer', 'Looks at how people in science, technology, engineering, and math (STEM) careers are helping to build our future. Discover how people use STEM skills to solve problems and innovate throughout history.', 'https://covers.openlibrary.org/b/olid/OL26469890M-L.jpg', 11, '2015-05-05', '2014-01-01', NULL, 64),
 (30, 'Dune', 'Set on the desert planet Arrakis, Dune is the story of the boy Paul Atreides, heir to a noble family tasked with ruling an inhospitable world where the only thing of value is the "spice" melange, a drug capable of extending life and enhancing consciousness. Coveted across the known universe, melange is a prize worth killing for...', 'https://covers.openlibrary.org/b/olid/OL26242482M-L.jpg', 12, '2015-05-05', '1965-10-01', 1, 541);
 
-INSERT INTO book_status (book_id, is_available, condition) VALUES
+INSERT INTO book_status (book_id, is_available, quality) VALUES
 (1, true, 'DAMAGED'),
 (2, true, 'NEW'),
 (3, true, 'NEW'),
@@ -72,7 +72,7 @@ INSERT INTO book_status (book_id, is_available, condition) VALUES
 (25, true, 'NEW'),
 (26, true, 'DAMAGED'),
 (27, true, 'GOOD'),
-(28, false, 'GOOD'),
+(28, true, 'GOOD'),
 (29, true, 'DAMAGED'),
 (30, true, 'GOOD');
 
@@ -127,17 +127,17 @@ INSERT INTO book_genres (book_id, genre) VALUES
 (30, 'Adventure');
 
 INSERT INTO users (id, username, email, password, role, created_at, active) VALUES
-(1, 'Alice', 'alice.dupont@example.com', '$2y$10$hNRsARaLooYXWswGF0FTje9PQlSO7P8nAlGwTy/UEJk1DIFZohN66', 'ROLE_CUSTOMER', '2022-05-15', true),
-(2, 'Marc', 'marc.leroy@example.com', '$2y$10$eIDjowv5shF1vnupLrtu6.Gr548vI77roXX5HHswzzTQ5A8uB3/yS', 'ROLE_EMPLOYEE', '2020-10-08', true),
-(3, 'Sophie', 'sophie.moreau@example.com', '$2y$10$k01Ky97CSjL7NhxjlM/qd.LGX4ec4lLfDD5d6wRvQs9COAGpl8rem', 'ROLE_EMPLOYEE', '2021-03-12', true),
-(4, 'Lucas', 'lucas.martin@example.com', '$2y$10$KoYskNxRlcVoCNjcl9OcZeFiJczV/FCevMHXdr0lS3bbEKNUjFln2', 'ROLE_CUSTOMER', '2023-01-20', true),
-(5, 'Emma', 'emma.bernard@example.com', '$2y$10$qg5OIjyJ/KgkIdr2/pBHIexywJy2oOWC00YCwoxAG1g6W5EjHmWba', 'ROLE_CUSTOMER', '2023-03-03', true),
-(6, 'Nicolas', 'nicolas.roux@example.com', '$2y$10$sdWqE4YGVali3PrJtjf0.Ovhba085hYAPzi0WhXFqloLN19IvvHBu', 'ROLE_CUSTOMER', '2021-11-11', true),
-(7, 'Clara', 'clara.fournier@example.com', '$2y$10$eNwPfl/WXcSpLXa8PZRLEem4ZiyiCd/AqozLXMzcZSTlj.xlcT/jG', 'ROLE_CUSTOMER', '2019-06-10', true),
-(8, 'Thomas', 'thomas.renard@example.com', '$2y$10$1pvGlBAaguu5aBW29OqyZeuNKKAxnAMJH7FQz8NeNyL2AO3IjMMWO', 'ROLE_CUSTOMER', '2020-08-20', true),
-(9, 'Julie', 'julie.marchand@example.com', '$2y$10$qct71QcPBZMuHT4sGg9gWugCvU4zA//7IEAxseQS3jjb2hiO7ONDa', 'ROLE_CUSTOMER', '2021-10-03', true),
-(10, 'Antoine', 'antoine.paul@example.com', '$2y$10$kZ3d0GoTcVfS0qw5ds9GmeYYguuwzP1yMjC8uZD9VcDxiWDZ5cy4e', 'ROLE_EMPLOYEE', '2018-03-03', true),
-(11, 'Admin', 'admin.bibliotheque@example.com', '$2y$10$4nh.J1d/ZWDmA6bN4mOxZ..Pvr/sjtJlNCXEaqcbqjcTRmw./BBRW', 'ROLE_ADMIN', '2017-01-01', true);
+(1, 'Alice', 'alice.dupont@gmail.com', '$2y$10$hNRsARaLooYXWswGF0FTje9PQlSO7P8nAlGwTy/UEJk1DIFZohN66', 'ROLE_CUSTOMER', '2022-05-15', true),
+(2, 'Marc', 'marc.leroy@gmail.com', '$2y$10$eIDjowv5shF1vnupLrtu6.Gr548vI77roXX5HHswzzTQ5A8uB3/yS', 'ROLE_EMPLOYEE', '2020-10-08', true),
+(3, 'Sophie', 'sophie.moreau@outlook.com', '$2y$10$k01Ky97CSjL7NhxjlM/qd.LGX4ec4lLfDD5d6wRvQs9COAGpl8rem', 'ROLE_EMPLOYEE', '2021-03-12', true),
+(4, 'Lucas', 'lucas.martin@outlook.com', '$2y$10$KoYskNxRlcVoCNjcl9OcZeFiJczV/FCevMHXdr0lS3bbEKNUjFln2', 'ROLE_CUSTOMER', '2023-01-20', true),
+(5, 'Emma', 'emma.bernard@ymail.com', '$2y$10$qg5OIjyJ/KgkIdr2/pBHIexywJy2oOWC00YCwoxAG1g6W5EjHmWba', 'ROLE_CUSTOMER', '2023-03-03', true),
+(6, 'Nicolas', 'nicolas.roux@ymail.com', '$2y$10$sdWqE4YGVali3PrJtjf0.Ovhba085hYAPzi0WhXFqloLN19IvvHBu', 'ROLE_CUSTOMER', '2021-11-11', true),
+(7, 'Clara', 'clara.fournier@outlook.com', '$2y$10$eNwPfl/WXcSpLXa8PZRLEem4ZiyiCd/AqozLXMzcZSTlj.xlcT/jG', 'ROLE_CUSTOMER', '2019-06-10', true),
+(8, 'Thomas', 'thomas.renard@gmail.com', '$2y$10$1pvGlBAaguu5aBW29OqyZeuNKKAxnAMJH7FQz8NeNyL2AO3IjMMWO', 'ROLE_CUSTOMER', '2020-08-20', true),
+(9, 'Julie', 'julie.marchand@ymail.com', '$2y$10$qct71QcPBZMuHT4sGg9gWugCvU4zA//7IEAxseQS3jjb2hiO7ONDa', 'ROLE_CUSTOMER', '2021-10-03', true),
+(10, 'Antoine', 'antoine.paul@outlook.com', '$2y$10$kZ3d0GoTcVfS0qw5ds9GmeYYguuwzP1yMjC8uZD9VcDxiWDZ5cy4e', 'ROLE_EMPLOYEE', '2018-03-03', true),
+(11, 'Admin', 'admin.bibliotheque@gmail.com', '$2y$10$4nh.J1d/ZWDmA6bN4mOxZ..Pvr/sjtJlNCXEaqcbqjcTRmw./BBRW', 'ROLE_ADMIN', '2017-01-01', true);
 
 INSERT INTO reservation (id, user_id, begin_date, end_date) VALUES
 (1, 1,'2016-05-12', '2016-05-22'),
@@ -189,3 +189,8 @@ INSERT INTO reservation_content (book_id, reservation_id) VALUES
 (21,12),
 (22,12),
 (23,12);
+
+ALTER TABLE author ALTER COLUMN id RESTART WITH 13;
+ALTER TABLE book ALTER COLUMN id RESTART WITH 31;
+ALTER TABLE users ALTER COLUMN id RESTART WITH 12;
+ALTER TABLE reservation ALTER COLUMN id RESTART WITH 13;

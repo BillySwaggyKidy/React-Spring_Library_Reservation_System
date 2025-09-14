@@ -1,5 +1,5 @@
 import { UserContext } from "@/src/context/userContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ReservedBookList from "./reservedBookList/ReservedBookList";
 import { bookSummaryType } from "@/src/types/book";
 import { newReservationType } from "@/src/types/reservation";
@@ -12,6 +12,12 @@ export default function BookCart() {
     const userContext = useContext(UserContext);
     const cartContent : bookSummaryType[] = userContext?.cartContent || [];
     const navigate = useNavigate();
+    
+    useEffect(() => {
+        if (!userContext || ["ROLE_ANONYMOUS"].includes(userContext.currentUser?.role)) {
+            navigate("/"); // Redirect if not an admin
+        }
+    }, [userContext, navigate]);
 
     const removeReservedBookItem = (id : number) => {
         userContext?.setUserBookCart(cartContent.filter((book)=>book.id != id));
@@ -27,6 +33,7 @@ export default function BookCart() {
     const createNewBooksReservation = async () => {
         const reservationObj : newReservationType = {
             userID: userContext.currentUser.id,
+            beginDate: new Date(),
             endDate: getDatePlusTwoWeeks(),
             bookIds: cartContent.map((book)=>book.id)
         };

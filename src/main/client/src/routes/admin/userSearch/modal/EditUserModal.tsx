@@ -55,8 +55,10 @@ export default function EditUserModal({id, userInfo, open, close} : {id:number, 
             close(true);
         } 
         else {
+            let errorText = await response.text();
+            errorText = errorText.substring(errorText.indexOf(":")+2);
             // Show error
-            setErrorText("Couldn't edit the account, please try later");
+            setErrorText(errorText);
         }
     };
     
